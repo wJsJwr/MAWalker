@@ -17,7 +17,7 @@ public class Go {
 			return;
 		}
 		try {
-			GetConfig.parse(Process.ParseXMLBytes(ReadFileAll(args[args.length-1])));
+			GetConfig.parse(Process.ParseXMLBytes(ReadFileAll(args[0])));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
@@ -50,7 +50,7 @@ public class Go {
 			}
 
 		} else if (args.length == 2) {
-			if (args[0].equals("-m")) {
+			if (args[1].equals("-m")) {
 				// manual operation
 				System.out.println("come soon");
 			} else {
@@ -58,23 +58,23 @@ public class Go {
 			}
 		} else if (args.length == 3) {
 			try {
-				if (args[0].startsWith("-f")) {
-					if (args[0].charAt(2) == '1') {
-						System.out.println(new String(Crypto.DecryptNoKey(ReadFileAll(args[1]))));
-					} else if (args[0].charAt(2) == '2') {
-						System.out.println(new String(Crypto.DecryptWithKey(ReadFileAll(args[1]))));						
+				if (args[1].startsWith("-f")) {
+					if (args[1].charAt(2) == '1') {
+						System.out.println(new String(Crypto.DecryptNoKey(ReadFileAll(args[2]))));
+					} else if (args[1].charAt(2) == '2') {
+						System.out.println(new String(Crypto.DecryptWithKey(ReadFileAll(args[2]))));						
 					}
-				} else if (args[0].equals("-t")) {
+				} else if (args[1].equals("-t")) {
 					// 用作测试使用
 					try {
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
 				} else if (args[1].startsWith("-d")) {
-					if (args[0].charAt(2) == '1') {
+					if (args[1].charAt(2) == '1') {
 						System.out.println(new String(Crypto.DecryptBase64NoKey2Str(args[2])));
-					} else if (args[0].charAt(2) == '2') {
-						System.out.println(new String(Crypto.DecryptWithKey(args[2].getBytes())));
+					} else if (args[1].charAt(2) == '2') {
+						System.out.println(new String(Crypto.DecryptBase64WithKey2Str(args[2])));
 					}
 				}
 			} catch (Exception ex) {

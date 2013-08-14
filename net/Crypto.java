@@ -43,6 +43,12 @@ public class Crypto {
 		c.init(Cipher.DECRYPT_MODE, keyspec);
 		return new String(c.doFinal(Base64.decodeBase64(cyphertext)));
 	}
+	public static String DecryptBase64WithKey2Str(String cyphertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+		SecretKeySpec keyspec = new SecretKeySpec(GetSecretKey(true).getBytes(),"AES");
+		Cipher c = Cipher.getInstance("AES/ECB/PKCS5Padding");
+		c.init(Cipher.DECRYPT_MODE, keyspec);
+		return new String(c.doFinal(Base64.decodeBase64(cyphertext)));
+	}
 
 	private static byte[] decrypt2Bytes(byte[] ciphertext, boolean useLoginId) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
 		SecretKeySpec keyspec = new SecretKeySpec(GetSecretKey(useLoginId).getBytes(),"AES");
