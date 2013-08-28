@@ -37,9 +37,15 @@ public class GetConfig {
 				Info.RareFairyUseNormalDeck = xpath.evaluate("/config/option/rare_fairy_use_normal_deck", doc).equals("1");
 				Info.AllowBCInsuffient = xpath.evaluate("/config/option/allow_bc_insuffient", doc).equals("1");
 				Info.OneAPOnly = xpath.evaluate("/config/option/one_ap_only", doc).equals("1");
+				Info.AutoAddp = xpath.evaluate("/config/option/auto_add_point", doc).equals("1");
+				Info.AllowAttackSameFairy = xpath.evaluate("/config/option/allow_attack_same_fairy", doc).equals("1");
+				
 
-				Info.FriendFairyBattle0BC.No = xpath.evaluate("/config/deck/deck_profile[name='FairyOfFriend']/no", doc);
-				Info.FriendFairyBattle0BC.BC = Integer.parseInt(xpath.evaluate("/config/deck/deck_profile[name='FairyOfFriend']/bc", doc));
+				Info.FriendFairyBattleRare.No = xpath.evaluate("/config/deck/deck_profile[name='FriendFairyBattleRare']/no", doc);
+				Info.FriendFairyBattleRare.BC = Integer.parseInt(xpath.evaluate("/config/deck/deck_profile[name='FriendFairyBattleRare']/bc", doc));
+				
+				Info.FriendFairyBattleNormal.No = xpath.evaluate("/config/deck/deck_profile[name='FriendFairyBattleNormal']/no", doc);
+				Info.FriendFairyBattleNormal.BC = Integer.parseInt(xpath.evaluate("/config/deck/deck_profile[name='FriendFairyBattleNormal']/bc", doc));
 				
 				Info.PublicFairyBattle.BC = Integer.parseInt(xpath.evaluate("/config/deck/deck_profile[name='GuildFairyDeck']/bc", doc));
 				Info.PublicFairyBattle.No = xpath.evaluate("/config/deck/deck_profile[name='GuildFairyDeck']/no", doc);
@@ -59,8 +65,8 @@ public class GetConfig {
 				Info.FairyBattleFirst = false;
 				Info.RareFairyUseNormalDeck = false;
 				
-				Info.FriendFairyBattle0BC.No = "0";
-				Info.FriendFairyBattle0BC.BC = 0;
+				Info.FriendFairyBattleRare.No = "0";
+				Info.FriendFairyBattleRare.BC = 0;
 				
 				Info.PublicFairyBattle.BC = 0;
 				Info.PublicFairyBattle.No = "0";

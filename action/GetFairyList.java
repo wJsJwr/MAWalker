@@ -74,23 +74,48 @@ public class GetFairyList {
 			//NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=4]/fairy", doc, XPathConstants.NODESET);
 			NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=1]/fairy", doc, XPathConstants.NODESET);
 			
-			if (fairy.getLength() > 1) Process.info.events.push(Info.EventType.fairyAppear); // 以便再次寻找
-			if (fairy.getLength() > 0) Process.info.events.push(Info.EventType.fairyCanBattle);
+			ArrayList<FairyBattleInfo> fbis = new ArrayList<FairyBattleInfo>();
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
+				FairyBattleInfo fbi = new FairyBattleInfo();
+				boolean attack_flag = false;
 				do {
 					if (f.getNodeName().equals("serial_id")) {
-						Process.info.fairy.SerialId = f.getFirstChild().getNodeValue();
+						fbi.SerialId = f.getFirstChild().getNodeValue();
 					} else if (f.getNodeName().equals("discoverer_id")) {
-						Process.info.fairy.UserId = f.getFirstChild().getNodeValue();
-						Process.info.fairy.Type = FairyBattleInfo.PRIVATE | FairyBattleInfo.RARE;
+						fbi.UserId = f.getFirstChild().getNodeValue();
 					} else if (f.getNodeName().equals("lv")) {
-						Process.info.fairy.FairyLevel = f.getFirstChild().getNodeValue();
+						fbi.FairyLevel = f.getFirstChild().getNodeValue();
 					} else if (f.getNodeName().equals("name")) {
-						Process.info.fairy.FairyName = f.getFirstChild().getNodeValue();
+						fbi.FairyName = f.getFirstChild().getNodeValue();
+					} else if (f.getNodeName().equals("rare_flg")) {
+						if (f.getFirstChild().getNodeValue().equals("1")) {
+							fbi.Type = FairyBattleInfo.PRIVATE | FairyBattleInfo.RARE;
+						} else {
+							fbi.Type = FairyBattleInfo.PRIVATE;
+						}
 					}
 					f = f.getNextSibling();
 				} while (f != null);
+				if (Info.AllowAttackSameFairy) {
+					fbis.add(fbi);
+				} else {
+					for (FairyBattleInfo bi : Process.info.LatestFairyList) {
+						if (bi.equals(fbi)) {
+							// 已经舔过
+							attack_flag = true;
+							break;
+						}
+					}
+					if (!attack_flag) fbis.add(fbi);
+				}	
+			}
+			
+			
+			if (fbis.size() > 1) Process.info.events.push(Info.EventType.fairyAppear); // 以便再次寻找
+			if (fbis.size() > 0) {
+				Process.info.events.push(Info.EventType.fairyCanBattle);
+				Process.info.fairy = fbis.get(0);
 			}
 			
 			Process.info.SetTimeoutByAction(Name);

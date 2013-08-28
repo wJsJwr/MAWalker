@@ -9,6 +9,8 @@ import info.Floor;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 import action.ActionRegistry;
@@ -67,8 +69,14 @@ public class Info {
 	 * 只走cost1的图
 	 */
 	public static boolean OneAPOnly = false;
-	
-	
+	/**
+	 * 自动加点
+	 */
+	public static boolean AutoAddp = true;
+	/**
+	 * 允许舔同一个怪
+	 */
+	public static boolean AllowAttackSameFairy = true;
 	
 	// card list
 	public ArrayList<Card> cardList;
@@ -77,10 +85,11 @@ public class Info {
 	public String toSell = "";
 	
 	// deck
-	public static Deck FriendFairyBattle0BC = new Deck();
+	public static Deck FriendFairyBattleRare = new Deck();
 	public static Deck PublicFairyBattle = new Deck();
 	public static Deck PrivateFairyBattleNormal = new Deck();
 	public static Deck PrivateFairyBattleRare = new Deck();
+	public static Deck FriendFairyBattleNormal = new Deck();
 	
 	
 	// area
@@ -96,6 +105,8 @@ public class Info {
 	// fairy
 	public FairyBattleInfo fairy;
 	public boolean NoFairy = false;
+	public Queue<FairyBattleInfo> LatestFairyList = new LinkedList<FairyBattleInfo>();
+	
 	
 	// explore
 	public String ExploreResult = "";

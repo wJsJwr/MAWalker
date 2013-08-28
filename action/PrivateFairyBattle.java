@@ -58,6 +58,8 @@ public class PrivateFairyBattle {
 				ErrorData.text = xpath.evaluate("/response/header/error/message", doc);
 				return false;
 			}
+			if (Process.info.LatestFairyList.size() > 1000) Process.info.LatestFairyList.poll();
+			Process.info.LatestFairyList.offer(Process.info.fairy);
 			
 			if ((boolean)xpath.evaluate("count(//private_fairy_top) > 0", doc, XPathConstants.BOOLEAN)) {
 				Process.info.events.push(Info.EventType.fairyBattleEnd);

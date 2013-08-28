@@ -121,13 +121,17 @@ public class Process {
 				result.add(Action.GOTO_FLOOR);
 				break;
 			case levelUp:
-				result.add(Action.LV_UP);
+				if (Info.AutoAddp == false) {
+					Go.log("自动加点已关闭");
+				} else {
+					result.add(Action.LV_UP);				
+				}
 			case fairyBattleEnd:
 			case fairyBattleLose:
 			case fairyBattleWin:			
 				break;
 			}
-			return result;
+			if (!result.isEmpty())	return result;
 		}
 		ArrayList<TimeoutEntry> te = info.CheckTimeout();
 		for (TimeoutEntry e : te) {

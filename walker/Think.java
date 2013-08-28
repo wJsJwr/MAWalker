@@ -8,9 +8,9 @@ import action.ActionRegistry;
 import action.ActionRegistry.Action;
 
 public class Think {
-	private static final int EXPLORE_NORMAL = 75;
+	private static final int EXPLORE_NORMAL = 60;
 	private static final int EXPLORE_URGENT = 80;
-	private static final int GFL_PRI = 30;
+	private static final int GFL_PRI = 70;
 	private static final int GF_PRI = 25;
 	public static ActionRegistry.Action doIt (List<ActionRegistry.Action> possible) {
 		Action best = Action.NOTHING;
@@ -24,7 +24,6 @@ public class Think {
 			case GET_FLOOR_INFO:
 				return Action.GET_FLOOR_INFO;
 			case GET_FAIRY_LIST:
-				if (Process.info.bc < Info.FriendFairyBattle0BC.BC / 2) break;
 				if (score < GFL_PRI) {
 					best = Action.GET_FAIRY_LIST;
 					score = GFL_PRI;
@@ -41,42 +40,8 @@ public class Think {
 					Process.info.fairy.No = "2";
 					return Action.PRIVATE_FAIRY_BATTLE;
 				}
-				
-				switch (Process.info.fairy.Type) {
-				case 0:
-					Process.info.fairy.No = Info.PublicFairyBattle.No;
-					break;
-				case 5:
-					if (Info.AllowBCInsuffient && Process.info.bc < Info.FriendFairyBattle0BC.BC) {
-						Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-					} else {
-						Process.info.fairy.No = Info.FriendFairyBattle0BC.No;
-					}
-					break;
-				case 6:
-					if (!Info.AllowBCInsuffient) {
-						Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
-					} else {
-						if (Process.info.bc > Info.PrivateFairyBattleNormal.BC) {
-							Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
-						} else {
-							Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-						}
-					}
-					
-					break;
-				case 7:
-					if (Info.RareFairyUseNormalDeck) {
-						Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
-					} else {
-						Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-					}
-					break;
-				default:
-					Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-					break;
-				}
-				return Action.PRIVATE_FAIRY_BATTLE;
+				if (Think.canBattle()) return Action.PRIVATE_FAIRY_BATTLE;
+				break;
 			case EXPLORE:
 				int p = explorePoint();
 				if (p > score) {
@@ -104,6 +69,43 @@ public class Think {
 			}
 		}
 		return best;
+	}
+	
+	private static boolean canBattle() {
+		switch (Process.info.fairy.Type) {
+		case 0:
+			Process.info.fairy.No = Info.PublicFairyBattle.No;
+			break;
+		case 4:
+			if (!Info.AllowBCInsuffient && Process.info.bc < Info.FriendFairyBattleNormal.BC) return false;
+			Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
+			break;
+		case 5:
+			if (Info.RareFairyUseNormalDeck) {
+				if (!Info.AllowBCInsuffient && Process.info.bc < Info.FriendFairyBattleNormal.BC) return false;
+				Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
+			} else {
+				if (!Info.AllowBCInsuffient && Process.info.bc < Info.FriendFairyBattleRare.BC) return false;
+				Process.info.fairy.No = Info.FriendFairyBattleRare.No;
+			}
+			break;
+		case 6:
+			if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleNormal.BC) return false;
+			Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
+			break;
+		case 7:
+			if (Info.RareFairyUseNormalDeck) {
+				if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleNormal.BC) return false;	
+				Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
+			} else {
+				if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleRare.BC) return false;	
+				Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
+			}
+			break;
+		default:
+			return false;
+		}
+		return true;
 	}
 	
 	private static void decideUpPoint() {
@@ -138,10 +140,7 @@ public class Think {
 			if (Info.OneAPOnly) Process.info.front = Process.info.floor.get(1);
 			// 判断是否可以行动
 			if (Process.info.front == null) Process.info.front = Process.info.floor.get(1);
-			if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleNormal.BC){
-				if (Process.info.ap > Process.info.front.cost * 3) return EXPLORE_NORMAL;
-				return Integer.MIN_VALUE;
-			}
+			if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleNormal.BC) return Integer.MIN_VALUE;
 			if (Process.info.ap < Process.info.front.cost) return Integer.MIN_VALUE;
 			if (Process.info.ap == Process.info.apMax) return EXPLORE_URGENT;
 		} catch (Exception ex) {

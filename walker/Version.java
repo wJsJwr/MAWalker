@@ -3,7 +3,7 @@ package walker;
 public class Version {
 	private static String major = "0";
 	private static String minor = "2";
-	private static String release = "21";
+	private static String release = "22";
 	private static String copyright = "2013©wjsjwr.org";
 	private static String code = "Crudity";
 	
