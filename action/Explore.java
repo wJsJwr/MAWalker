@@ -81,8 +81,8 @@ public class Explore {
 			Process.info.exp = Integer.parseInt(xpath.evaluate("//explore/next_exp", doc));
 			
 			Process.info.ExploreProgress = xpath.evaluate("//explore/progress", doc);
-			Process.info.ExploreExp = xpath.evaluate("//explore/gold", doc);
-			Process.info.ExploreGold = xpath.evaluate("//explore/get_exp", doc);
+			Process.info.ExploreGold = xpath.evaluate("//explore/gold", doc);
+			Process.info.ExploreExp = xpath.evaluate("//explore/get_exp", doc);
 			
 			int evt = Integer.parseInt(xpath.evaluate("//explore/event_type", doc));
 			switch (evt) {
