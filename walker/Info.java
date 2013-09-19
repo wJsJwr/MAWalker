@@ -55,6 +55,10 @@ public class Info {
 	public int bcUp = 0;
 	
 	/**
+	 * 自己放的妖是否被打死
+	 */
+	public boolean OwnFairyBattleKilled = true;
+	/**
 	 * 优先进行妖精战
 	 */
 	public static boolean FairyBattleFirst = true;
@@ -191,7 +195,8 @@ public class Info {
 		getFairyReward,
 		needAPBCInfo,
 		levelUp,
-		PFBGood
+		PFBGood,
+		recvPFBGood, gotoFloor
 	}
 	public Stack<EventType> events;
 	

@@ -66,6 +66,10 @@ public class ErrorData {
 		// 赞
 		PFB_GoodDataError,
 		PFB_GoodResponse,
+		// fairy_history
+		FairyHistoryDataError,
+		FairyHistoryDataParseError,
+		FairyHistoryResponse
 	}
 	
 	

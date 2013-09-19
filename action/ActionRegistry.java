@@ -15,6 +15,7 @@ public class ActionRegistry {
 		GUILD_BATTLE,
 		SELL_CARD,
 		LV_UP,
-		PFB_GOOD
+		PFB_GOOD,
+		RECV_PFB_GOOD
 	}
 }

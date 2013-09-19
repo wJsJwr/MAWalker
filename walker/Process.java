@@ -25,6 +25,7 @@ import action.Login;
 import action.LvUp;
 import action.PFBGood;
 import action.PrivateFairyBattle;
+import action.RecvPFBGood;
 import action.SellCard;
 
 public class Process {
@@ -134,6 +135,12 @@ public class Process {
 			case PFBGood:
 				result.add(Action.PFB_GOOD);
 				break;
+			case recvPFBGood:
+				result.add(Action.RECV_PFB_GOOD);
+				break;
+			case gotoFloor:
+				result.add(Action.GOTO_FLOOR);
+				break;
 			}
 			if (!result.isEmpty())	return result;
 		}
@@ -160,9 +167,19 @@ public class Process {
 				break;
 			}				
 		}
-		//result.add(Action.GOTO_FLOOR);
 		result.add(Action.EXPLORE);
-		if (Info.FairyBattleFirst) result.add(Action.GET_FAIRY_LIST);
+		// result.add(Action.GOTO_FLOOR);
+		if (!Process.info.OwnFairyBattleKilled){
+			try {
+				Thread.sleep(30000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			result.add(Action.GET_FAIRY_LIST);
+		}
+		if (Info.FairyBattleFirst)
+			result.add(Action.GET_FAIRY_LIST);
 		return result;
 	}
 	
@@ -397,10 +414,21 @@ public class Process {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
 				
 			}
-			
+			break;
+		case RECV_PFB_GOOD:
+			try {
+				if (RecvPFBGood.run()) {
+					Go.log(ErrorData.text);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
+			}
 			break;
 		case NOTHING:
-			Thread.sleep(30000); // 无事可做休息1分钟
+			Thread.sleep(30000); // 无事可做休息30秒
 			break;
 		default:
 			break;

@@ -75,6 +75,8 @@ public class GetFairyList {
 			//NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=4]/fairy", doc, XPathConstants.NODESET);
 			NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=1]/fairy", doc, XPathConstants.NODESET);
 			
+			boolean set = false;
+			
 			ArrayList<FairyBattleInfo> fbis = new ArrayList<FairyBattleInfo>();
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
@@ -109,14 +111,21 @@ public class GetFairyList {
 						}
 					}
 					if (!attack_flag) fbis.add(fbi);
-				}	
+				}
+				if (Process.info.userId.equals(fbi.UserId)) {
+					Process.info.OwnFairyBattleKilled = false;
+					set = true;
+				} else if (set == false && i == fairy.getLength()-1)
+					Process.info.OwnFairyBattleKilled = true;
 			}
 			
 			
 			if (fbis.size() > 1) Process.info.events.push(Info.EventType.fairyAppear); // 以便再次寻找
 			if (fbis.size() > 0) {
+				Process.info.events.push(Info.EventType.gotoFloor);
+				Process.info.events.push(Info.EventType.recvPFBGood);
 				Process.info.events.push(Info.EventType.fairyCanBattle);
-				Process.info.fairy = fbis.get(0);
+				Process.info.fairy = new FairyBattleInfo(fbis.get(0));
 			}
 			
 			NodeList fairy1 = (NodeList) xpath.evaluate(
@@ -144,7 +153,7 @@ public class GetFairyList {
 			{
 				Process.info.events.push(Info.EventType.PFBGood);
 			}
-			
+
 			Process.info.SetTimeoutByAction(Name);
 			
 		} catch (Exception ex) {

@@ -68,8 +68,12 @@ public class PrivateFairyBattle {
 			ParseUserDataInfo.parse(doc);
 			ParseCardList.parse(doc);
 			if (xpath.evaluate("//battle_result/winner", doc).equals("1")) {
+				if(Process.info.fairy.UserId.equals(Process.info.userId))
+					Process.info.OwnFairyBattleKilled = true;
 				Process.info.events.push(Info.EventType.fairyBattleWin);
 			} else {
+				if(Process.info.fairy.UserId.equals(Process.info.userId))
+					Process.info.OwnFairyBattleKilled = false;
 				Process.info.events.push(Info.EventType.fairyBattleLose);
 			}
 			

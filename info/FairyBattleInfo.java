@@ -24,24 +24,21 @@ public class FairyBattleInfo {
 	public String Finder = "";
 
 	public boolean equals(FairyBattleInfo b) {
-		return this.FairyName.equals(b.FairyName)
-				&& this.FairyLevel.equals(b.FairyLevel)
-				&& this.UserId.equals(b.UserId)
-				&& this.SerialId.equals(b.SerialId) && this.Type == b.Type;
+		return this.UserId.equals(b.UserId) && this.SerialId.equals(b.SerialId);
 	}
 
-//	public FairyBattleInfo(FairyBattleInfo fbi) {
-//		this.GuildId = fbi.GuildId;
-//		this.UserId = fbi.UserId;
-//		this.SerialId = fbi.SerialId;
-//		this.No = fbi.No;
-//		this.Type = fbi.Type;
-//		this.FairyName = fbi.FairyName;
-//		this.FairyLevel = fbi.FairyLevel;
-//		this.Finder = fbi.Finder;
-//	}
-//
-//	public FairyBattleInfo() {
-//		// TODO Auto-generated constructor stub
-//	}
+	public FairyBattleInfo(FairyBattleInfo fbi) {
+		this.GuildId = fbi.GuildId;
+		this.UserId = fbi.UserId;
+		this.SerialId = fbi.SerialId;
+		this.No = fbi.No;
+		this.Type = fbi.Type;
+		this.FairyName = fbi.FairyName;
+		this.FairyLevel = fbi.FairyLevel;
+		this.Finder = fbi.Finder;
+	}
+
+	public FairyBattleInfo() {
+		// TODO Auto-generated constructor stub
+	}
 }
