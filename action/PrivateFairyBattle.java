@@ -73,7 +73,7 @@ public class PrivateFairyBattle {
 				Process.info.events.push(Info.EventType.fairyBattleLose);
 			}
 			
-			Process.info.fairy.FairyName = xpath.evaluate("//battle_vs_info/player[last()]/name", doc);
+			//Process.info.fairy.FairyName = xpath.evaluate("//battle_vs_info/player[last()]/name", doc);
 			Process.info.SetTimeoutByAction(Name);
 			
 			String spec = xpath.evaluate("//private_fairy_reward_list/special_item/after_count", doc);

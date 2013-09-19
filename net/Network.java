@@ -26,7 +26,7 @@ public class Network {
 	private static final String Auth = "eWa25vrE";
 	private static final String Key = "2DbcAh3G";
 	
-	private static final String UserAgent = "Million/235 (aries; aries; 4.1.1) Xiaomi/aries/aries:4.1.1/JRO03L/3.9.6:user/release-keys GooglePlay";
+	private static final String UserAgent = "Million/235 (t03gchn; t03gzc; 4.1.2) samsung/t03gzc/t03gchn:4.1.2/JZO54K/N7100ZCDMD3:user/release-keys GooglePlay";
 	private DefaultHttpClient client;
 	
 	public Network() {

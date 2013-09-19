@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
+import walker.Go;
 import walker.Info;
 import walker.Process;
 import action.ActionRegistry.Action;
@@ -116,6 +117,32 @@ public class GetFairyList {
 			if (fbis.size() > 0) {
 				Process.info.events.push(Info.EventType.fairyCanBattle);
 				Process.info.fairy = fbis.get(0);
+			}
+			
+			NodeList fairy1 = (NodeList) xpath.evaluate(
+					"//fairy_select/fairy_event[put_down=5]/fairy", doc,
+					XPathConstants.NODESET);
+
+			int aa = fairy1.getLength();
+
+			Go.log("找到" + aa + "个可赞的PFB...");
+			for (int i = 0; i < fairy1.getLength(); i++) {
+				Node f = fairy1.item(i).getFirstChild();
+				String serial_Id = "";
+				String user_Id = "";
+				do {
+					if (f.getNodeName().equals("serial_id")) {
+						serial_Id = f.getFirstChild().getNodeValue();
+					} else if (f.getNodeName().equals("discoverer_id")) {
+						user_Id = f.getFirstChild().getNodeValue();
+					}
+					f = f.getNextSibling();
+				} while (f != null);
+				Process.info.PFBGoodList.push(new info.PFBGood(serial_Id, user_Id));
+			}
+			if(!Process.info.PFBGoodList.isEmpty())
+			{
+				Process.info.events.push(Info.EventType.PFBGood);
 			}
 			
 			Process.info.SetTimeoutByAction(Name);

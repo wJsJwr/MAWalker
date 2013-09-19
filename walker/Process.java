@@ -23,6 +23,7 @@ import action.GuildBattle;
 import action.GuildTop;
 import action.Login;
 import action.LvUp;
+import action.PFBGood;
 import action.PrivateFairyBattle;
 import action.SellCard;
 
@@ -129,6 +130,9 @@ public class Process {
 			case fairyBattleEnd:
 			case fairyBattleLose:
 			case fairyBattleWin:			
+				break;
+			case PFBGood:
+				result.add(Action.PFB_GOOD);
 				break;
 			}
 			if (!result.isEmpty())	return result;
@@ -327,7 +331,7 @@ public class Process {
 						}
 					}
 					String str = String.format("PFB name=%s, Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
-							info.fairy.FairyName, info.fairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
+							info.gfairy.FairyName, info.gfairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
 							info.ticket, info.week, result);
 					Thread.sleep(5000);
 					Go.log(str);
@@ -381,8 +385,22 @@ public class Process {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
 			}
 			break;
+		case PFB_GOOD:
+			try {
+				if (PFBGood.run()) {
+					Go.log(ErrorData.text);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
+				
+			}
+			
+			break;
 		case NOTHING:
-			Thread.sleep(60000); // 无事可做休息1分钟
+			Thread.sleep(30000); // 无事可做休息1分钟
 			break;
 		default:
 			break;

@@ -6,6 +6,7 @@ import info.Card;
 import info.Deck;
 import info.FairyBattleInfo;
 import info.Floor;
+import info.PFBGood;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -104,9 +105,10 @@ public class Info {
 	
 	// fairy
 	public FairyBattleInfo fairy;
+	public FairyBattleInfo gfairy;
 	public boolean NoFairy = false;
 	public Queue<FairyBattleInfo> LatestFairyList = new LinkedList<FairyBattleInfo>();
-	
+	public Stack<PFBGood> PFBGoodList;
 	
 	// explore
 	public String ExploreResult = "";
@@ -143,6 +145,7 @@ public class Info {
 		case LV_UP:
 			this.SetTimeoutByEntry(TimeoutEntry.apbc);
 			break;
+		case PFB_GOOD:
 		case ADD_AREA:
 		case GET_FLOOR_INFO:
 			this.SetTimeoutByEntry(TimeoutEntry.map);
@@ -187,7 +190,8 @@ public class Info {
 		ticketFull,
 		getFairyReward,
 		needAPBCInfo,
-		levelUp
+		levelUp,
+		PFBGood
 	}
 	public Stack<EventType> events;
 	
@@ -197,6 +201,7 @@ public class Info {
 		area = new Hashtable<Integer,Area>();
 		floor = new Hashtable<Integer,Floor>();
 		front = new Floor();
+		PFBGoodList = new Stack<PFBGood>();
 		events = new Stack<EventType>();
 		events.push(EventType.notLoggedIn);
 		KeepCard = new ArrayList<String>();
@@ -209,7 +214,7 @@ public class Info {
 		timeout.put(TimeoutEntry.map, (long) 0);
 		
 		fairy = new FairyBattleInfo();
-	
+		gfairy = new FairyBattleInfo();
 	}
 	
 }

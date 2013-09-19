@@ -63,6 +63,9 @@ public class ErrorData {
 		// 升级
 		LvUpDataError,
 		LvUpResponse,
+		// 赞
+		PFB_GoodDataError,
+		PFB_GoodResponse,
 	}
 	
 	

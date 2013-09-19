@@ -56,6 +56,8 @@ public class Think {
 				return Action.GUILD_TOP;
 			case GET_FAIRY_REWARD:
 				return Action.GET_FAIRY_REWARD;
+			case PFB_GOOD:
+				return Action.PFB_GOOD;
 			case NOTHING:
 				break;
 			case SELL_CARD:
