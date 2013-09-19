@@ -75,8 +75,7 @@ public class GetFairyList {
 			//NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=4]/fairy", doc, XPathConstants.NODESET);
 			NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=1]/fairy", doc, XPathConstants.NODESET);
 			
-			boolean set = false;
-			
+			Process.info.OwnFairyBattleKilled = true;
 			ArrayList<FairyBattleInfo> fbis = new ArrayList<FairyBattleInfo>();
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
@@ -112,11 +111,10 @@ public class GetFairyList {
 					}
 					if (!attack_flag) fbis.add(fbi);
 				}
+				
 				if (Process.info.userId.equals(fbi.UserId)) {
 					Process.info.OwnFairyBattleKilled = false;
-					set = true;
-				} else if (set == false && i == fairy.getLength()-1)
-					Process.info.OwnFairyBattleKilled = true;
+				}
 			}
 			
 			
