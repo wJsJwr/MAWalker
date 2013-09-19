@@ -69,7 +69,11 @@ public class ErrorData {
 		// fairy_history
 		FairyHistoryDataError,
 		FairyHistoryDataParseError,
-		FairyHistoryResponse
+		FairyHistoryResponse,
+		// 收赞
+		RecvPFBGoodDataError,
+		RecvPFBGoodDataParseError,
+		RecvPFBGoodResponse
 	}
 	
 	
