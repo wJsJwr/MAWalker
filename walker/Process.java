@@ -1,6 +1,11 @@
 package walker;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +15,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.Network;
 
 import org.w3c.dom.Document;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import walker.Info.TimeoutEntry;
 import action.ActionRegistry.Action;
@@ -23,7 +31,9 @@ import action.GuildBattle;
 import action.GuildTop;
 import action.Login;
 import action.LvUp;
+import action.PFBGood;
 import action.PrivateFairyBattle;
+import action.RecvPFBGood;
 import action.SellCard;
 
 public class Process {
@@ -130,6 +140,15 @@ public class Process {
 			case fairyBattleLose:
 			case fairyBattleWin:			
 				break;
+			case PFBGood:
+				result.add(Action.PFB_GOOD);
+				break;
+			case recvPFBGood:
+				result.add(Action.RECV_PFB_GOOD);
+				break;
+			case gotoFloor:
+				result.add(Action.GOTO_FLOOR);
+				break;
 			}
 			if (!result.isEmpty())	return result;
 		}
@@ -156,9 +175,19 @@ public class Process {
 				break;
 			}				
 		}
-		//result.add(Action.GOTO_FLOOR);
 		result.add(Action.EXPLORE);
-		if (Info.FairyBattleFirst) result.add(Action.GET_FAIRY_LIST);
+		// result.add(Action.GOTO_FLOOR);
+		if (!Process.info.OwnFairyBattleKilled){
+			try {
+				Thread.sleep(30000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			result.add(Action.GET_FAIRY_LIST);
+		}
+		if (Info.FairyBattleFirst)
+			result.add(Action.GET_FAIRY_LIST);
 		return result;
 	}
 	
@@ -280,8 +309,8 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s, Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
-							info.fairy.FairyName, info.fairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
+					String str = String.format("PFB name=%s(%s), Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+							info.fairy.FairyName,info.FairySelectUserList.get(info.fairy.UserId).userName, info.fairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
 							info.ticket, result);
 					if (info.gather != -1) str += String.format(", gather=%d", info.gather);
 					Go.log(str);
@@ -327,7 +356,7 @@ public class Process {
 						}
 					}
 					String str = String.format("PFB name=%s, Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
-							info.fairy.FairyName, info.fairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
+							info.gfairy.FairyName, info.gfairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
 							info.ticket, info.week, result);
 					Thread.sleep(5000);
 					Go.log(str);
@@ -381,8 +410,33 @@ public class Process {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
 			}
 			break;
+		case PFB_GOOD:
+			try {
+				if (PFBGood.run()) {
+					Go.log(ErrorData.text);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
+				
+			}
+			break;
+		case RECV_PFB_GOOD:
+			try {
+				if (RecvPFBGood.run()) {
+					Go.log(ErrorData.text);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
+			}
+			break;
 		case NOTHING:
-			Thread.sleep(60000); // 无事可做休息1分钟
+			Thread.sleep(30000); // 无事可做休息30秒
 			break;
 		default:
 			break;
@@ -390,7 +444,7 @@ public class Process {
 		}
 	}
 	
-	public static Document ParseXMLBytes(byte[] in) throws Exception {
+	public static Document ParseXMLBytes1(byte[] in) throws Exception {
 		ByteArrayInputStream bais = null;
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -403,5 +457,63 @@ public class Process {
 		}
 	}
 	
+	public static Document ParseXMLBytes(byte[] in) throws Exception {
+		ByteArrayInputStream bais = null;
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			bais = new ByteArrayInputStream(in);
+			Document document = builder.parse(bais);
+			if(Info.debug) doc2FormatString(document); //输出xml
+			return document;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 	
+	public static void doc2FormatString(Document doc) {	
+		String docString = "";
+		if(doc != null){
+			StringWriter stringWriter = new StringWriter();
+			try{
+				OutputFormat format = new OutputFormat(doc,"UTF-8",true);
+				//format.setIndenting(true);//设置是否缩进，默认为true
+				//format.setIndent(4);//设置缩进字符数
+				//format.setPreserveSpace(false);//设置是否保持原来的格式,默认为 false
+				//format.setLineWidth(500);//设置行宽度
+				XMLSerializer serializer = new XMLSerializer(stringWriter,format);
+				serializer.asDOMSerializer();
+				serializer.serialize(doc);
+				docString = stringWriter.toString();
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				if(stringWriter != null){
+		        	try {
+						stringWriter.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+	        	}
+			}
+		}
+		File f=new File("xml/");
+		// 创建文件夹
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+		
+		//System.out.println(docString);
+		 File fp=new File(String.format("xml/%d.xml", System.currentTimeMillis()));
+	       PrintWriter pfp;
+		try {
+			pfp = new PrintWriter(fp);
+		       pfp.print(docString);
+		       pfp.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//return docString;
+	}
 }

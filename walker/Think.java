@@ -56,6 +56,10 @@ public class Think {
 				return Action.GUILD_TOP;
 			case GET_FAIRY_REWARD:
 				return Action.GET_FAIRY_REWARD;
+			case PFB_GOOD:
+				return Action.PFB_GOOD;
+			case RECV_PFB_GOOD:
+				return Action.RECV_PFB_GOOD;
 			case NOTHING:
 				break;
 			case SELL_CARD:
@@ -90,8 +94,18 @@ public class Think {
 			}
 			break;
 		case 6:
-			if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleNormal.BC) return false;
-			Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
+			if (Process.info.bc >= Info.PrivateFairyBattleRare.BC) {
+				if (Process.info.bc < Info.PrivateFairyBattleNormal.BC) 
+				{
+					Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
+				}
+				else
+				{
+					Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
+				}
+			}
+			else
+				return false;
 			break;
 		case 7:
 			if (Info.RareFairyUseNormalDeck) {

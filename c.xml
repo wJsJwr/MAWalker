@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config><!-- 所有的字符都应该是半角的，请注意 -->
+	<username></username>
+	<password></password>
+	<profile>1</profile><!-- 不要改 -->
+	<option> <!-- 以下四个选项如果选是则填1，否则填0 -->
+		<fairy_battle_first>0</fairy_battle_first><!-- 优先考虑妖精战 -->
+		<rare_fairy_use_normal_deck>0</rare_fairy_use_normal_deck><!-- 使用NormalDeck来攻击觉醒怪 -->
+		<allow_bc_insuffient>1</allow_bc_insuffient><!-- BC不足FairyDeck的BC时，依旧跑图 -->
+		<one_ap_only>0</one_ap_only><!-- 只跑1AP的图 -->
+		<auto_add_point>0</auto_add_point><!-- 自动加点 -->
+		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
+		<debug>0</debug><!-- debug输出xml -->
+	</option>
+	<deck>
+		<!--
+			下列各项中no表示卡组号：
+			0：卡组1；1：卡组2；2：卡组3；3：推荐卡组
+			bc表示使用该卡组所需的BC
+			各选项的意义：
+			FairyDeck：打妖精用
+			RareFairyDeck：打觉醒用
+			GuildFairyDeck：打外敌用
+			FriendFairyBattleRare：打好友觉醒用
+			FriendFairyBattleNormal：打好友妖精用
+		-->
+		<deck_profile>
+			<name>FairyDeck</name>
+			<no>0</no>
+			<bc>0</bc>
+		</deck_profile>
+		<deck_profile>
+			<name>RareFairyDeck</name>
+			<no>0</no>
+			<bc>0</bc>
+		</deck_profile>
+		<deck_profile>
+			<name>GuildFairyDeck</name>
+			<no>0</no>
+			<bc>0</bc>
+		</deck_profile>
+		<deck_profile>
+			<name>FriendFairyBattleRare</name>
+			<no>0</no>
+			<bc>0</bc>
+		</deck_profile>
+		<deck_profile>
+			<name>FriendFairyBattleNormal</name>
+			<no>0</no>
+			<bc>0</bc>
+		</deck_profile>
+	</deck>
+	<sell_card>
+		<!--
+			本项是用来卖卡的，以供长期挂机。
+			id是卡片的id，有意者可以自己填
+		-->
+		<policy>sell</policy>
+		<!-- <id></id> -->
+	</sell_card>
+</config>

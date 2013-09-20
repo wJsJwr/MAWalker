@@ -39,6 +39,7 @@ public class GetConfig {
 				Info.OneAPOnly = xpath.evaluate("/config/option/one_ap_only", doc).equals("1");
 				Info.AutoAddp = xpath.evaluate("/config/option/auto_add_point", doc).equals("1");
 				Info.AllowAttackSameFairy = xpath.evaluate("/config/option/allow_attack_same_fairy", doc).equals("1");
+				Info.debug = xpath.evaluate("/config/option/debug", doc).equals("1");
 				
 
 				Info.FriendFairyBattleRare.No = xpath.evaluate("/config/deck/deck_profile[name='FriendFairyBattleRare']/no", doc);

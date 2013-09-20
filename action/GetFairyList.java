@@ -1,6 +1,7 @@
 package action;
 
 import info.FairyBattleInfo;
+import info.FairySelectUser;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
+import walker.Go;
 import walker.Info;
 import walker.Process;
 import action.ActionRegistry.Action;
@@ -70,10 +72,32 @@ public class GetFairyList {
 				Process.info.events.push(Info.EventType.fairyReward);
 			}
 			
+			//获取放妖的用户
+			NodeList fairyuser = (NodeList)xpath.evaluate("//fairy_select/user", doc, XPathConstants.NODESET);
+			for(int i = 0; i < fairyuser.getLength(); i++)
+			{
+				Node f = fairyuser.item(i).getFirstChild();
+				FairySelectUser fsu = new FairySelectUser();
+				do {
+					if (f.getNodeName().equals("id")) {
+						fsu.userID = f.getFirstChild().getNodeValue();
+					} else if (f.getNodeName().equals("name")) {
+						fsu.userName = f.getFirstChild().getNodeValue();
+					}
+					f = f.getNextSibling();
+				} while (f != null);
+				if(!Process.info.FairySelectUserList.containsKey(fsu.userID))
+				{
+					Process.info.FairySelectUserList.put(fsu.userID,fsu);
+				}
+			}
+		
+			
 			// TODO: 这两周先是只寻找0BC的，之后再扩展
 			//NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=4]/fairy", doc, XPathConstants.NODESET);
 			NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=1]/fairy", doc, XPathConstants.NODESET);
 			
+			Process.info.OwnFairyBattleKilled = true;
 			ArrayList<FairyBattleInfo> fbis = new ArrayList<FairyBattleInfo>();
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
@@ -108,16 +132,48 @@ public class GetFairyList {
 						}
 					}
 					if (!attack_flag) fbis.add(fbi);
-				}	
+				}
+				
+				if (Process.info.userId.equals(fbi.UserId)) {
+					Process.info.OwnFairyBattleKilled = false;
+				}
 			}
 			
 			
 			if (fbis.size() > 1) Process.info.events.push(Info.EventType.fairyAppear); // 以便再次寻找
 			if (fbis.size() > 0) {
+				Process.info.events.push(Info.EventType.gotoFloor);
+				Process.info.events.push(Info.EventType.recvPFBGood);
 				Process.info.events.push(Info.EventType.fairyCanBattle);
-				Process.info.fairy = fbis.get(0);
+				Process.info.fairy = new FairyBattleInfo(fbis.get(0));
 			}
 			
+			NodeList fairy1 = (NodeList) xpath.evaluate(
+					"//fairy_select/fairy_event[put_down=5]/fairy", doc,
+					XPathConstants.NODESET);
+
+			int aa = fairy1.getLength();
+
+			Go.log("找到" + aa + "个可赞的PFB...");
+			for (int i = 0; i < fairy1.getLength(); i++) {
+				Node f = fairy1.item(i).getFirstChild();
+				String serial_Id = "";
+				String user_Id = "";
+				do {
+					if (f.getNodeName().equals("serial_id")) {
+						serial_Id = f.getFirstChild().getNodeValue();
+					} else if (f.getNodeName().equals("discoverer_id")) {
+						user_Id = f.getFirstChild().getNodeValue();
+					}
+					f = f.getNextSibling();
+				} while (f != null);
+				Process.info.PFBGoodList.push(new info.PFBGood(serial_Id, user_Id));
+			}
+			if(!Process.info.PFBGoodList.isEmpty())
+			{
+				Process.info.events.push(Info.EventType.PFBGood);
+			}
+
 			Process.info.SetTimeoutByAction(Name);
 			
 		} catch (Exception ex) {
