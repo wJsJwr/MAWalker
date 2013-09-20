@@ -1,6 +1,11 @@
 package walker;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +15,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.Network;
 
 import org.w3c.dom.Document;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import walker.Info.TimeoutEntry;
 import action.ActionRegistry.Action;
@@ -301,8 +309,8 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s, Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
-							info.fairy.FairyName, info.fairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
+					String str = String.format("PFB name=%s(%s), Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+							info.fairy.FairyName,info.FairySelectUserList.get(info.fairy.UserId).userName, info.fairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
 							info.ticket, result);
 					if (info.gather != -1) str += String.format(", gather=%d", info.gather);
 					Go.log(str);
@@ -443,11 +451,50 @@ public class Process {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			bais = new ByteArrayInputStream(in);
 			Document document = builder.parse(bais);
+			doc2FormatString(document);
 			return document;
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 	
-	
+	public static void doc2FormatString(Document doc) {	
+		String docString = "";
+		if(doc != null){
+			StringWriter stringWriter = new StringWriter();
+			try{
+				OutputFormat format = new OutputFormat(doc,"UTF-8",true);
+				//format.setIndenting(true);//设置是否缩进，默认为true
+				//format.setIndent(4);//设置缩进字符数
+				//format.setPreserveSpace(false);//设置是否保持原来的格式,默认为 false
+				//format.setLineWidth(500);//设置行宽度
+				XMLSerializer serializer = new XMLSerializer(stringWriter,format);
+				serializer.asDOMSerializer();
+				serializer.serialize(doc);
+				docString = stringWriter.toString();
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				if(stringWriter != null){
+		        	try {
+						stringWriter.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+	        	}
+			}
+		}
+		//System.out.println(docString);
+		 File fp=new File(String.format("xml/%d.xml", System.currentTimeMillis()));
+	       PrintWriter pfp;
+		try {
+			pfp = new PrintWriter(fp);
+		       pfp.print(docString);
+		       pfp.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//return docString;
+	}
 }

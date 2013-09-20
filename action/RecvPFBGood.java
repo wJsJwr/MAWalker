@@ -52,7 +52,6 @@ public class RecvPFBGood {
 	}
 	
 	private static boolean parse(Document doc) throws Exception {
-
 		XPathFactory factory = XPathFactory.newInstance();
 		XPath xpath = factory.newXPath();
 
@@ -66,7 +65,6 @@ public class RecvPFBGood {
 			}
 
 			String add, msg;
-
 			if ((boolean)xpath.evaluate("count(/response/body/private_fairy_top/recover_by_like) > 0", doc, XPathConstants.BOOLEAN)) {
 				
 				msg = xpath.evaluate("/response/body/private_fairy_top/recover_by_like/message", doc);
@@ -85,5 +83,4 @@ public class RecvPFBGood {
 		}
 		return true;
 	}
-
 }

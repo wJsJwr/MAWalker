@@ -1,6 +1,7 @@
 package action;
 
 import info.FairyBattleInfo;
+import info.FairySelectUser;
 
 import java.util.ArrayList;
 
@@ -70,6 +71,27 @@ public class GetFairyList {
 			if (!xpath.evaluate("//remaining_rewards", doc).equals("0")) {
 				Process.info.events.push(Info.EventType.fairyReward);
 			}
+			
+			//获取放妖的用户
+			NodeList fairyuser = (NodeList)xpath.evaluate("//fairy_select/user", doc, XPathConstants.NODESET);
+			for(int i = 0; i < fairyuser.getLength(); i++)
+			{
+				Node f = fairyuser.item(i).getFirstChild();
+				FairySelectUser fsu = new FairySelectUser();
+				do {
+					if (f.getNodeName().equals("id")) {
+						fsu.userID = f.getFirstChild().getNodeValue();
+					} else if (f.getNodeName().equals("name")) {
+						fsu.userName = f.getFirstChild().getNodeValue();
+					}
+					f = f.getNextSibling();
+				} while (f != null);
+				if(!Process.info.FairySelectUserList.containsKey(fsu.userID))
+				{
+					Process.info.FairySelectUserList.put(fsu.userID,fsu);
+				}
+			}
+		
 			
 			// TODO: 这两周先是只寻找0BC的，之后再扩展
 			//NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=4]/fairy", doc, XPathConstants.NODESET);

@@ -5,6 +5,7 @@ import info.Area;
 import info.Card;
 import info.Deck;
 import info.FairyBattleInfo;
+import info.FairySelectUser;
 import info.Floor;
 import info.PFBGood;
 
@@ -113,6 +114,7 @@ public class Info {
 	public boolean NoFairy = false;
 	public Queue<FairyBattleInfo> LatestFairyList = new LinkedList<FairyBattleInfo>();
 	public Stack<PFBGood> PFBGoodList;
+	public Hashtable<String,FairySelectUser> FairySelectUserList;
 	
 	// explore
 	public String ExploreResult = "";
@@ -210,6 +212,7 @@ public class Info {
 		events = new Stack<EventType>();
 		events.push(EventType.notLoggedIn);
 		KeepCard = new ArrayList<String>();
+		FairySelectUserList = new Hashtable<String,FairySelectUser>();
 		
 		timeout = new Hashtable<TimeoutEntry,Long>();
 		timeout.put(TimeoutEntry.apbc, (long) 0);
