@@ -83,6 +83,11 @@ public class Info {
 	 * 允许舔同一个怪
 	 */
 	public static boolean AllowAttackSameFairy = true;
+	/**
+	 * debug输出xml
+	 */
+	public static boolean debug = false;
+	
 	
 	// card list
 	public ArrayList<Card> cardList;

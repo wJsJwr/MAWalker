@@ -444,6 +444,19 @@ public class Process {
 		}
 	}
 	
+	public static Document ParseXMLBytes1(byte[] in) throws Exception {
+		ByteArrayInputStream bais = null;
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			bais = new ByteArrayInputStream(in);
+			Document document = builder.parse(bais);
+			return document;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 	public static Document ParseXMLBytes(byte[] in) throws Exception {
 		ByteArrayInputStream bais = null;
 		try {
@@ -451,7 +464,7 @@ public class Process {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			bais = new ByteArrayInputStream(in);
 			Document document = builder.parse(bais);
-			doc2FormatString(document);
+			if(Info.debug) doc2FormatString(document); //输出xml
 			return document;
 		} catch (Exception e) {
 			throw e;
@@ -484,6 +497,12 @@ public class Process {
 	        	}
 			}
 		}
+		File f=new File("xml/");
+		// 创建文件夹
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+		
 		//System.out.println(docString);
 		 File fp=new File(String.format("xml/%d.xml", System.currentTimeMillis()));
 	       PrintWriter pfp;
