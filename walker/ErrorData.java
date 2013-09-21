@@ -73,7 +73,10 @@ public class ErrorData {
 		// 收赞
 		RecvPFBGoodDataError,
 		RecvPFBGoodDataParseError,
-		RecvPFBGoodResponse
+		RecvPFBGoodResponse,
+		// 吃药
+		UseDataError,
+		UseResponse
 	}
 	
 	

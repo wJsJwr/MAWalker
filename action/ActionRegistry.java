@@ -16,6 +16,7 @@ public class ActionRegistry {
 		SELL_CARD,
 		LV_UP,
 		PFB_GOOD,
-		RECV_PFB_GOOD
+		RECV_PFB_GOOD,
+		USE
 	}
 }

@@ -13,18 +13,18 @@ import walker.ErrorData;
 import walker.Process;
 import action.ActionRegistry.Action;
 
-public class SellCard {
-	public static final Action Name = Action.SELL_CARD;
+public class Use {
+public static final Action Name = Action.USE;
 	
-	private static final String URL_SELL_CARD = "http://web.million-arthurs.com/connect/app/trunk/sell?cyt=1";
+	private static final String URL_USE = "http://web.million-arthurs.com/connect/app/item/use?cyt=1";
 	private static byte[] response;
 	
 	public static boolean run() throws Exception {
-		if (Process.info.toSell.isEmpty()) return false;
+		if (Process.info.toUse.isEmpty()) return false;
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-		post.add(new BasicNameValuePair("serial_id", Process.info.toSell));
+		post.add(new BasicNameValuePair("item_id", Process.info.toUse));
 		try {
-			response = Process.network.ConnectToServer(URL_SELL_CARD, post, false);
+			response = Process.network.ConnectToServer(URL_USE, post, false);
 		} catch (Exception ex) {
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
@@ -37,7 +37,7 @@ public class SellCard {
 			doc = Process.ParseXMLBytes(response);
 		} catch (Exception ex) {
 			ErrorData.currentDataType = ErrorData.DataType.bytes;
-			ErrorData.currentErrorType = ErrorData.ErrorType.SellCardDataError;
+			ErrorData.currentErrorType = ErrorData.ErrorType.UseDataError;
 			ErrorData.bytes = response;
 			throw ex;
 		}
@@ -46,21 +46,22 @@ public class SellCard {
 		XPath xpath = factory.newXPath();
 		
 		try {
-			if (!xpath.evaluate("/response/header/error/code", doc).equals("1010")) {
-				ErrorData.currentErrorType = ErrorData.ErrorType.SellCardResponse;
+			if (!xpath.evaluate("/response/header/error/code", doc).equals("1000")) {
+				ErrorData.currentErrorType = ErrorData.ErrorType.UseResponse;
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.text = xpath.evaluate("/response/header/error/message", doc);
 				return false;
 			} else {
 				ErrorData.text = xpath.evaluate("/response/header/error/message", doc);
-				Process.info.toSell = "";
+				Process.info.toUse = "";
+				ParseUserDataInfo.parse(doc);
 				return true;
 			}
 			
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none) throw ex;
 			ErrorData.currentDataType = ErrorData.DataType.bytes;
-			ErrorData.currentErrorType = ErrorData.ErrorType.SellCardDataError;
+			ErrorData.currentErrorType = ErrorData.ErrorType.UseDataError;
 			ErrorData.bytes = response;
 			throw ex;
 		}

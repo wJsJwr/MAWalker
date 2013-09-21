@@ -2,6 +2,7 @@
 <config><!-- 所有的字符都应该是半角的，请注意 -->
 	<username></username>
 	<password></password>
+	<user_agent>Million/235 (t03gchn; t03gzc; 4.1.2) samsung/t03gzc/t03gchn:4.1.2/JZO54K/N7100ZCDMD3:user/release-keys GooglePlay</user_agent>
 	<profile>1</profile><!-- 不要改 -->
 	<option> <!-- 以下四个选项如果选是则填1，否则填0 -->
 		<fairy_battle_first>0</fairy_battle_first><!-- 优先考虑妖精战 -->
@@ -10,8 +11,25 @@
 		<one_ap_only>0</one_ap_only><!-- 只跑1AP的图 -->
 		<auto_add_point>0</auto_add_point><!-- 自动加点 -->
 		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
-		<debug>0</debug><!-- debug输出xml -->
+		<night_mode>1</night_mode><!-- 夜间模式 -->
+		<debug>0</debug><!-- debug输出xml(开发者使用) -->
 	</option>
+	<use>
+		<auto_use_ap>1</auto_use_ap><!-- 自动吃AP药 -->
+		<auto_use_bc>1</auto_use_bc><!-- 自动吃BC药 -->
+		<strategy>
+			<ap>
+				<low>1</low><!-- 低于此值吃药 -->
+				<half>1</half><!-- 0:只吃全药; 1:只吃半药; 2:都吃(先吃半药，再吃全药) -->
+				<full_low>10</full_low><!-- 保留这点全药 -->
+			</ap>
+			<bc>
+				<low>50</low>
+				<half>1</half>
+				<full_low>10</full_low>
+			</bc>
+		</strategy>
+	</use>
 	<deck>
 		<!--
 			下列各项中no表示卡组号：

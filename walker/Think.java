@@ -8,10 +8,17 @@ import action.ActionRegistry;
 import action.ActionRegistry.Action;
 
 public class Think {
+	
+	private static final String AP_HALF = "101";
+	private static final String BC_HALF = "111";
+	private static final String AP_FULL = "1";
+	private static final String BC_FULL = "2";
+	
 	private static final int EXPLORE_NORMAL = 60;
 	private static final int EXPLORE_URGENT = 80;
 	private static final int GFL_PRI = 70;
 	private static final int GF_PRI = 25;
+	private static final int USE_PRI = 99;
 	public static ActionRegistry.Action doIt (List<ActionRegistry.Action> possible) {
 		Action best = Action.NOTHING;
 		int score = Integer.MIN_VALUE + 20;
@@ -68,6 +75,13 @@ public class Think {
 			case LV_UP:
 				decideUpPoint();
 				return Action.LV_UP;
+			case USE:
+				int ptr = decideUse();
+				if (ptr > score) {
+					best = Action.USE;
+					score = ptr;
+				}
+				break;
 			default:
 				break;
 			}
@@ -75,6 +89,75 @@ public class Think {
 		return best;
 	}
 	
+	private static int decideUse() {
+		
+		if (Info.autoUseAp) {
+			if (Process.info.ap < Info.autoApLow) {
+				switch (Info.autoApType) {
+				case ALL:
+					if (Process.info.halfApToday > 0 && Process.info.halfAp > 0) {
+						Process.info.toUse = AP_HALF;
+						return USE_PRI;
+					} else {
+						if (Process.info.fullAp > Info.autoApFullLow) {
+							Process.info.toUse = AP_FULL;
+							return USE_PRI;
+						}
+					}
+					break;
+				case FULL_ONLY:
+					if (Process.info.fullAp > Info.autoApFullLow) {
+						Process.info.toUse = AP_FULL;
+						return USE_PRI;
+					}
+					break;
+				case HALF_ONLY:
+					if (Process.info.halfApToday > 0 && Process.info.halfAp > 0) {
+						Process.info.toUse = AP_HALF;
+						return USE_PRI;
+					}
+					break;
+				default:
+					break;
+				
+				}
+			}
+		}
+		if (Info.autoUseBc) {
+			if (Process.info.bc < Info.autoBcLow) {
+				switch (Info.autoBcType) {
+				case ALL:
+					if (Process.info.halfBcToday > 0 && Process.info.halfBc > 0) {
+						Process.info.toUse = BC_HALF;
+						return USE_PRI;
+					} else {
+						if (Process.info.fullBc > Info.autoBcFullLow) {
+							Process.info.toUse = BC_FULL;
+							return USE_PRI;
+						}
+					}
+					break;
+				case FULL_ONLY:
+					if (Process.info.fullBc > Info.autoBcFullLow) {
+						Process.info.toUse = BC_FULL;
+						return USE_PRI;
+					}
+					break;
+				case HALF_ONLY:
+					if (Process.info.halfBcToday > 0 && Process.info.halfBc > 0) {
+						Process.info.toUse = BC_HALF;
+						return USE_PRI;
+					}
+					break;
+				default:
+					break;
+				
+				}
+			}
+		}
+		return 0;
+	}
+
 	private static boolean canBattle() {
 		switch (Process.info.fairy.Type) {
 		case 0:

@@ -23,7 +23,8 @@ public class Go {
 			return;
 		}
 		if (args.length < 3) {
-			System.out.println(Version.printVersion());
+			System.out.println(Version.strVersion());
+			System.out.println(Version.strThanks());
 			Go.log(String.format("Read cards that can be sold (%d).", Info.CanBeSold.size()));
 		}
 		if (args.length == 1) {
@@ -87,7 +88,8 @@ public class Go {
 	}
 
 	public static void printHelp() {
-		System.out.println(Version.printVersion());
+		System.out.println(Version.strVersion());
+		System.out.println(Version.strThanks());
 		System.out.println("Usage: config_xml [-h][-f[1|2] file][-d[1|2] str][-m]");
 	}
 

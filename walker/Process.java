@@ -35,6 +35,7 @@ import action.PFBGood;
 import action.PrivateFairyBattle;
 import action.RecvPFBGood;
 import action.SellCard;
+import action.Use;
 
 public class Process {
 	public static Info info;
@@ -54,7 +55,7 @@ public class Process {
 				execute(Think.doIt(getPossibleAction()));
 				long delta = System.currentTimeMillis() - start;
 				if (delta < 5000) Thread.sleep(5000 - delta);
-				if (info.events.empty() && info.NoFairy) Thread.sleep(600000); // 半夜速度慢点
+				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy) Thread.sleep(600000); // 半夜速度慢点
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -176,6 +177,7 @@ public class Process {
 			}				
 		}
 		result.add(Action.EXPLORE);
+		result.add(Action.USE);
 		// result.add(Action.GOTO_FLOOR);
 		if (!Process.info.OwnFairyBattleKilled){
 			try {
@@ -405,6 +407,21 @@ public class Process {
 					ErrorData.clear();
 				} else {
 					Go.log("Something wrong");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
+			}
+			break;
+		case USE:
+			try {
+				if (Use.run()) {
+					Go.log(ErrorData.text);
+					ErrorData.clear();
+					Go.log(String.format("Bottles: FA:%d, HA:%d, HA(T):%d, FB:%d, HB:%d, HB(T):%d",
+							info.fullAp, info.halfAp, info.halfApToday,
+							info.fullBc, info.halfBc, info.halfBcToday));
+				} else {
+					Go.log("Sth Wrong @USE");
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;

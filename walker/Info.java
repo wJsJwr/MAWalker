@@ -31,13 +31,6 @@ public class Info {
 	public int bc = 0;
 	public int apMax = 0;
 	public int bcMax = 0;
-	public int apBottle = 0;
-	public int apHalfBottle = 0;
-	public int apHalfBottleRemain = 0;
-	public int bcBottle = 0;
-	public int bcHalfBottle = 0;
-	public int bcHalfBottleRemain = 0;
-	public final int halfBottleMax = 5;
 	public int exp = 0;
 	public int gather = 0;
 	public int rankPerson = 0;
@@ -87,7 +80,25 @@ public class Info {
 	 * debug输出xml
 	 */
 	public static boolean debug = false;
+	/**
+	 * night mode 开关
+	 */
+	public static boolean nightModeSwitch = true;
 	
+	// 吃药相关的开关
+	public static boolean autoUseAp = true;
+	public static boolean autoUseBc = true;
+	public enum autoUseType {
+		HALF_ONLY,
+		FULL_ONLY,
+		ALL
+	}
+	public static autoUseType autoApType = autoUseType.HALF_ONLY;
+	public static autoUseType autoBcType = autoUseType.HALF_ONLY;
+	public static int autoApLow = 1;
+	public static int autoBcLow = 50;
+	public static int autoApFullLow = 10;
+	public static int autoBcFullLow = 10;
 	
 	// card list
 	public ArrayList<Card> cardList;
@@ -126,6 +137,17 @@ public class Info {
 	public String ExploreProgress = "";
 	public String ExploreGold = "";
 	public String ExploreExp = "";
+	
+	
+	//吃药相关
+	public int fullBc = 0;
+	public int fullAp = 0;
+	public int halfBc = 0;
+	public int halfAp = 0;
+	public int halfBcToday = 0;
+	public int halfApToday = 0;
+	public String toUse = "";
+	
 	
 	// timeout
 	public enum TimeoutEntry {
