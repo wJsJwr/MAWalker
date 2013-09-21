@@ -24,10 +24,10 @@ public class GuildBattle {
 	
 	public static boolean run() throws Exception {
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-		post.add(new BasicNameValuePair("guild_id", Process.info.fairy.GuildId));
-		post.add(new BasicNameValuePair("no", Process.info.fairy.No));
-		post.add(new BasicNameValuePair("serial_id", Process.info.fairy.SerialId));
-		post.add(new BasicNameValuePair("spp_skill_serial", Process.info.fairy.Spp));
+		post.add(new BasicNameValuePair("guild_id", Process.info.gfairy.GuildId));
+		post.add(new BasicNameValuePair("no", Process.info.gfairy.No));
+		post.add(new BasicNameValuePair("serial_id", Process.info.gfairy.SerialId));
+		post.add(new BasicNameValuePair("spp_skill_serial", Process.info.gfairy.Spp));
 		try {
 			response = Process.network.ConnectToServer(URL_GUILD_BATTLE, post, false);
 		} catch (Exception ex) {

@@ -10,7 +10,9 @@ import action.GetFloorInfo;
 import action.GotoFloor;
 import action.Login;
 import action.LvUp;
+import action.PFBGood;
 import action.PrivateFairyBattle;
+import action.RecvPFBGood;
 import action.SellCard;
 import action.ActionRegistry.Action;
 
@@ -80,6 +82,14 @@ public class Profile2 {
 			case levelUp:
 				result.add(Action.LV_UP);
 				break;
+			case PFBGood:
+				result.add(Action.PFB_GOOD);
+				break;
+			case recvPFBGood:
+				result.add(Action.RECV_PFB_GOOD);
+				break;
+			case gotoFloor:
+				result.add(Action.GOTO_FLOOR);
 			default:
 				Go.log("Profile2 Ignore: " + Process.info.events.peek());
 				break;
@@ -220,6 +230,31 @@ public class Profile2 {
 		case SELL_CARD:
 			try {
 				if (SellCard.run()) {
+					Go.log(ErrorData.text);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
+			}
+			break;
+		case PFB_GOOD:
+			try {
+				if (PFBGood.run()) {
+					Go.log(ErrorData.text);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
+				
+			}
+			break;
+		case RECV_PFB_GOOD:
+			try {
+				if (RecvPFBGood.run()) {
 					Go.log(ErrorData.text);
 					ErrorData.clear();
 				} else {

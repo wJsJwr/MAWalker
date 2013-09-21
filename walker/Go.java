@@ -17,7 +17,7 @@ public class Go {
 			return;
 		}
 		try {
-			GetConfig.parse(Process.ParseXMLBytes(ReadFileAll(args[0])));
+			GetConfig.parse(Process.ParseXMLBytes1(ReadFileAll(args[0])));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;

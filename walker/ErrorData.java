@@ -63,6 +63,17 @@ public class ErrorData {
 		// 升级
 		LvUpDataError,
 		LvUpResponse,
+		// 赞
+		PFB_GoodDataError,
+		PFB_GoodResponse,
+		// fairy_history
+		FairyHistoryDataError,
+		FairyHistoryDataParseError,
+		FairyHistoryResponse,
+		// 收赞
+		RecvPFBGoodDataError,
+		RecvPFBGoodDataParseError,
+		RecvPFBGoodResponse
 	}
 	
 	

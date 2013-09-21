@@ -68,10 +68,10 @@ public class GuildTop {
 				Process.info.NoFairy = false;
 			}
 			
-			Process.info.fairy.FairyName = xpath.evaluate("//fairy/name", doc);
-			Process.info.fairy.SerialId = xpath.evaluate("//fairy/serial_id", doc);
-			Process.info.fairy.GuildId = xpath.evaluate("//fairy/discoverer_id", doc);
-			Process.info.fairy.FairyLevel = xpath.evaluate("//fairy/lv", doc);
+			Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name", doc);
+			Process.info.gfairy.SerialId = xpath.evaluate("//fairy/serial_id", doc);
+			Process.info.gfairy.GuildId = xpath.evaluate("//fairy/discoverer_id", doc);
+			Process.info.gfairy.FairyLevel = xpath.evaluate("//fairy/lv", doc);
 			
 			Process.info.events.push(Info.EventType.guildBattle);
 			

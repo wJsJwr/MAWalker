@@ -88,12 +88,16 @@ public class Explore {
 			switch (evt) {
 			case 22:
 				// fairy battle
+				Process.info.fairy = new FairyBattleInfo();
 				Process.info.fairy.Type = FairyBattleInfo.PRIVATE | FairyBattleInfo.SELF;
 				Process.info.fairy.FairyName = xpath.evaluate("//ex_fairy/fairy/name", doc);
 				Process.info.fairy.FairyLevel = xpath.evaluate("//ex_fairy/fairy/lv", doc);
 				Process.info.fairy.SerialId = xpath.evaluate("//ex_fairy/fairy/serial_id", doc);
 				Process.info.fairy.UserId = xpath.evaluate("//ex_fairy/fairy/discoverer_id", doc);
+				
 				Process.info.events.push(Info.EventType.privateFairyAppear);
+				Process.info.events.push(Info.EventType.gotoFloor);
+				Process.info.events.push(Info.EventType.recvPFBGood);
 				Process.info.ExploreResult = "Fairy Appear";
 				break;
 			case 5:
