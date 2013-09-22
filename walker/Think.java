@@ -65,7 +65,7 @@ public class Think {
 				}
 				break;
 			case GUILD_BATTLE:
-				Process.info.fairy.No = Info.PublicFairyBattle.No;
+				Process.info.gfairy.No = Info.PublicFairyBattle.No;
 				return Action.GUILD_BATTLE;
 			case GUILD_TOP:
 				return Action.GUILD_TOP;
