@@ -12,6 +12,7 @@
 		<auto_add_point>0</auto_add_point><!-- 自动加点 -->
 		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
 		<night_mode>1</night_mode><!-- 夜间模式 -->
+		<receive_battle_present>1</receive_battle_present><!-- 自动收集妖精战礼物 -->
 		<debug>0</debug><!-- debug输出xml(开发者使用) -->
 	</option>
 	<use>

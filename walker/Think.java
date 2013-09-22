@@ -16,7 +16,8 @@ public class Think {
 	
 	private static final int EXPLORE_NORMAL = 60;
 	private static final int EXPLORE_URGENT = 80;
-	private static final int GFL_PRI = 70;
+	private static final int GFL_PRI = 50;
+	private static final int GFL_HI_PRI = 70;
 	private static final int GF_PRI = 25;
 	private static final int USE_PRI = 99;
 	public static ActionRegistry.Action doIt (List<ActionRegistry.Action> possible) {
@@ -31,9 +32,16 @@ public class Think {
 			case GET_FLOOR_INFO:
 				return Action.GET_FLOOR_INFO;
 			case GET_FAIRY_LIST:
-				if (score < GFL_PRI) {
-					best = Action.GET_FAIRY_LIST;
-					score = GFL_PRI;
+				if (Info.FairyBattleFirst) {
+					if (score < GFL_HI_PRI) {
+						best = Action.GET_FAIRY_LIST;
+						score = GFL_HI_PRI;
+					}
+				} else {
+					if (score < GFL_PRI) {
+						best = Action.GET_FAIRY_LIST;
+						score = GFL_PRI;
+					}
 				}
 				break;
 			case GOTO_FLOOR:
@@ -155,7 +163,7 @@ public class Think {
 				}
 			}
 		}
-		return 0;
+		return Integer.MIN_VALUE;
 	}
 
 	private static boolean canBattle() {

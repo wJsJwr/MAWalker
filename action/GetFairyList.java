@@ -69,7 +69,9 @@ public class GetFairyList {
 			}
 			
 			if (!xpath.evaluate("//remaining_rewards", doc).equals("0")) {
-				Process.info.events.push(Info.EventType.fairyReward);
+				if (Info.receiveBattlePresent) {
+					Process.info.events.push(Info.EventType.fairyReward);
+				}
 			}
 			
 			//获取放妖的用户

@@ -1,9 +1,9 @@
 package walker;
 
 public class Version {
-	private static String major = "0";
-	private static String minor = "4";
-	private static String release = "27";
+	private static String major = "1";
+	private static String minor = "0";
+	private static String release = "31";
 	private static String copyright = "2013©wjsjwr.org";
 	private static String code = "Waive";
 	private static String thanks = "@innocentius, @AsakuraFuuko";

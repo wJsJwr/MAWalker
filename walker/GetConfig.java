@@ -44,6 +44,7 @@ public class GetConfig {
 				Info.AllowAttackSameFairy = xpath.evaluate("/config/option/allow_attack_same_fairy", doc).equals("1");
 				Info.debug = xpath.evaluate("/config/option/debug", doc).equals("1");
 				Info.nightModeSwitch = xpath.evaluate("/config/option/night_mode", doc).equals("1");
+				Info.receiveBattlePresent = xpath.evaluate("/config/option/receive_battle_present", doc).equals("1");
 				
 				Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc).equals("1");
 				if (Info.autoUseAp) {

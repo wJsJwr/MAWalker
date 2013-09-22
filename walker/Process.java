@@ -183,7 +183,6 @@ public class Process {
 			try {
 				Thread.sleep(30000);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			result.add(Action.GET_FAIRY_LIST);
@@ -528,7 +527,6 @@ public class Process {
 		       pfp.print(docString);
 		       pfp.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//return docString;

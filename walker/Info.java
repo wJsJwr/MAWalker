@@ -10,6 +10,7 @@ import info.Floor;
 import info.PFBGood;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -84,6 +85,11 @@ public class Info {
 	 * night mode 开关
 	 */
 	public static boolean nightModeSwitch = true;
+	
+	/**
+	 * 自动收集妖精战礼物
+	 */
+	public static boolean receiveBattlePresent = true;
 	
 	// 吃药相关的开关
 	public static boolean autoUseAp = true;
@@ -194,7 +200,9 @@ public class Info {
 		ArrayList<TimeoutEntry> te = new ArrayList<TimeoutEntry>();
 		if (GetTimeout(TimeoutEntry.apbc) > 180000) te.add(TimeoutEntry.apbc);
 		if (GetTimeout(TimeoutEntry.fairy) > 60000) te.add(TimeoutEntry.fairy);
-		if (GetTimeout(TimeoutEntry.login) > 86400000l) te.add(TimeoutEntry.login);
+		if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == 0) {
+			if (GetTimeout(TimeoutEntry.login) > 3600000) te.add(TimeoutEntry.login);
+		}
 		if (GetTimeout(TimeoutEntry.reward) > 86400000l) te.add(TimeoutEntry.reward);
 		if (GetTimeout(TimeoutEntry.map) > 86400000l) te.add(TimeoutEntry.map);
 		if (GetTimeout(TimeoutEntry.ticket) > 600000) te.add(TimeoutEntry.ticket); 
