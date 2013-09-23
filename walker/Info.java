@@ -200,7 +200,7 @@ public class Info {
 		ArrayList<TimeoutEntry> te = new ArrayList<TimeoutEntry>();
 		if (GetTimeout(TimeoutEntry.apbc) > 180000) te.add(TimeoutEntry.apbc);
 		if (GetTimeout(TimeoutEntry.fairy) > 60000) te.add(TimeoutEntry.fairy);
-		if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == 0) {
+		if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == 1) {
 			if (GetTimeout(TimeoutEntry.login) > 3600000) te.add(TimeoutEntry.login);
 		}
 		if (GetTimeout(TimeoutEntry.reward) > 86400000l) te.add(TimeoutEntry.reward);
