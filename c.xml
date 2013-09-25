@@ -3,7 +3,6 @@
 	<username>XXXXXX</username>
 	<password>XXXXXXX</password>
 	<option> <!-- 以下四个选项如果选是则填1，否则填0 -->
-		<rare_fairy_use_normal_deck>0</rare_fairy_use_normal_deck><!-- 使用NormalDeck来攻击觉醒怪 -->
 		<allow_bc_insuffient>0</allow_bc_insuffient><!-- BC不足FairyDeck的BC时，依旧跑图 -->
 		<one_ap_only>0</one_ap_only><!-- 只跑1AP的图 -->
 		<auto_add_point>1</auto_add_point><!-- 自动加点 -->

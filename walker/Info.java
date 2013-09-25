@@ -51,10 +51,6 @@ public class Info {
 	public boolean myFairyStillAlive = true;
 
 	/**
-	 * 不使用狼舔觉醒
-	 */
-	public static boolean RareFairyUseNormalDeck = false;
-	/**
 	 * 允许deck不满足的情况下依旧走图和攻击
 	 */
 	public static boolean AllowBCInsuffient = false;
@@ -97,10 +93,6 @@ public class Info {
 	public static int ticket_max = 0;
 	public static double battlewinscale = 1;
 	
-
-	public static String myCookie = "";
-	public static boolean cookieLogin = false;
-
 	/**
 	 * night mode 开关
 	 */

@@ -30,11 +30,6 @@ public class GetConfig {
 					ex.printStackTrace();
 				}
 			}
-			// Info.FairyBattleFirst = xpath.evaluate(
-			// "/config/option/fairy_battle_first", doc).equals("1");
-			Info.RareFairyUseNormalDeck = xpath.evaluate(
-					"/config/option/rare_fairy_use_normal_deck", doc).equals(
-					"1");
 			Info.AllowBCInsuffient = xpath.evaluate(
 					"/config/option/allow_bc_insuffient", doc).equals("1");
 			Info.OneAPOnly = xpath.evaluate("/config/option/one_ap_only", doc)

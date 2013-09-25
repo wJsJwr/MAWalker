@@ -41,8 +41,7 @@ public class Process {
 	}
 
 	public void run() {
-		if(Info.cookieLogin)
-			Process.info.events.clear();
+
 		while (true) {
 			try {
 				auto();

@@ -12,8 +12,7 @@ public class Think {
 	private static final String AP_FULL = "1";
 	private static final String BC_FULL = "2";
 
-	public static Action doIt(
-			List<Action> possible) {
+	public static Action doIt(List<Action> possible) {
 
 		if (possible.size() > 0) {
 			switch (possible.get(0)) {
@@ -39,7 +38,7 @@ public class Think {
 				else
 					break;
 			case GUILD_BATTLE:
-				if(Process.info.ticket > 0) {
+				if (Process.info.ticket > 0) {
 					Process.info.gfairy.No = Info.PublicFairyBattle.No;
 					Process.info.CurrentDeck = Info.PublicFairyBattle;
 					return Action.GUILD_BATTLE;
@@ -158,35 +157,20 @@ public class Think {
 			}
 			break;
 		case 5:
-			if (Info.RareFairyUseNormalDeck) {
-				if (Process.info.bc > Process.info.bcMax
-						* Info.FriendFairyBattleNormal.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
-						&& Info.FriendFairyBattleNormal.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
-					Process.info.CurrentDeck = Info.BCFullBattleDeck;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.FriendFairyBattleNormal.BC)
-					return false;
-				else {
-					Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
-					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
-				}
-			} else {
-				if (Process.info.bc > Process.info.bcMax
-						* Info.FriendFairyBattleRare.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
-						&& Info.FriendFairyBattleRare.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
-					Process.info.CurrentDeck = Info.BCFullBattleDeck;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.FriendFairyBattleRare.BC)
-					return false;
-				else {
-					Process.info.fairy.No = Info.FriendFairyBattleRare.No;
-					Process.info.CurrentDeck = Info.FriendFairyBattleRare;
-				}
+			if (Process.info.bc > Process.info.bcMax
+					* Info.FriendFairyBattleRare.BcForceBattle
+					&& Process.info.bc > Info.BCFullBattleDeck.BC
+					&& Info.FriendFairyBattleRare.ForceBattle) {
+				Process.info.fairy.No = Info.BCFullBattleDeck.No;
+				Process.info.CurrentDeck = Info.BCFullBattleDeck;
+			} else if (!Info.AllowBCInsuffient
+					&& Process.info.bc < Info.FriendFairyBattleRare.BC)
+				return false;
+			else {
+				Process.info.fairy.No = Info.FriendFairyBattleRare.No;
+				Process.info.CurrentDeck = Info.FriendFairyBattleRare;
 			}
+
 			break;
 		case 6:
 			if (Process.info.bc > Process.info.bcMax
@@ -204,34 +188,18 @@ public class Think {
 			}
 			break;
 		case 7:
-			if (Info.RareFairyUseNormalDeck) {
-				if (Process.info.bc > Process.info.bcMax
-						* Info.PrivateFairyBattleNormal.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
-						&& Info.PrivateFairyBattleNormal.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
-					Process.info.CurrentDeck = Info.BCFullBattleDeck;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.PrivateFairyBattleNormal.BC)
-					return false;
-				else {
-					Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
-					Process.info.CurrentDeck = Info.PrivateFairyBattleNormal;
-				}
-			} else {
-				if (Process.info.bc > Process.info.bcMax
-						* Info.PrivateFairyBattleRare.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
-						&& Info.PrivateFairyBattleRare.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
-					Process.info.CurrentDeck = Info.BCFullBattleDeck;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.PrivateFairyBattleRare.BC)
-					return false;
-				else {
-					Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-					Process.info.CurrentDeck = Info.PrivateFairyBattleRare;
-				}
+			if (Process.info.bc > Process.info.bcMax
+					* Info.PrivateFairyBattleRare.BcForceBattle
+					&& Process.info.bc > Info.BCFullBattleDeck.BC
+					&& Info.PrivateFairyBattleRare.ForceBattle) {
+				Process.info.fairy.No = Info.BCFullBattleDeck.No;
+				Process.info.CurrentDeck = Info.BCFullBattleDeck;
+			} else if (!Info.AllowBCInsuffient
+					&& Process.info.bc < Info.PrivateFairyBattleRare.BC)
+				return false;
+			else {
+				Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
+				Process.info.CurrentDeck = Info.PrivateFairyBattleRare;
 			}
 			break;
 		default:
@@ -247,12 +215,12 @@ public class Think {
 
 	private static boolean canExplore() {
 		try {
-			//if (Process.info.bc == 0)
-			//	return false;
+			// if (Process.info.bc == 0)
+			// return false;
 			// 首先确定楼层
 			if (Process.info.floor.isEmpty())
 				return false;
-			
+
 			if (Process.info.AllClear)
 				Process.info.front = Process.info.floor.get(1);
 
@@ -265,14 +233,15 @@ public class Think {
 
 			if (Process.info.ap < Process.info.front.cost)
 				return false;
-			
-			if (Process.info.ap == Process.info.apMax -1)
-				return true;
-			
-			if (Process.info.myFairyStillAlive)
-				return false;				
 
-			if (!Info.AllowBCInsuffient	&& Process.info.bc < Info.PrivateFairyBattleNormal.BC)
+			if (Process.info.ap == Process.info.apMax - 1)
+				return true;
+
+			if (Process.info.myFairyStillAlive)
+				return false;
+
+			if (!Info.AllowBCInsuffient
+					&& Process.info.bc < Info.PrivateFairyBattleNormal.BC)
 				return false;
 
 			if (Process.info.ap >= Process.info.apMax * Info.ApForceGo)
