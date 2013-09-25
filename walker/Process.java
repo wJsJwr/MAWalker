@@ -230,7 +230,7 @@ public class Process {
 			try {
 				if (CookieLogin.run()) {
 					Go.log(String
-							.format("Cookie Login User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
+							.format("Cookie Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.cardList.size(),
 									info.cardMax, info.ticket, Info.sessionId));
@@ -254,7 +254,7 @@ public class Process {
 			try {
 				if (Login.run()) {
 					Go.log(String
-							.format("Normal Login User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
+							.format("Normal Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.cardList.size(),
 									info.cardMax, info.ticket, Info.sessionId));
