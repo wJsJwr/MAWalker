@@ -111,6 +111,13 @@ public class Process {
 			}
 		}, 0, 3 * 60 * 1000); // 3min
 		Calendar myCal = Calendar.getInstance();
+		if(myCal.get(Calendar.HOUR_OF_DAY)>=1) {
+			int date = myCal.get(Calendar.DAY_OF_YEAR);
+			if(date == 365)
+				myCal.set(Calendar.DAY_OF_YEAR, 1);
+			else
+				myCal.set(Calendar.DAY_OF_YEAR, date + 1);
+		}
 		myCal.set(Calendar.HOUR_OF_DAY,1);
 		myCal.set(Calendar.MINUTE,0);
 		myCal.set(Calendar.SECOND,0);
