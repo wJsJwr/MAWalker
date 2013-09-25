@@ -49,7 +49,7 @@ public class ErrorData {
 		// 吃药
 		AutoMedicineDataError, AutoMedicineResponse,
 		//cookie
-		CookieOutOfDate
+		CookieOutOfDate, CookieLoginDataError, CookieLoginDataParseError, CookieLoginResponse
 	}
 
 	public static void clear() {

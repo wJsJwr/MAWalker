@@ -1,34 +1,32 @@
 package action;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.w3c.dom.Document;
 
 import walker.ErrorData;
 import walker.Info;
 import walker.Process;
 
-public class Login {
+public class CookieLogin {
 	public static final ActionRegistry.Action Name = ActionRegistry.Action.LOGIN;
 	// URLs
 	private static final String URL_CHECK_INSPECTION = "http://web.million-arthurs.com/connect/app/check_inspection?cyt=1";
-	private static final String URL_LOGIN = "http://web.million-arthurs.com/connect/app/login?cyt=1";
+	private static final String URL_MAINMENU = "http://web.million-arthurs.com/connect/app/mainmenu?cyt=1";
 	// error type
-	public static final String ERR_CHECK_INSPECTION = "Login/check_inspection";
-	public static final String ERR_LOGIN = "Login/login";
+	public static final String ERR_CHECK_INSPECTION = "CoolieLogin/check_inspection";
+	public static final String ERR_MAINMENU = "CookieLogin/mainmenu";
 
 	private static byte[] result;
 
 	public static boolean run() throws Exception {
 		try {
-			return run(true);
+			return run(false);
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -38,6 +36,13 @@ public class Login {
 		Document doc;
 		if (!jump) {
 			try {
+				if (!Info.sessionId.isEmpty()) {
+					BasicClientCookie c = new BasicClientCookie("S",
+							Info.sessionId);
+					c.setDomain("web.million-arthurs.com");
+					c.setPath("/");
+					Process.network.cookie.addCookie(c);
+				}
 				result = Process.network.ConnectToServer(URL_CHECK_INSPECTION,
 						new ArrayList<NameValuePair>(), true);
 			} catch (Exception ex) {
@@ -47,11 +52,10 @@ public class Login {
 				throw ex;
 			}
 		}
-		ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
-		al.add(new BasicNameValuePair("login_id", Info.LoginId));
-		al.add(new BasicNameValuePair("password", Info.LoginPw));
+
 		try {
-			result = Process.network.ConnectToServer(URL_LOGIN, al, true);
+			result = Process.network.ConnectToServer(URL_MAINMENU,
+					new ArrayList<NameValuePair>(), true);
 		} catch (Exception ex) {
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
@@ -60,11 +64,11 @@ public class Login {
 			throw ex;
 		}
 		try {
-			doc = Process.ParseXMLBytes(result);
+			doc = Process.ParseXMLBytes(result); // 通过分析匿名类获得当前类名
 		} catch (Exception ex) {
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.LoginDataError;
-			ErrorData.text = ERR_LOGIN;
+			ErrorData.text = ERR_MAINMENU;
 			throw ex;
 		}
 		try {
@@ -85,21 +89,6 @@ public class Login {
 						"/response/header/error/message", doc);
 				return false;
 			}
-			
-			//System.out.println("Post logon cookies:");
-			List <Cookie> cookies = Process.network.cookie.getCookies();
-			if (cookies.isEmpty()) {
-				System.out.println("None");
-			} else {
-				for (int i = 0; i < cookies.size(); i++) {
-					//System.out.println("- " + cookies.get(i).getName());
-					if (cookies.get(i).getName().equals("S")) {
-						//System.out.println("- " + cookies.get(i).getValue());
-						Info.sessionId = cookies.get(i).getValue();
-						walker.Go.saveSessionId(Info.sessionId);
-					}
-				}
-			}
 
 			if (GuildDefeat.judge(doc)) {
 				return false;
@@ -111,7 +100,7 @@ public class Login {
 
 			Process.info.userId = xpath.evaluate("//login/user_id", doc);
 			ParseUserDataInfo.parse(doc);
-			ParseCardList.parse(doc);
+			// ParseCardList.parse(doc);
 
 			Process.info.cardMax = Integer.parseInt(xpath.evaluate(
 					"//your_data/max_card_num", doc));
@@ -126,5 +115,4 @@ public class Login {
 		}
 		return true;
 	}
-
 }

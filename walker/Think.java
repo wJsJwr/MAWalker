@@ -18,6 +18,8 @@ public class Think {
 			switch (possible.get(0)) {
 			case LOGIN:
 				return Action.LOGIN;
+			case COOKIELOGIN:
+				return Action.COOKIELOGIN;
 			case ADD_AREA:
 				return Action.ADD_AREA;
 			case GET_FLOOR_INFO:

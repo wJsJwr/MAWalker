@@ -18,6 +18,7 @@ public class GetConfig {
 
 			Info.LoginId = xpath.evaluate("/config/username", doc);
 			Info.LoginPw = xpath.evaluate("/config/password", doc);
+			Info.sessionId = xpath.evaluate("/config/sessionId", doc);
 
 			NodeList idl = (NodeList) xpath.evaluate("/config/sell_card/id",
 					doc, XPathConstants.NODESET);

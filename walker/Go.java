@@ -1,15 +1,29 @@
 package walker;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import walker.Info;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
+import walker.Info;
 import net.Crypto;
 
 public class Go {
+	
+	static String configFile;
 
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -18,6 +32,7 @@ public class Go {
 		}
 		try {
 			GetConfig.parse(Process.ParseXMLBytes(ReadFileAll(args[0])));
+			configFile = args[0];
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
@@ -126,6 +141,29 @@ public class Go {
 		}
 		// System.out.println(baos.toByteArray().length);
 		return baos.toByteArray();
+	}
+	
+	public static void saveSessionId(String sessionid) {
+		Document doc = null;
+		try {
+			doc = Process.ParseXMLBytes(ReadFileAll(configFile));
+			Node node = null;
+			XPathFactory xpathFactory = XPathFactory.newInstance();
+			XPath xpath = xpathFactory.newXPath();
+			node = (Node) xpath.evaluate("/config/sessionId", doc,
+					XPathConstants.NODE);
+			node.setTextContent(sessionid);
+
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Transformer transformer = tFactory.newTransformer();
+
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File(configFile));
+			transformer.transform(source, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

@@ -1,7 +1,5 @@
 package net;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -25,17 +23,17 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
 
-import walker.Info;
-
 public class Network {
 	private static final String Auth = "eWa25vrE";
 	private static final String Key = "2DbcAh3G";
 
 	private static final String UserAgent = "Million/235 (C6603; C6603_1270-5695; 4.2.2) Sony/C6603_1270-5695/C6603:4.2.2/10.3.1.A.0.244/C_93rg:user/release-keys GooglePlay";
 	private DefaultHttpClient client;
+	public CookieStore cookie;
 
 	public Network() {
 		client = new DefaultHttpClient();
+		cookie = client.getCookieStore();
 		HttpParams hp = client.getParams();
 		hp.setParameter("http.socket.timeout", 0x7530);
 		hp.setParameter("http.connection.timeout", 0x7530);
@@ -79,14 +77,7 @@ public class Network {
 				Key);
 		cp.setCredentials(as, upc);
 		
-		byte[] b = client.execute(hp, new HttpResponseHandler());
-		if(Info.Debug){
-			CookieStore cookie = client.getCookieStore();
-			File outputFile = new File("cookie.txt");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(cookie.getCookies().get(0).getValue().getBytes());
-			outputFileStream.close();
-		}
+		byte[] b = client.execute(hp, new HttpResponseHandler());	
 
 		/* end */
 		if (b != null) {

@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 import action.ActionRegistry.Action;
 import action.AddArea;
 import action.AutoMedicine;
+import action.CookieLogin;
 import action.Explore;
 import action.FairyDianzan;
 import action.GetFairyList;
@@ -166,6 +167,9 @@ public class Process {
 			case cookieOutOfDate:// cookie失效
 				result.add(Action.LOGIN);
 				break;
+			case cookieLogin://cookie登陆
+				result.add(Action.COOKIELOGIN);
+				break;
 			case fairyDianzan:// 点赞
 				result.add(Action.FAIRY_DIANZAN);
 				break;
@@ -222,14 +226,38 @@ public class Process {
 
 	private void execute(Action action) throws Exception {
 		switch (action) {
+		case COOKIELOGIN:
+			try {
+				if (CookieLogin.run()) {
+					Go.log(String
+							.format("Cookie Login User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
+									info.username, info.ap, info.apMax,
+									info.bc, info.bcMax, info.cardList.size(),
+									info.cardMax, info.ticket, Info.sessionId));
+					Process.info.events.clear();
+					AddUrgentTask(Info.EventType.needFloorInfo);
+					AddTimerTasks();
+				} else {
+					Go.log(ErrorData.text);
+					Go.log("Cookie Login Failed, waiting to login with username and password.");
+					ErrorData.clear();
+					info.events.push(Info.EventType.notLoggedIn);
+				}
+			} catch (Exception ex) {
+				info.events.push(Info.EventType.cookieOutOfDate);
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
+					throw ex;
+				}
+			}
+			break;
 		case LOGIN:
 			try {
 				if (Login.run()) {
 					Go.log(String
-							.format("User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d",
+							.format("Normal Login User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.cardList.size(),
-									info.cardMax, info.ticket));
+									info.cardMax, info.ticket, Info.sessionId));
 					Process.info.events.clear();
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();

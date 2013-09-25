@@ -50,6 +50,10 @@ public class ActionRegistry {
 		/**
 		 * 吃恢复药
 		 */
-		AUTO_MEDICINE
+		AUTO_MEDICINE,
+		/**
+		 * cookie登陆
+		 */
+		COOKIELOGIN
 	}
 }

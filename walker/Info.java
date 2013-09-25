@@ -22,6 +22,7 @@ public class Info {
 	// login info
 	public static String LoginId = "";
 	public static String LoginPw = "";
+	
 
 	// user info
 	public String username = "";
@@ -103,6 +104,11 @@ public class Info {
 	// 吃药相关的开关
 	public static boolean autoUseAp = true;
 	public static boolean autoUseBc = true;
+	
+	/**
+	 * cookie登陆的sessionId
+	 */	
+	public static String sessionId = "";
 
 	public enum autoUseType {
 		HALF_ONLY, FULL_ONLY, ALL
@@ -169,7 +175,7 @@ public class Info {
 	public enum EventType {
 		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList,
 		fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull,
-		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore
+		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin
 	}
 
 	public Stack<EventType> events;
@@ -181,7 +187,7 @@ public class Info {
 		front = new Floor();
 		FairyDianzanList = new Stack<FairyDianzanInfo>();
 		events = new Stack<EventType>();
-		events.push(EventType.notLoggedIn);
+		events.push(EventType.cookieLogin);
 		KeepCard = new ArrayList<String>();
 		FairySelectUserList = new Hashtable<String, FairySelectUser>();
 
