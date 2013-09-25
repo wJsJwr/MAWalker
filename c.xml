@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config><!-- 所有的字符都应该是半角的，请注意 -->
+	<username>XXXXXX</username>
+	<password>XXXXXXX</password>
+	<option> <!-- 以下四个选项如果选是则填1，否则填0 -->
+		<rare_fairy_use_normal_deck>0</rare_fairy_use_normal_deck><!-- 使用NormalDeck来攻击觉醒怪 -->
+		<allow_bc_insuffient>0</allow_bc_insuffient><!-- BC不足FairyDeck的BC时，依旧跑图 -->
+		<one_ap_only>0</one_ap_only><!-- 只跑1AP的图 -->
+		<auto_add_point>1</auto_add_point><!-- 自动加点 -->
+		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
+		<ap_force_go>0.4</ap_force_go><!--自动跑图AP上限比例-->
+		<go_no_event_area>0</go_no_event_area><!--跑无Event秘境-->
+		<go_daily_area>0</go_daily_area><!--跑每日秘境-->
+	</option>
+	<use>
+		<auto_use_ap>0</auto_use_ap><!-- 自动吃AP药 -->
+		<auto_use_bc>0</auto_use_bc><!-- 自动吃BC药 -->
+		<strategy>
+			<ap>
+				<low>1</low><!-- 低于此值吃药 -->
+				<half>1</half><!-- 0:只吃全药; 1:只吃半药; 2:都吃(先吃半药，再吃全药) -->
+				<full_low>10</full_low><!-- 保留这点全药 -->
+			</ap>
+			<bc>
+				<low>50</low>
+				<half>1</half>
+				<full_low>10</full_low>
+			</bc>
+		</strategy>
+	</use>
+	<deck>
+		<!--
+			下列各项中no表示卡组号：
+			0：卡组1；1：卡组2；2：卡组3；3：推荐卡组
+			bc表示使用该卡组所需的BC
+			各选项的意义：
+			FairyDeck：打妖精用
+			RareFairyDeck：打觉醒用
+			GuildFairyDeck：打外敌用
+			FriendFairyBattleRare：打好友觉醒用
+			FriendFairyBattleNormal：打好友妖精用
+			BCFullBattleDeck:耗BC主力卡组
+		-->
+		<deck_profile>
+			<name>FairyDeck</name>
+			<no>1</no>
+			<bc>2</bc>
+			<force_battle>1</force_battle>
+			<bc_force_battle>0.8</bc_force_battle><!--BCFullBattleDeck出击BC上限比例-->
+		</deck_profile>
+		<deck_profile>
+			<name>RareFairyDeck</name>
+			<no>1</no>
+			<bc>2</bc>
+			<force_battle>1</force_battle>
+			<bc_force_battle>0.4</bc_force_battle><!--BCFullBattleDeck出击BC上限比例-->
+		</deck_profile>
+		<deck_profile>
+			<name>GuildFairyDeck</name>
+			<no>0</no>
+			<bc>0</bc>
+			<ticket_max>15</ticket_max>
+			<battlewinscale>0.5</battlewinscale>
+		</deck_profile>
+		<deck_profile>
+			<name>FriendFairyBattleNormal</name>
+			<no>1</no>
+			<bc>2</bc>
+			<force_battle>1</force_battle>
+			<bc_force_battle>0.9</bc_force_battle><!--BCFullBattleDeck出击BC上限比例-->
+		</deck_profile>
+		<deck_profile>
+			<name>FriendFairyBattleRare</name>
+			<no>1</no>
+			<bc>2</bc>
+			<force_battle>1</force_battle>
+			<bc_force_battle>0.4</bc_force_battle><!--BCFullBattleDeck出击BC上限比例-->
+		</deck_profile>		
+		<deck_profile>
+			<name>BCFullBattleDeck</name>
+			<no>2</no>
+			<bc>79</bc>
+		</deck_profile>
+	</deck>
+	<sell_card>
+		<!--
+			本项是用来卖卡的，以供长期挂机。
+			id是卡片的id，有意者可以自己填
+		-->
+		<on_off>0</on_off>
+		<policy>sell</policy>
+		<!-- <id></id> -->
+	</sell_card>
+</config>

@@ -1,6 +1,5 @@
 package action;
 
-
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
@@ -22,9 +21,9 @@ public class Login {
 	// error type
 	public static final String ERR_CHECK_INSPECTION = "Login/check_inspection";
 	public static final String ERR_LOGIN = "Login/login";
-	
+
 	private static byte[] result;
-	
+
 	public static boolean run() throws Exception {
 		try {
 			return run(true);
@@ -32,12 +31,13 @@ public class Login {
 			throw ex;
 		}
 	}
-	
+
 	public static boolean run(boolean jump) throws Exception {
 		Document doc;
 		if (!jump) {
 			try {
-				result = Process.network.ConnectToServer(URL_CHECK_INSPECTION, new ArrayList<NameValuePair>(), true);
+				result = Process.network.ConnectToServer(URL_CHECK_INSPECTION,
+						new ArrayList<NameValuePair>(), true);
 			} catch (Exception ex) {
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
@@ -46,10 +46,10 @@ public class Login {
 			}
 		}
 		ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
-		al.add(new BasicNameValuePair("login_id",Info.LoginId));
-		al.add(new BasicNameValuePair("password",Info.LoginPw));
+		al.add(new BasicNameValuePair("login_id", Info.LoginId));
+		al.add(new BasicNameValuePair("password", Info.LoginPw));
 		try {
-			result = Process.network.ConnectToServer(URL_LOGIN, al,true);
+			result = Process.network.ConnectToServer(URL_LOGIN, al, true);
 		} catch (Exception ex) {
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
@@ -71,7 +71,7 @@ public class Login {
 			throw ex;
 		}
 	}
-	
+
 	private static boolean parse(Document doc) throws Exception {
 		try {
 			XPathFactory factory = XPathFactory.newInstance();
@@ -79,28 +79,29 @@ public class Login {
 			if (!xpath.evaluate("/response/header/error/code", doc).equals("0")) {
 				ErrorData.currentErrorType = ErrorData.ErrorType.LoginResponse;
 				ErrorData.currentDataType = ErrorData.DataType.text;
-				ErrorData.text = xpath.evaluate("/response/header/error/message", doc);
+				ErrorData.text = xpath.evaluate(
+						"/response/header/error/message", doc);
 				return false;
 			}
-			
+
 			if (GuildDefeat.judge(doc)) {
 				return false;
 			}
-			
+
 			if (!xpath.evaluate("//fairy_appearance", doc).equals("0")) {
-				Process.info.events.push(Info.EventType.fairyAppear);
+				Process.AddUrgentTask(Info.EventType.getFairyList);
 			}
-			
+
 			Process.info.userId = xpath.evaluate("//login/user_id", doc);
 			ParseUserDataInfo.parse(doc);
 			ParseCardList.parse(doc);
-			
-			Process.info.SetTimeoutByAction(Name);
-			
-			Process.info.cardMax = Integer.parseInt(xpath.evaluate("//your_data/max_card_num",doc));
-			
+
+			Process.info.cardMax = Integer.parseInt(xpath.evaluate(
+					"//your_data/max_card_num", doc));
+
 		} catch (Exception ex) {
-			if (ErrorData.currentErrorType != ErrorData.ErrorType.none) throw ex;
+			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)
+				throw ex;
 			ErrorData.currentDataType = ErrorData.DataType.bytes;
 			ErrorData.currentErrorType = ErrorData.ErrorType.LoginDataParseError;
 			ErrorData.bytes = result;
@@ -108,5 +109,5 @@ public class Login {
 		}
 		return true;
 	}
-	
+
 }

@@ -1,11 +1,13 @@
-
 package walker;
 
 import info.Area;
 import info.Card;
 import info.Deck;
 import info.FairyBattleInfo;
+import info.FairySelectUser;
 import info.Floor;
+import info.FairyDianzanInfo;
+import info.GuildFairyBattleForce;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -13,29 +15,23 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-import action.ActionRegistry;
 
 public class Info {
 	// INFO: static variants are need to be configured in configure file
-	
+
 	// login info
 	public static String LoginId = "";
 	public static String LoginPw = "";
-	public static int Profile = 1;
-	
+
 	// user info
 	public String username = "";
+	public String guildteamname = "";
 	public int ap = 0;
 	public int bc = 0;
 	public int apMax = 0;
 	public int bcMax = 0;
-	public int apBottle = 0;
-	public int apHalfBottle = 0;
-	public int apHalfBottleRemain = 0;
-	public int bcBottle = 0;
-	public int bcHalfBottle = 0;
-	public int bcHalfBottleRemain = 0;
-	public final int halfBottleMax = 5;
+	public int gold = 0;
+	public int friendshippoint = 0;
 	public int exp = 0;
 	public int gather = 0;
 	public int rankPerson = 0;
@@ -52,11 +48,8 @@ public class Info {
 	public int pointToAdd = 0;
 	public int apUp = 0;
 	public int bcUp = 0;
-	
-	/**
-	 * 优先进行妖精战
-	 */
-	public static boolean FairyBattleFirst = true;
+	public boolean myFairyStillAlive = true;
+
 	/**
 	 * 不使用狼舔觉醒
 	 */
@@ -77,139 +70,132 @@ public class Info {
 	 * 允许舔同一个怪
 	 */
 	public static boolean AllowAttackSameFairy = true;
+	/**
+	 * 强制跑图AP上限
+	 */
+	public static double ApForceGo = 0.8;
+	/**
+	 * 跑无event图
+	 */
+	public static boolean GoNoEventArea = false;
+	/**
+	 * 跑每日秘境
+	 */
+	public static boolean GoDailyArea = true;
+
+	/**
+	 * 调试输出
+	 */
+	public static boolean Debug = false;
+	/**
+	 * 不显示一些输出
+	 */
+	public static boolean Nolog = false;
+	/**
+	 * 强制外敌战挑战书上限
+	 */
+	public static int ticket_max = 0;
+	public static double battlewinscale = 1;
 	
+
+	public static String myCookie = "";
+	public static boolean cookieLogin = false;
+
+	/**
+	 * night mode 开关
+	 */
+	public static boolean nightModeSwitch = true;
+
+	public static boolean sellcard = false;
+
+	// 吃药相关的开关
+	public static boolean autoUseAp = true;
+	public static boolean autoUseBc = true;
+
+	public enum autoUseType {
+		HALF_ONLY, FULL_ONLY, ALL
+	}
+
+	public static autoUseType autoApType = autoUseType.HALF_ONLY;
+	public static autoUseType autoBcType = autoUseType.HALF_ONLY;
+	public static int autoApLow = 1;
+	public static int autoBcLow = 50;
+	public static int autoApFullLow = 10;
+	public static int autoBcFullLow = 10;
+
 	// card list
 	public ArrayList<Card> cardList;
 	public static ArrayList<String> CanBeSold = new ArrayList<String>();
 	public static ArrayList<String> KeepCard;
 	public String toSell = "";
-	
+
 	// deck
-	public static Deck FriendFairyBattleRare = new Deck();
-	public static Deck PublicFairyBattle = new Deck();
-	public static Deck PrivateFairyBattleNormal = new Deck();
-	public static Deck PrivateFairyBattleRare = new Deck();
-	public static Deck FriendFairyBattleNormal = new Deck();
-	
-	
+	public static Deck FriendFairyBattleRare = new Deck(
+			"Friend's Rare Fairy Deck");
+	public static Deck PublicFairyBattle = new Deck("Guild Fairy Deck");
+	public static Deck PrivateFairyBattleNormal = new Deck("My Fairy Deck");
+	public static Deck PrivateFairyBattleRare = new Deck("My Rare Fairy Deck");
+	public static Deck FriendFairyBattleNormal = new Deck("Friend's Fairy Deck");
+	public static Deck BCFullBattleDeck = new Deck("Force Battle Deck");
+	public Deck CurrentDeck = new Deck();
+
 	// area
-	public Hashtable<Integer,Area> area;
+	public Hashtable<Integer, Area> area;
 	public boolean InnerMap = false;
-	
-	
+
 	// floor
-	public Hashtable<Integer,Floor> floor;
+	public Hashtable<Integer, Floor> floor;
 	public Floor front;
 	public boolean AllClear = false;
-	
+
 	// fairy
 	public FairyBattleInfo fairy;
+	public FairyBattleInfo gfairy;
+	public GuildFairyBattleForce gfbforce;
 	public boolean NoFairy = false;
 	public Queue<FairyBattleInfo> LatestFairyList = new LinkedList<FairyBattleInfo>();
-	
-	
+	public Stack<FairyDianzanInfo> FairyDianzanList = new Stack<FairyDianzanInfo>();
+	public Hashtable<String, FairySelectUser> FairySelectUserList;
+
 	// explore
 	public String ExploreResult = "";
 	public String ExploreProgress = "";
 	public String ExploreGold = "";
 	public String ExploreExp = "";
-	
-	// timeout
-	public enum TimeoutEntry {
-		apbc,
-		fairy,
-		login,
-		reward,
-		map,
-		ticket,
-	}
-	private Hashtable<TimeoutEntry,Long> timeout;
-	public long GetTimeout(TimeoutEntry te) {
-		return System.currentTimeMillis() - timeout.get(te);
-	}
-	public void SetTimeoutByEntry(TimeoutEntry te) {
-		timeout.put(te, System.currentTimeMillis());
-	}
-	public void SetTimeoutByAction(ActionRegistry.Action act) {
-		switch (act) {
-		case LOGIN:	
-			this.SetTimeoutByEntry(TimeoutEntry.fairy);
-			this.SetTimeoutByEntry(TimeoutEntry.login);
-		case PRIVATE_FAIRY_BATTLE:
-		case GUILD_BATTLE:
-			this.SetTimeoutByEntry(TimeoutEntry.ticket);
-		case GOTO_FLOOR:
-		case EXPLORE:
-		case LV_UP:
-			this.SetTimeoutByEntry(TimeoutEntry.apbc);
-			break;
-		case ADD_AREA:
-		case GET_FLOOR_INFO:
-			this.SetTimeoutByEntry(TimeoutEntry.map);
-			break;
-		case GET_FAIRY_LIST:
-			this.SetTimeoutByEntry(TimeoutEntry.fairy);
-			break;
-		default:
-			break;
-		}
-	}
-	public ArrayList<TimeoutEntry> CheckTimeout() {
-		ArrayList<TimeoutEntry> te = new ArrayList<TimeoutEntry>();
-		if (GetTimeout(TimeoutEntry.apbc) > 180000) te.add(TimeoutEntry.apbc);
-		if (GetTimeout(TimeoutEntry.fairy) > 60000) te.add(TimeoutEntry.fairy);
-		if (GetTimeout(TimeoutEntry.login) > 86400000l) te.add(TimeoutEntry.login);
-		if (GetTimeout(TimeoutEntry.reward) > 86400000l) te.add(TimeoutEntry.reward);
-		if (GetTimeout(TimeoutEntry.map) > 86400000l) te.add(TimeoutEntry.map);
-		if (GetTimeout(TimeoutEntry.ticket) > 600000) te.add(TimeoutEntry.ticket); 
-		return te;
-	}
-	
+	public String AreaProgress = "";
+
+	// 吃药相关
+	public int fullBc = 0;
+	public int fullAp = 0;
+	public int halfBc = 0;
+	public int halfAp = 0;
+	public int halfBcToday = 0;
+	public int halfApToday = 0;
+	public String toUse = "";
+
 	// event
 	public enum EventType {
-		notLoggedIn,
-		cookieOutOfDate,
-		needFloorInfo,
-		innerMapJump,
-		areaComplete,
-		fairyAppear,
-		fairyTransform,
-		fairyReward,
-		fairyCanBattle,
-		fairyBattleWin,
-		fairyBattleLose,
-		fairyBattleEnd,
-		cardFull,
-		privateFairyAppear,
-		guildTopRetry,
-		guildBattle,
-		guildTop,
-		ticketFull,
-		getFairyReward,
-		needAPBCInfo,
-		levelUp
+		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList,
+		fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull,
+		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore
 	}
+
 	public Stack<EventType> events;
-	
-	
+
 	public Info() {
 		cardList = new ArrayList<Card>();
-		area = new Hashtable<Integer,Area>();
-		floor = new Hashtable<Integer,Floor>();
+		area = new Hashtable<Integer, Area>();
+		floor = new Hashtable<Integer, Floor>();
 		front = new Floor();
+		FairyDianzanList = new Stack<FairyDianzanInfo>();
 		events = new Stack<EventType>();
 		events.push(EventType.notLoggedIn);
 		KeepCard = new ArrayList<String>();
-		
-		timeout = new Hashtable<TimeoutEntry,Long>();
-		timeout.put(TimeoutEntry.apbc, (long) 0);
-		timeout.put(TimeoutEntry.fairy, (long) 0);
-		timeout.put(TimeoutEntry.login, (long) 0);
-		timeout.put(TimeoutEntry.reward, (long) 0);
-		timeout.put(TimeoutEntry.map, (long) 0);
-		
+		FairySelectUserList = new Hashtable<String, FairySelectUser>();
+
 		fairy = new FairyBattleInfo();
-	
+		gfairy = new FairyBattleInfo();
+		gfbforce = new GuildFairyBattleForce();
 	}
-	
+
 }
