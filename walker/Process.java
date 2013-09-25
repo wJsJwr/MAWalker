@@ -221,13 +221,13 @@ public class Process {
 									info.bc, info.bcMax, info.cardList.size(),
 									info.cardMax, info.ticket));
 					Process.info.events.clear();
-					AddTask(Info.EventType.needFloorInfo);
+					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
 				} else {
-					AddTask(Info.EventType.notLoggedIn);
+					AddUrgentTask(Info.EventType.notLoggedIn);
 				}
 			} catch (Exception ex) {
-				AddTask(Info.EventType.notLoggedIn);
+				AddUrgentTask(Info.EventType.notLoggedIn);
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 					throw ex;
 				}
@@ -247,7 +247,7 @@ public class Process {
 
 			} catch (Exception ex) {
 				if (ex.getMessage() != null && ex.getMessage().equals("302")) {
-					AddTask(Info.EventType.innerMapJump);
+					AddUrgentTask(Info.EventType.innerMapJump);
 					ErrorData.clear();
 				} else {
 					if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -268,7 +268,7 @@ public class Process {
 
 			} catch (Exception ex) {
 				if (ex.getMessage().equals("302")) {
-					AddTask(Info.EventType.innerMapJump);
+					AddUrgentTask(Info.EventType.innerMapJump);
 					ErrorData.clear();
 				} else {
 					if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -291,7 +291,7 @@ public class Process {
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.ConnectionError) {
-					AddTask(Info.EventType.getFairyList); // 再次检测
+					AddUrgentTask(Info.EventType.getFairyList); // 再次检测
 					Go.log("Connection error.Retry to get fairy list.");
 					ErrorData.clear();
 				} else if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
