@@ -2,6 +2,7 @@ package walker;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -108,6 +109,15 @@ public class Process {
 				AddTask(Info.EventType.autoMedicine);
 			}
 		}, 0, 3 * 60 * 1000); // 3min
+		Calendar myCal = Calendar.getInstance();
+		myCal.set(Calendar.HOUR_OF_DAY,1);
+		myCal.set(Calendar.MINUTE,0);
+		myCal.set(Calendar.SECOND,0);
+		TaskTimer.schedule(new TimerTask() {
+			public void run() {
+				AddUrgentTask(Info.EventType.notLoggedIn);
+			}
+		}, myCal.getTime());//relogin at 1:00
 	}
 
 	private void AddTask(Info.EventType _Task) {
