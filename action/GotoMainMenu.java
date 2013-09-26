@@ -47,7 +47,6 @@ public class GotoMainMenu {
 		}
 		try {
 			ParseUserDataInfo.parse(doc);
-			Process.AddUrgentTask(Info.EventType.gotoFloor);
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)
 				throw ex;

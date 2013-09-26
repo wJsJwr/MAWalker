@@ -105,7 +105,7 @@ public class Process {
 			public void run() {
 				AddTask(Info.EventType.needAPBCInfo);
 			}
-		}, 0, 1 * 60 * 1000);// 1min
+		}, 0, 3 * 60 * 1000);// 3min
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoMedicine);
@@ -393,7 +393,7 @@ public class Process {
 		case GOTO_MAIN_MENU:
 			try {
 				if (GotoMainMenu.run()){
-					
+					AddUrgentTask(Info.EventType.gotoFloor);					
 				} else {
 					Go.log("Something wrong@GOTO_MAIN_MENU.");
 				}
@@ -535,6 +535,7 @@ public class Process {
 				if (GetFairyReward.run()) {
 					Go.log(ErrorData.text);
 					ErrorData.clear();
+					AddUrgentTask(Info.EventType.needAPBCInfo);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
