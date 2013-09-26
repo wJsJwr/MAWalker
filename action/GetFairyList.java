@@ -118,6 +118,11 @@ public class GetFairyList {
 				if (!Process.info.events.contains(Info.EventType.fairyDianzan))
 					Process.AddUrgentTask(Info.EventType.fairyDianzan);
 			}
+			
+			// 获取奖励
+			if (!xpath.evaluate("//remaining_rewards", doc).equals("0")) {
+				Process.AddUrgentTask(Info.EventType.fairyReward);
+			}
 
 			// 获取放妖的用户
 			NodeList fairy_finder = (NodeList) xpath.evaluate(
@@ -201,11 +206,7 @@ public class GetFairyList {
 			if (fbis.size() > 0) {
 				if (Process.AddUrgentTask(Info.EventType.fairyCanBattle))
 					Process.info.fairy = fbis.get(0);
-			}
-			// 获取奖励
-			if (!xpath.evaluate("//remaining_rewards", doc).equals("0")) {
-				Process.AddUrgentTask(Info.EventType.fairyReward);
-			}
+			}			
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)
