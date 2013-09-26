@@ -383,7 +383,7 @@ public class Process {
 						Go.log(my_state);
 					}
 				} else {
-
+					Go.log("Something wrong@GOTO_FLOOR.");
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
