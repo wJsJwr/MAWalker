@@ -251,10 +251,10 @@ public class Process {
 					Go.log(ErrorData.text);
 					Go.log("Cookie Login Failed, waiting to login with username and password.");
 					ErrorData.clear();
-					info.events.push(Info.EventType.notLoggedIn);
+					AddUrgentTask(Info.EventType.notLoggedIn);
 				}
 			} catch (Exception ex) {
-				info.events.push(Info.EventType.cookieOutOfDate);
+				AddUrgentTask(Info.EventType.cookieOutOfDate);
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 					throw ex;
 				}
