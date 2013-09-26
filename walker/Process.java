@@ -371,8 +371,8 @@ public class Process {
 										info.bc, info.bcMax, info.lv, info.exp,
 										info.gold, info.friendshippoint);
 						my_state += String.format(
-								"Guild Fairy Battle Team: %s. ",
-								info.guildteamname);
+								"Guild Fairy Battle Team: %s. Ticket: %d. ",
+								info.guildteamname, info.ticket);
 						my_state += String
 								.format("Position: %s>%s, Progress: %d%%.\n",
 										info.area.get(Integer
