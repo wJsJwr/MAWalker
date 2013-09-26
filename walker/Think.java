@@ -26,6 +26,8 @@ public class Think {
 				return Action.GET_FLOOR_INFO;
 			case GET_FAIRY_LIST:
 				return Action.GET_FAIRY_LIST;
+			case GOTO_MAIN_MENU:
+				return Action.GOTO_MAIN_MENU;				
 			case GOTO_FLOOR:
 				return Action.GOTO_FLOOR;
 			case FAIRY_DIANZAN:
