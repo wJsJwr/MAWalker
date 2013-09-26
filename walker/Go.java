@@ -3,6 +3,8 @@ package walker;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,8 +24,9 @@ import walker.Info;
 import net.Crypto;
 
 public class Go {
-	
+
 	static String configFile;
+	static String logfile = "log.txt";
 
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -54,9 +57,10 @@ public class Go {
 				Info.Debug = false;
 
 			Process proc = new Process();
-			
+
+			NewLogFile();
 			proc.run();
-			
+
 		} else if (args.length == 2) {
 			if (args[1].equals("-m")) {
 				// manual operation
@@ -105,17 +109,46 @@ public class Go {
 	}
 
 	public static void log(String message) {
+		String LogString = "";
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 		if (message == null || message.isEmpty())
 			return;
 		if (!message.contains("\n")) {
-			System.out.print(df.format(new Date()));// new Date()为获取当前系统时间
-			System.out.println("> " + message);
+			LogString = df.format(new Date());//new Date()为获取当前系统时间
+			System.out.print(LogString);
+			Log2File(LogString);
+			LogString = "> " + message;
+			System.out.println(LogString);
+			Log2File(LogString + "\r\n");
 			return;
 		}
 		for (String l : message.split("\n")) {
-			System.out.print(df.format(new Date()));
-			System.out.println("> " + l);
+			LogString = df.format(new Date());
+			System.out.print(LogString);
+			Log2File(LogString);
+			LogString = "> " + l;
+			System.out.println(LogString);
+			Log2File(LogString + "\r\n");
+		}
+	}
+
+	private static void Log2File(String content) {
+		try {
+			FileWriter writer = new FileWriter(logfile, true);
+			writer.write(content);
+			;
+			writer.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private static void NewLogFile() {
+		try {
+			FileWriter writer = new FileWriter(logfile);
+			writer.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -142,7 +175,7 @@ public class Go {
 		// System.out.println(baos.toByteArray().length);
 		return baos.toByteArray();
 	}
-	
+
 	public static void saveSessionId(String sessionid) {
 		Document doc = null;
 		try {
