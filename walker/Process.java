@@ -393,7 +393,7 @@ public class Process {
 		case GOTO_MAIN_MENU:
 			try {
 				if (GotoMainMenu.run()){
-					AddUrgentTask(Info.EventType.gotoFloor);					
+					AddTask(Info.EventType.gotoFloor);					
 				} else {
 					Go.log("Something wrong@GOTO_MAIN_MENU.");
 				}
