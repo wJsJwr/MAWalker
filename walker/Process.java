@@ -351,8 +351,7 @@ public class Process {
 		case FAIRY_DIANZAN:
 			try {
 				if (FairyDianzan.run()) {
-					Go.log(ErrorData.text);
-					ErrorData.clear();
+
 				} else {
 					Go.log("Something wrong@DIANZAN.");
 				}
