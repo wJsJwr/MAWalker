@@ -90,22 +90,22 @@ public class Process {
 			public void run() {
 				AddTask(Info.EventType.guildTop);
 			}
-		}, 0, 3 * 1000);// 3s
+		}, 0, 15 * 1000);// 15s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoExplore);
 			}
-		}, 0, 1 * 60 * 1000l);// 30s
+		}, 0, 30 * 1000l);// 30s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needFloorInfo);
 			}
-		}, 0, 1 * 60 * 1000);// 3min
+		}, 0, 3 * 60 * 1000);// 3min
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needAPBCInfo);
 			}
-		}, 0, 3 * 60 * 1000);// 3min
+		}, 0, 1 * 60 * 1000);// 1min
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoMedicine);
