@@ -24,6 +24,7 @@ import action.GetFairyList;
 import action.GetFairyReward;
 import action.GetFloorInfo;
 import action.GotoFloor;
+import action.GotoMainMenu;
 import action.GuildBattle;
 import action.GuildTop;
 import action.Login;
@@ -209,6 +210,8 @@ public class Process {
 				result.add(Action.GUILD_TOP);
 				break;
 			case needAPBCInfo:// 更新apbc信息
+				result.add(Action.GOTO_MAIN_MENU);
+				break;
 			case gotoFloor:
 				result.add(Action.GOTO_FLOOR);
 				break;
@@ -386,9 +389,19 @@ public class Process {
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
 					throw ex;
-
 			}
-
+			break;
+		case GOTO_MAIN_MENU:
+			try {
+				if (GotoMainMenu.run()){
+					
+				} else {
+					Go.log("Something wrong@GOTO_MAIN_MENU.");
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
+					throw ex;
+			}
 			break;
 		case PRIVATE_FAIRY_BATTLE:
 			try {

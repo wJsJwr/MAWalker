@@ -49,7 +49,9 @@ public class ErrorData {
 		// 吃药
 		AutoMedicineDataError, AutoMedicineResponse,
 		//cookie
-		CookieOutOfDate, CookieLoginDataError, CookieLoginDataParseError, CookieLoginResponse
+		CookieOutOfDate, CookieLoginDataError, CookieLoginDataParseError, CookieLoginResponse,
+		//主城界面
+		MainMenuDataError, GotoMainMenuDataParseError
 	}
 
 	public static void clear() {

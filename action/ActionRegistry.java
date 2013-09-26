@@ -54,6 +54,10 @@ public class ActionRegistry {
 		/**
 		 * cookie登陆
 		 */
-		COOKIELOGIN
+		COOKIELOGIN,
+		/**
+		 * 主城界面
+		 */
+		GOTO_MAIN_MENU
 	}
 }
