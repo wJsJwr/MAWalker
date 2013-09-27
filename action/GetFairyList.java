@@ -116,7 +116,7 @@ public class GetFairyList {
 
 			if (!Process.info.FairyDianzanList.empty()) {
 				if (!Process.info.events.contains(Info.EventType.fairyDianzan))
-					Process.AddUrgentTask(Info.EventType.fairyDianzan);
+					Process.AddTask(Info.EventType.fairyDianzan);
 			}
 			
 			// 获取奖励
