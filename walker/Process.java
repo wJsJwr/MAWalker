@@ -90,7 +90,7 @@ public class Process {
 			public void run() {
 				AddTask(Info.EventType.guildTop);
 			}
-		}, 0, 15 * 1000);// 15s
+		}, 0, 30 * 1000);// 30s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoExplore);
