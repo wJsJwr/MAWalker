@@ -115,8 +115,7 @@ public class GetFairyList {
 			}
 
 			if (!Process.info.FairyDianzanList.empty()) {
-				if (!Process.info.events.contains(Info.EventType.fairyDianzan))
-					Process.AddTask(Info.EventType.fairyDianzan);
+				Process.AddTask(Info.EventType.fairyDianzan);
 			}
 			
 			// 获取奖励
@@ -179,6 +178,10 @@ public class GetFairyList {
 					} else if (f.getNodeName().equals("hp")) {
 						fbi.FairyHp = Integer.parseInt(f.getFirstChild()
 								.getNodeValue());
+						if(fbi.FairyHp < Info.killFairyHp)
+							fbi.ForceKill = true;
+						else
+							fbi.ForceKill = false;
 					} else if (f.getNodeName().equals("hp_max")) {
 						fbi.FairyHpMax = Integer.parseInt(f.getFirstChild()
 								.getNodeValue());
@@ -188,15 +191,19 @@ public class GetFairyList {
 				if (Info.AllowAttackSameFairy) {
 					fbis.add(fbi);
 				} else {
-					for (FairyBattleInfo bi : Process.info.LatestFairyList) {
-						if (bi.equals(fbi)) {
-							// 已经舔过
-							attack_flag = true;
-							break;
-						}
-					}
-					if (!attack_flag)
+					if(fbi.ForceKill) {
 						fbis.add(fbi);
+					} else {
+						for (FairyBattleInfo bi : Process.info.LatestFairyList) {
+							if (bi.equals(fbi)) {
+								// 已经舔过
+								attack_flag = true;
+								break;
+							}
+						}
+						if (!attack_flag)
+							fbis.add(fbi);						
+					}
 				}
 			}
 

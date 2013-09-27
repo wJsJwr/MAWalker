@@ -24,6 +24,7 @@ public class FairyBattleInfo {
 	public String Finder = "";
 	public int FairyHp = 0;
 	public int FairyHpMax = 1;
+	public boolean ForceKill = false;
 
 	public boolean equals(FairyBattleInfo b) {
 		return this.UserId.equals(b.UserId) && this.SerialId.equals(b.SerialId);

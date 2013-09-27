@@ -81,6 +81,12 @@
 			<no>2</no>
 			<bc>79</bc>
 		</deck_profile>
+		<deck_profile>
+			<name>KillFairyDeck</name>
+			<no>1</no>
+			<bc>2</bc>
+			<hp_kill>3000</hp_kill>
+		</deck_profile>
 	</deck>
 	<sell_card>
 		<!--

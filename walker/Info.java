@@ -109,6 +109,8 @@ public class Info {
 	 * cookie登陆的sessionId
 	 */	
 	public static String sessionId = "";
+	
+	public static long killFairyHp = 3000;
 
 	public enum autoUseType {
 		HALF_ONLY, FULL_ONLY, ALL
@@ -135,6 +137,7 @@ public class Info {
 	public static Deck PrivateFairyBattleRare = new Deck("My Rare Fairy Deck");
 	public static Deck FriendFairyBattleNormal = new Deck("Friend's Fairy Deck");
 	public static Deck BCFullBattleDeck = new Deck("Force Battle Deck");
+	public static Deck KillFairyDeck = new Deck ("Kill Fairy Deck");
 	public Deck CurrentDeck = new Deck();
 
 	// area

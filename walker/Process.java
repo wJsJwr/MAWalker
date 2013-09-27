@@ -421,9 +421,11 @@ public class Process {
 						break;
 					}
 					String str = String
-							.format("Private Fairy Battle, name: %s, Lv: %d, Finder: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+							.format("Private Fairy Battle, name: %s, Lv: %d, Hp: %d/%d, Finder: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
 									info.fairy.FairyName,
 									info.fairy.FairyLevel,
+									info.fairy.FairyHp,
+									info.fairy.FairyHpMax,
 									info.FairySelectUserList
 											.get(info.fairy.UserId).userName,
 									info.bc, info.bcMax, info.ap, info.apMax,

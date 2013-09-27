@@ -174,6 +174,16 @@ public class GetConfig {
 			Info.BCFullBattleDeck.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[name='BCFullBattleDeck']/bc",
 					doc));
+			
+			Info.KillFairyDeck.No = xpath.evaluate(
+					"/config/deck/deck_profile[name='KillFairyDeck']/no",
+					doc);
+			Info.KillFairyDeck.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[name='KillFairyDeck']/bc",
+					doc));
+			Info.killFairyHp = Long.parseLong(xpath.evaluate(
+					"/config/deck/deck_profile[name='KillFairyDeck']/hp_kill",
+					doc));
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
