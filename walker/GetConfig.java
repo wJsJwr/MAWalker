@@ -44,6 +44,8 @@ public class GetConfig {
 					doc).equals("1");
 			Info.sellcard = xpath.evaluate("/config/sell_card/on_off", doc)
 					.equals("1");
+			Info.sellallcard = xpath.evaluate("/config/sell_card/sell_all", doc)
+					.equals("1");
 
 			Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc)
 					.equals("1");

@@ -100,6 +100,7 @@ public class Info {
 	public static boolean nightModeSwitch = true;
 
 	public static boolean sellcard = false;
+	public static boolean sellallcard = false;
 
 	// 吃药相关的开关
 	public static boolean autoUseAp = true;

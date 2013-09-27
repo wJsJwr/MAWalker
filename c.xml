@@ -94,6 +94,7 @@
 			id是卡片的id，有意者可以自己填
 		-->
 		<on_off>0</on_off>
+		<sell_all>0</sell_all>
 		<policy>sell</policy>
 		<!-- <id></id> -->
 	</sell_card>
