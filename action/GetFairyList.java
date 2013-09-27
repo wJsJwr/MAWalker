@@ -100,6 +100,7 @@ public class GetFairyList {
 			for (int i = 0; i < fairy_dianzan.getLength(); i++) {
 				Node f = fairy_dianzan.item(i).getFirstChild();
 				FairyDianzanInfo fbi_dianzan = new FairyDianzanInfo();
+				boolean dianzan_flag = false;
 				do {
 					if (f.getNodeName().equals("serial_id")) {
 						fbi_dianzan.SerialId = f.getFirstChild().getNodeValue();
@@ -110,14 +111,20 @@ public class GetFairyList {
 				} while (f != null);
 				FairyDianzanInfo fdz = new FairyDianzanInfo(
 						fbi_dianzan.SerialId, fbi_dianzan.UserId);
-				if (!Process.info.FairyDianzanList.contains(fdz))
+				for (FairyDianzanInfo fdzi : Process.info.FairyDianzanList) {
+					if (fdz.equals(fdzi)) {
+						dianzan_flag = true;
+						break;
+					}
+				}
+				if (!dianzan_flag)
 					Process.info.FairyDianzanList.push(fdz);
 			}
 
 			if (!Process.info.FairyDianzanList.empty()) {
 				Process.AddTask(Info.EventType.fairyDianzan);
 			}
-			
+
 			// 获取奖励
 			if (!xpath.evaluate("//remaining_rewards", doc).equals("0")) {
 				Process.AddUrgentTask(Info.EventType.fairyReward);
@@ -178,7 +185,7 @@ public class GetFairyList {
 					} else if (f.getNodeName().equals("hp")) {
 						fbi.FairyHp = Integer.parseInt(f.getFirstChild()
 								.getNodeValue());
-						if(fbi.FairyHp < Info.killFairyHp)
+						if (fbi.FairyHp < Info.killFairyHp)
 							fbi.ForceKill = true;
 						else
 							fbi.ForceKill = false;
@@ -191,7 +198,7 @@ public class GetFairyList {
 				if (Info.AllowAttackSameFairy) {
 					fbis.add(fbi);
 				} else {
-					if(fbi.ForceKill) {
+					if (fbi.ForceKill) {
 						fbis.add(fbi);
 					} else {
 						for (FairyBattleInfo bi : Process.info.LatestFairyList) {
@@ -202,7 +209,7 @@ public class GetFairyList {
 							}
 						}
 						if (!attack_flag)
-							fbis.add(fbi);						
+							fbis.add(fbi);
 					}
 				}
 			}
@@ -213,7 +220,7 @@ public class GetFairyList {
 			if (fbis.size() > 0) {
 				if (Process.AddUrgentTask(Info.EventType.fairyCanBattle))
 					Process.info.fairy = fbis.get(0);
-			}			
+			}
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)
