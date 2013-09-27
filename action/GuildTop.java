@@ -87,14 +87,21 @@ public class GuildTop {
 			} else {
 				Process.info.NoFairy = false;
 			}
-
-			Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name", doc);
-			Process.info.gfairy.SerialId = xpath.evaluate("//fairy/serial_id",
-					doc);
-			Process.info.gfairy.GuildId = xpath.evaluate(
-					"//fairy/discoverer_id", doc);
-			Process.info.gfairy.FairyLevel = Integer.parseInt(xpath.evaluate(
-					"//fairy/lv", doc));
+			if ((boolean) xpath.evaluate("count(//fairy)>0", doc,
+					XPathConstants.BOOLEAN)) {
+				Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name",
+						doc);
+				Process.info.gfairy.SerialId = xpath.evaluate(
+						"//fairy/serial_id", doc);
+				Process.info.gfairy.GuildId = xpath.evaluate(
+						"//fairy/discoverer_id", doc);
+				Process.info.gfairy.FairyLevel = Integer.parseInt(xpath
+						.evaluate("//fairy/lv", doc));
+			} else {
+				if (Info.Debug)
+					walker.Go.log("Fix @GuildTop works.");
+				return false;
+			}
 			if ((boolean) xpath.evaluate("count(//force_gauge)>0", doc,
 					XPathConstants.BOOLEAN)) {// 第一次遇怪没有这些信息，需要先打一下
 				Process.info.gfbforce.total = Long.parseLong(xpath.evaluate(
