@@ -129,7 +129,7 @@ public class Process {
 		}, myCal.getTime());//relogin at 1:00
 	}
 
-	private void AddTask(Info.EventType _Task) {
+	public static void AddTask(Info.EventType _Task) {
 		if (!Process.info.events.contains(_Task)) {
 			Process.info.events.add(0, _Task);
 			if (Info.Debug)

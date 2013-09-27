@@ -121,7 +121,7 @@ public class GetFairyList {
 			
 			// 获取奖励
 			if (!xpath.evaluate("//remaining_rewards", doc).equals("0")) {
-				Process.AddUrgentTask(Info.EventType.fairyReward);
+				Process.AddTask(Info.EventType.fairyReward);
 			}
 
 			// 获取放妖的用户
