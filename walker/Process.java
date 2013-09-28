@@ -498,6 +498,8 @@ public class Process {
 									info.CurrentDeck.No, info.CurrentDeck.BC);
 					Thread.sleep(5000);
 					Go.log(str);
+					if (Process.info.ticket > 0) //连续出击直至获胜
+						Process.AddUrgentTask(Info.EventType.ticketFull);
 				} else {
 
 				}
