@@ -112,6 +112,8 @@ public class Info {
 	public static String sessionId = "";
 	
 	public static long killFairyHp = 3000;
+	
+	public static boolean FairyBattleFirst = false;
 
 	public enum autoUseType {
 		HALF_ONLY, FULL_ONLY, ALL

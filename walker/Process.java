@@ -505,6 +505,8 @@ public class Process {
 					Go.log(str);
 					if (Process.info.ticket > 0) // 连续出击直至获胜
 						Process.AddUrgentTask(Info.EventType.ticketFull);
+					if (Info.FairyBattleFirst)
+						Process.AddUrgentTask(Info.EventType.getFairyList);
 				} else {
 
 				}
