@@ -7,6 +7,7 @@ import info.FairySelectUser;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -158,7 +159,7 @@ public class GetFairyList {
 					"//fairy_select/fairy_event[put_down=1]/fairy", doc,
 					XPathConstants.NODESET);
 
-			ArrayList<FairyBattleInfo> fbis = new ArrayList<FairyBattleInfo>();
+			Process.info.PrivateFairyList = new LinkedList<FairyBattleInfo>();
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
 				FairyBattleInfo fbi = new FairyBattleInfo();
@@ -196,10 +197,10 @@ public class GetFairyList {
 					f = f.getNextSibling();
 				} while (f != null);
 				if (Info.AllowAttackSameFairy) {
-					fbis.add(fbi);
+					Process.info.PrivateFairyList.offer(fbi);
 				} else {
 					if (fbi.ForceKill) {
-						fbis.add(fbi);
+						Process.info.PrivateFairyList.offer(fbi);
 					} else {
 						for (FairyBattleInfo bi : Process.info.LatestFairyList) {
 							if (bi.equals(fbi)) {
@@ -209,17 +210,13 @@ public class GetFairyList {
 							}
 						}
 						if (!attack_flag)
-							fbis.add(fbi);
+							Process.info.PrivateFairyList.offer(fbi);
 					}
 				}
 			}
 
-			if (fbis.size() > 1)
-				// 以便再次寻找
-				Process.AddUrgentTask(Info.EventType.getFairyList);
-			if (fbis.size() > 0) {
-				if (Process.AddUrgentTask(Info.EventType.fairyCanBattle))
-					Process.info.fairy = fbis.get(0);
+			if (!Process.info.PrivateFairyList.isEmpty()) {
+				Process.AddUrgentTask(Info.EventType.fairyCanBattle);
 			}
 
 		} catch (Exception ex) {

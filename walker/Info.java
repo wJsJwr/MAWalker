@@ -151,11 +151,12 @@ public class Info {
 	public boolean AllClear = false;
 
 	// fairy
-	public FairyBattleInfo fairy;
+	public FairyBattleInfo pfairy;
 	public FairyBattleInfo gfairy;
 	public GuildFairyBattleForce gfbforce;
 	public boolean NoFairy = false;
 	public Queue<FairyBattleInfo> LatestFairyList = new LinkedList<FairyBattleInfo>();
+	public Queue<FairyBattleInfo> PrivateFairyList = new LinkedList<FairyBattleInfo>();
 	public Stack<FairyDianzanInfo> FairyDianzanList = new Stack<FairyDianzanInfo>();
 	public Hashtable<String, FairySelectUser> FairySelectUserList;
 
@@ -189,13 +190,14 @@ public class Info {
 		area = new Hashtable<Integer, Area>();
 		floor = new Hashtable<Integer, Floor>();
 		front = new Floor();
+		PrivateFairyList = new LinkedList<FairyBattleInfo>();
 		FairyDianzanList = new Stack<FairyDianzanInfo>();
 		events = new Stack<EventType>();
 		events.push(EventType.cookieLogin);
 		KeepCard = new ArrayList<String>();
 		FairySelectUserList = new Hashtable<String, FairySelectUser>();
 
-		fairy = new FairyBattleInfo();
+		pfairy = new FairyBattleInfo();
 		gfairy = new FairyBattleInfo();
 		gfbforce = new GuildFairyBattleForce();
 	}

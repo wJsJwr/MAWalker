@@ -140,29 +140,25 @@ public class Think {
 	}
 
 	private static boolean canBattle() {
-		if (Process.info.fairy.ForceKill) {
+		if (Process.info.pfairy.ForceKill) {
 			if (Process.info.bc > Info.KillFairyDeck.BC) {
-			Process.info.fairy.No = Info.KillFairyDeck.No;
+			Process.info.pfairy.No = Info.KillFairyDeck.No;
 			Process.info.CurrentDeck = Info.KillFairyDeck;
 			}
 		} else {
-			switch (Process.info.fairy.Type) {
-			case 0:
-				Process.info.fairy.No = Info.PublicFairyBattle.No;
-				Process.info.CurrentDeck = Info.PublicFairyBattle;
-				break;
+			switch (Process.info.pfairy.Type) {
 			case 4:
 				if (Process.info.bc > Process.info.bcMax
 						* Info.FriendFairyBattleNormal.BcForceBattle
 						&& Process.info.bc > Info.BCFullBattleDeck.BC
 						&& Info.FriendFairyBattleNormal.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
+					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
 				} else if (!Info.AllowBCInsuffient
 						&& Process.info.bc < Info.FriendFairyBattleNormal.BC)
 					return false;
 				else {
-					Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
+					Process.info.pfairy.No = Info.FriendFairyBattleNormal.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
 				}
 				break;
@@ -171,13 +167,13 @@ public class Think {
 						* Info.FriendFairyBattleRare.BcForceBattle
 						&& Process.info.bc > Info.BCFullBattleDeck.BC
 						&& Info.FriendFairyBattleRare.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
+					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (!Info.AllowBCInsuffient
 						&& Process.info.bc < Info.FriendFairyBattleRare.BC)
 					return false;
 				else {
-					Process.info.fairy.No = Info.FriendFairyBattleRare.No;
+					Process.info.pfairy.No = Info.FriendFairyBattleRare.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleRare;
 				}
 	
@@ -187,13 +183,13 @@ public class Think {
 						* Info.PrivateFairyBattleNormal.BcForceBattle
 						&& Process.info.bc > Info.BCFullBattleDeck.BC
 						&& Info.PrivateFairyBattleNormal.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
+					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (!Info.AllowBCInsuffient
 						&& Process.info.bc < Info.PrivateFairyBattleNormal.BC)
 					return false;
 				else {
-					Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
+					Process.info.pfairy.No = Info.PrivateFairyBattleNormal.No;
 					Process.info.CurrentDeck = Info.PrivateFairyBattleNormal;
 				}
 				break;
@@ -202,13 +198,13 @@ public class Think {
 						* Info.PrivateFairyBattleRare.BcForceBattle
 						&& Process.info.bc > Info.BCFullBattleDeck.BC
 						&& Info.PrivateFairyBattleRare.ForceBattle) {
-					Process.info.fairy.No = Info.BCFullBattleDeck.No;
+					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (!Info.AllowBCInsuffient
 						&& Process.info.bc < Info.PrivateFairyBattleRare.BC)
 					return false;
 				else {
-					Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
+					Process.info.pfairy.No = Info.PrivateFairyBattleRare.No;
 					Process.info.CurrentDeck = Info.PrivateFairyBattleRare;
 				}
 				break;

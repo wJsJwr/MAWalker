@@ -27,8 +27,8 @@ public class RecFairyDianzan {
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("serial_id",
-				Process.info.fairy.SerialId));
-		post.add(new BasicNameValuePair("user_id", Process.info.fairy.UserId));
+				Process.info.pfairy.SerialId));
+		post.add(new BasicNameValuePair("user_id", Process.info.pfairy.UserId));
 
 		try {
 			response = Process.network.ConnectToServer(URL_PRIVATE_BATTLE_TOP,

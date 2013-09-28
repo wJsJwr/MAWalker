@@ -34,14 +34,14 @@ public class PrivateFairyBattle {
 
 	public static boolean run() throws Exception {
 		FairyBattleResult = PrivateFairyBattleResult.unknown;
-
+		Process.info.pfairy = Process.info.PrivateFairyList.poll();
 		RecFairyDianzan.run();
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-		post.add(new BasicNameValuePair("no", Process.info.fairy.No));
+		post.add(new BasicNameValuePair("no", Process.info.pfairy.No));
 		post.add(new BasicNameValuePair("serial_id",
-				Process.info.fairy.SerialId));
-		post.add(new BasicNameValuePair("user_id", Process.info.fairy.UserId));
+				Process.info.pfairy.SerialId));
+		post.add(new BasicNameValuePair("user_id", Process.info.pfairy.UserId));
 
 		try {
 			response = Process.network.ConnectToServer(URL_PRIVATE_BATTLE,
@@ -83,7 +83,7 @@ public class PrivateFairyBattle {
 			}
 			if (Process.info.LatestFairyList.size() > 1000)
 				Process.info.LatestFairyList.poll();
-			Process.info.LatestFairyList.offer(Process.info.fairy);
+			Process.info.LatestFairyList.offer(Process.info.pfairy);
 
 			if ((boolean) xpath.evaluate("count(//private_fairy_top) > 0", doc,
 					XPathConstants.BOOLEAN)) {
@@ -105,6 +105,10 @@ public class PrivateFairyBattle {
 				Process.info.gather = Integer.parseInt(spec);
 			} else {
 				Process.info.gather = -1;
+			}
+			
+			if (!Process.info.PrivateFairyList.isEmpty()) {
+				Process.AddUrgentTask(Info.EventType.fairyCanBattle);
 			}
 
 		} catch (Exception ex) {

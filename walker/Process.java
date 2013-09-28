@@ -112,21 +112,21 @@ public class Process {
 			}
 		}, 0, 3 * 60 * 1000); // 3min
 		Calendar myCal = Calendar.getInstance();
-		if(myCal.get(Calendar.HOUR_OF_DAY)>=1) {
+		if (myCal.get(Calendar.HOUR_OF_DAY) >= 1) {
 			int date = myCal.get(Calendar.DAY_OF_YEAR);
-			if(date == 365)
+			if (date == 365)
 				myCal.set(Calendar.DAY_OF_YEAR, 1);
 			else
 				myCal.set(Calendar.DAY_OF_YEAR, date + 1);
 		}
-		myCal.set(Calendar.HOUR_OF_DAY,1);
-		myCal.set(Calendar.MINUTE,0);
-		myCal.set(Calendar.SECOND,0);
+		myCal.set(Calendar.HOUR_OF_DAY, 1);
+		myCal.set(Calendar.MINUTE, 0);
+		myCal.set(Calendar.SECOND, 0);
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddUrgentTask(Info.EventType.notLoggedIn);
 			}
-		}, myCal.getTime());//relogin at 1:00
+		}, myCal.getTime());// relogin at 1:00
 	}
 
 	public static void AddTask(Info.EventType _Task) {
@@ -137,13 +137,17 @@ public class Process {
 		}
 	}
 
-	public static boolean AddUrgentTask(Info.EventType Task) {
-		if (!Process.info.events.contains(Task)) {
-			Process.info.events.push(Task);
+	public static boolean AddUrgentTask(Info.EventType _Task) {
+		if (!Process.info.events.contains(_Task)) {
+			Process.info.events.push(_Task);
 			if (Info.Debug)
-				Go.log(String.format("Add Urgent Task: %s", Task));
+				Go.log(String.format("Add Urgent Task: %s", _Task));
 			return true;
 		} else {
+			Process.info.events.remove(_Task);
+			Process.info.events.push(_Task);
+			if (Info.Debug)
+				Go.log(String.format("Change and Add Urgent Task: %s", _Task));
 			return false;
 		}
 	}
@@ -175,7 +179,7 @@ public class Process {
 			case cookieOutOfDate:// cookie失效
 				result.add(Action.LOGIN);
 				break;
-			case cookieLogin://cookie登陆
+			case cookieLogin:// cookie登陆
 				result.add(Action.COOKIELOGIN);
 				break;
 			case fairyDianzan:// 点赞
@@ -331,7 +335,8 @@ public class Process {
 							&& info.events
 									.contains(Info.EventType.fairyCanBattle)) {
 						if (!Info.Nolog)
-							Go.log("Other's fairy found!");
+							Go.log(String.format("%d new fairy(s) found!",
+									Process.info.PrivateFairyList.size()));
 					} else {
 						if (!Info.Nolog)
 							Go.log("No fairy found.");
@@ -392,8 +397,8 @@ public class Process {
 			break;
 		case GOTO_MAIN_MENU:
 			try {
-				if (GotoMainMenu.run()){
-					AddTask(Info.EventType.gotoFloor);					
+				if (GotoMainMenu.run()) {
+					AddTask(Info.EventType.gotoFloor);
 				} else {
 					Go.log("Something wrong@GOTO_MAIN_MENU.");
 				}
@@ -422,12 +427,12 @@ public class Process {
 					}
 					String str = String
 							.format("Private Fairy Battle, name: %s, Lv: %d, Hp: %d/%d, Finder: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
-									info.fairy.FairyName,
-									info.fairy.FairyLevel,
-									info.fairy.FairyHp,
-									info.fairy.FairyHpMax,
+									info.pfairy.FairyName,
+									info.pfairy.FairyLevel,
+									info.pfairy.FairyHp,
+									info.pfairy.FairyHpMax,
 									info.FairySelectUserList
-											.get(info.fairy.UserId).userName,
+											.get(info.pfairy.UserId).userName,
 									info.bc, info.bcMax, info.ap, info.apMax,
 									info.ticket, result);
 					if (info.gather != -1)
@@ -436,7 +441,7 @@ public class Process {
 					if (Info.Debug)
 						str += String.format(
 								"Fairy Info: SerialID: %s, UserID: %s.\n",
-								info.fairy.SerialId, info.fairy.UserId);
+								info.pfairy.SerialId, info.pfairy.UserId);
 					str += String.format(
 							"Card Deck Info: %s, Number: %s, BC: %d.\n",
 							info.CurrentDeck.DeckName, info.CurrentDeck.No,
@@ -498,7 +503,7 @@ public class Process {
 									info.CurrentDeck.No, info.CurrentDeck.BC);
 					Thread.sleep(5000);
 					Go.log(str);
-					if (Process.info.ticket > 0) //连续出击直至获胜
+					if (Process.info.ticket > 0) // 连续出击直至获胜
 						Process.AddUrgentTask(Info.EventType.ticketFull);
 				} else {
 
