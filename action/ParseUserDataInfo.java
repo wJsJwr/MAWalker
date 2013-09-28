@@ -43,6 +43,8 @@ public class ParseUserDataInfo {
 					XPathConstants.BOOLEAN)) {
 				Process.info.ticket = Integer.parseInt(xpath.evaluate(
 						"//your_data/itemlist[item_id=202]/num", doc));
+				if (Process.info.ticket > 0)
+					Process.AddUrgentTask(Info.EventType.ticketFull);
 			}
 			if ((boolean) xpath.evaluate(
 					"count(//your_data/itemlist[item_id=1])>0", doc,
