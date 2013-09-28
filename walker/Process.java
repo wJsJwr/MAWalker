@@ -373,7 +373,7 @@ public class Process {
 				if (GuildTop.run()) {
 					// nothing to do
 				} else {
-					if (info.NoFairy) Go.log("Night Mode");
+					if (info.NoFairy && Info.nightModeSwitch) Go.log("Night Mode");
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;
