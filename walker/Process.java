@@ -206,7 +206,6 @@ public class Process {
 				break;
 			case guildTopRetry:// 强敌战结束重新获取
 			case guildTop:// 强敌站界面
-			case ticketFull:// 有挑战书
 				result.add(Action.GUILD_TOP);
 				break;
 			case needAPBCInfo:// 更新apbc信息

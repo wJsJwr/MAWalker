@@ -178,7 +178,7 @@ public class Info {
 	// event
 	public enum EventType {
 		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList,
-		fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull,
+		fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop,
 		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin
 	}
 
