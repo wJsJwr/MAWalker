@@ -27,7 +27,7 @@ public class Think {
 			case GET_FAIRY_LIST:
 				return Action.GET_FAIRY_LIST;
 			case GOTO_MAIN_MENU:
-				return Action.GOTO_MAIN_MENU;				
+				return Action.GOTO_MAIN_MENU;
 			case GOTO_FLOOR:
 				return Action.GOTO_FLOOR;
 			case FAIRY_DIANZAN:
@@ -141,71 +141,66 @@ public class Think {
 
 	private static boolean canBattle() {
 		if (Process.info.pfairy.ForceKill) {
-			if (Process.info.bc > Info.KillFairyDeck.BC) {
-			Process.info.pfairy.No = Info.KillFairyDeck.No;
-			Process.info.CurrentDeck = Info.KillFairyDeck;
+			if (Process.info.bc >= Info.KillFairyDeck.BC) {
+				Process.info.pfairy.No = Info.KillFairyDeck.No;
+				Process.info.CurrentDeck = Info.KillFairyDeck;
 			}
 		} else {
 			switch (Process.info.pfairy.Type) {
 			case 4:
 				if (Process.info.bc > Process.info.bcMax
 						* Info.FriendFairyBattleNormal.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
+						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.FriendFairyBattleNormal.ForceBattle) {
 					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.FriendFairyBattleNormal.BC)
-					return false;
-				else {
+				} else if (Process.info.bc >= Info.FriendFairyBattleNormal.BC) {
 					Process.info.pfairy.No = Info.FriendFairyBattleNormal.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
+				} else {
+					return false;
 				}
 				break;
 			case 5:
 				if (Process.info.bc > Process.info.bcMax
 						* Info.FriendFairyBattleRare.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
+						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.FriendFairyBattleRare.ForceBattle) {
 					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.FriendFairyBattleRare.BC)
-					return false;
-				else {
+				} else if (Process.info.bc >= Info.FriendFairyBattleRare.BC) {
 					Process.info.pfairy.No = Info.FriendFairyBattleRare.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleRare;
+				} else {
+					return false;
 				}
-	
 				break;
 			case 6:
 				if (Process.info.bc > Process.info.bcMax
 						* Info.PrivateFairyBattleNormal.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
+						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.PrivateFairyBattleNormal.ForceBattle) {
 					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.PrivateFairyBattleNormal.BC)
-					return false;
-				else {
+				} else if (Process.info.bc >= Info.PrivateFairyBattleNormal.BC) {
 					Process.info.pfairy.No = Info.PrivateFairyBattleNormal.No;
 					Process.info.CurrentDeck = Info.PrivateFairyBattleNormal;
+				} else {
+					return false;
 				}
 				break;
 			case 7:
 				if (Process.info.bc > Process.info.bcMax
 						* Info.PrivateFairyBattleRare.BcForceBattle
-						&& Process.info.bc > Info.BCFullBattleDeck.BC
+						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.PrivateFairyBattleRare.ForceBattle) {
 					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
-				} else if (!Info.AllowBCInsuffient
-						&& Process.info.bc < Info.PrivateFairyBattleRare.BC)
-					return false;
-				else {
+				} else if (Process.info.bc >= Info.PrivateFairyBattleRare.BC) {
 					Process.info.pfairy.No = Info.PrivateFairyBattleRare.No;
 					Process.info.CurrentDeck = Info.PrivateFairyBattleRare;
+				} else {
+					return false;
 				}
 				break;
 			default:
