@@ -33,6 +33,7 @@ public class Think {
 			case FAIRY_DIANZAN:
 				return Action.FAIRY_DIANZAN;
 			case PRIVATE_FAIRY_BATTLE:
+				Process.info.pfairy = Process.info.PrivateFairyList.poll();
 				if (Think.canBattle())
 					return Action.PRIVATE_FAIRY_BATTLE;
 				break;

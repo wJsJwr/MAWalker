@@ -34,7 +34,6 @@ public class PrivateFairyBattle {
 
 	public static boolean run() throws Exception {
 		FairyBattleResult = PrivateFairyBattleResult.unknown;
-		Process.info.pfairy = Process.info.PrivateFairyList.poll();
 		RecFairyDianzan.run();
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
