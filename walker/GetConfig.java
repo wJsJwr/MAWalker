@@ -1,5 +1,7 @@
 package walker;
 
+import info.Deck;
+
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
@@ -46,8 +48,8 @@ public class GetConfig {
 					doc).equals("1");
 			Info.sellcard = xpath.evaluate("/config/sell_card/on_off", doc)
 					.equals("1");
-			Info.sellallcard = xpath.evaluate("/config/sell_card/sell_all", doc)
-					.equals("1");
+			Info.sellallcard = xpath
+					.evaluate("/config/sell_card/sell_all", doc).equals("1");
 
 			Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc)
 					.equals("1");
@@ -91,103 +93,162 @@ public class GetConfig {
 
 			Info.FriendFairyBattleRare.No = xpath
 					.evaluate(
-							"/config/deck/deck_profile[name='FriendFairyBattleRare']/no",
+							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/no",
 							doc);
-			Info.FriendFairyBattleRare.BC = Integer
-					.parseInt(xpath
-							.evaluate(
-									"/config/deck/deck_profile[name='FriendFairyBattleRare']/bc",
-									doc));
 			Info.FriendFairyBattleRare.ForceBattle = xpath
 					.evaluate(
-							"/config/deck/deck_profile[name='FriendFairyBattleRare']/force_battle",
+							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/force_battle",
 							doc).equals("1");
 			Info.FriendFairyBattleRare.BcForceBattle = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/deck/deck_profile[name='FriendFairyBattleRare']/bc_force_battle",
+									"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/bc_force_battle",
 									doc));
 
 			Info.FriendFairyBattleNormal.No = xpath
 					.evaluate(
-							"/config/deck/deck_profile[name='FriendFairyBattleNormal']/no",
+							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/no",
 							doc);
-			Info.FriendFairyBattleNormal.BC = Integer
-					.parseInt(xpath
-							.evaluate(
-									"/config/deck/deck_profile[name='FriendFairyBattleNormal']/bc",
-									doc));
 			Info.FriendFairyBattleNormal.ForceBattle = xpath
 					.evaluate(
-							"/config/deck/deck_profile[name='FriendFairyBattleNormal']/force_battle",
+							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/force_battle",
 							doc).equals("1");
 			Info.FriendFairyBattleNormal.BcForceBattle = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/deck/deck_profile[name='FriendFairyBattleNormal']/bc_force_battle",
+									"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/bc_force_battle",
 									doc));
 
-			Info.PublicFairyBattle.BC = Integer
-					.parseInt(xpath
-							.evaluate(
-									"/config/deck/deck_profile[name='GuildFairyDeck']/bc",
-									doc));
 			Info.PublicFairyBattle.No = xpath.evaluate(
-					"/config/deck/deck_profile[name='GuildFairyDeck']/no", doc);
+					"/config/fairy/fairy_profile[name='GuildFairyDeck']/no",
+					doc);
 			Info.ticket_max = Integer
 					.parseInt(xpath
 							.evaluate(
-									"/config/deck/deck_profile[name='GuildFairyDeck']/ticket_max",
+									"/config/fairy/fairy_profile[name='GuildFairyDeck']/ticket_max",
 									doc));
 			Info.battlewinscale = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/deck/deck_profile[name='GuildFairyDeck']/battlewinscale",
+									"/config/fairy/fairy_profile[name='GuildFairyDeck']/battlewinscale",
 									doc));
 
 			Info.PrivateFairyBattleNormal.No = xpath.evaluate(
-					"/config/deck/deck_profile[name='FairyDeck']/no", doc);
-			Info.PrivateFairyBattleNormal.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[name='FairyDeck']/bc", doc));
-			Info.PrivateFairyBattleNormal.ForceBattle = xpath.evaluate(
-					"/config/deck/deck_profile[name='FairyDeck']/force_battle",
-					doc).equals("1");
+					"/config/fairy/fairy_profile[name='FairyDeck']/no", doc);
+			Info.PrivateFairyBattleNormal.ForceBattle = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='FairyDeck']/force_battle",
+							doc).equals("1");
 			Info.PrivateFairyBattleNormal.BcForceBattle = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/deck/deck_profile[name='FairyDeck']/bc_force_battle",
+									"/config/fairy/fairy_profile[name='FairyDeck']/bc_force_battle",
 									doc));
 
-			Info.PrivateFairyBattleRare.No = xpath.evaluate(
-					"/config/deck/deck_profile[name='RareFairyDeck']/no", doc);
-			Info.PrivateFairyBattleRare.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[name='RareFairyDeck']/bc", doc));
+			Info.PrivateFairyBattleRare.No = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='RareFairyDeck']/no",
+							doc);
 			Info.PrivateFairyBattleRare.ForceBattle = xpath
 					.evaluate(
-							"/config/deck/deck_profile[name='RareFairyDeck']/force_battle",
+							"/config/fairy/fairy_profile[name='RareFairyDeck']/force_battle",
 							doc).equals("1");
 			Info.PrivateFairyBattleRare.BcForceBattle = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/deck/deck_profile[name='RareFairyDeck']/bc_force_battle",
+									"/config/fairy/fairy_profile[name='RareFairyDeck']/bc_force_battle",
 									doc));
 
 			Info.BCFullBattleDeck.No = xpath.evaluate(
-					"/config/deck/deck_profile[name='BCFullBattleDeck']/no",
+					"/config/fairy/fairy_profile[name='BCFullBattleDeck']/no",
 					doc);
-			Info.BCFullBattleDeck.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[name='BCFullBattleDeck']/bc",
-					doc));
-			
-			Info.KillFairyDeck.No = xpath.evaluate(
-					"/config/deck/deck_profile[name='KillFairyDeck']/no",
-					doc);
-			Info.KillFairyDeck.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[name='KillFairyDeck']/bc",
-					doc));
-			Info.killFairyHp = Long.parseLong(xpath.evaluate(
-					"/config/deck/deck_profile[name='KillFairyDeck']/hp_kill",
-					doc));
+
+			Info.KillFairyDeck.No = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='KillFairyDeck']/no",
+							doc);
+			Info.killFairyHp = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='KillFairyDeck']/hp_kill",
+									doc));
+
+			Info.MyDeck0.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[no=0]/bc", doc));
+
+			Info.MyDeck1.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[no=1]/bc", doc));
+
+			Info.MyDeckA1.No = "101";
+			Info.MyDeckA1.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[no=101]/bc", doc));
+			Info.MyDeckA1.card = xpath.evaluate(
+					"/config/deck/deck_profile[no=101]/card", doc);
+			Info.MyDeckA1.leader = Info.MyDeckA1.card.split(",")[0];
+
+			Info.MyDeckA2.No = "102";
+			Info.MyDeckA2.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[no=102]/bc", doc));
+			Info.MyDeckA2.card = xpath.evaluate(
+					"/config/deck/deck_profile[no=102]/card", doc);
+			Info.MyDeckA3.leader = Info.MyDeckA1.card.split(",")[0];
+
+			Info.MyDeckA3.No = "103";
+			Info.MyDeckA3.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[no=103]/bc", doc));
+			Info.MyDeckA3.card = xpath.evaluate(
+					"/config/deck/deck_profile[no=103]/card", doc);
+			Info.MyDeckA3.leader = Info.MyDeckA1.card.split(",")[0];
+
+			Info.MyDeckA4.No = "104";
+			Info.MyDeckA4.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[no=104]/bc", doc));
+			Info.MyDeckA4.card = xpath.evaluate(
+					"/config/deck/deck_profile[no=104]/card", doc);
+			Info.MyDeckA4.leader = Info.MyDeckA1.card.split(",")[0];
+
+			Info.MyDeckA5.No = "105";
+			Info.MyDeckA5.BC = Integer.parseInt(xpath.evaluate(
+					"/config/deck/deck_profile[no=105]/bc", doc));
+			Info.MyDeckA5.card = xpath.evaluate(
+					"/config/deck/deck_profile[no=105]/card", doc);
+			Info.MyDeckA5.leader = Info.MyDeckA5.card.split(",")[0];
+
+			Deck tempDeck = chooseCardDeck(Info.PrivateFairyBattleNormal.No);
+			Info.PrivateFairyBattleNormal.No = tempDeck.No;
+			Info.PrivateFairyBattleNormal.BC = tempDeck.BC;
+			Info.PrivateFairyBattleNormal.card = tempDeck.card;
+			Info.PrivateFairyBattleNormal.leader = tempDeck.leader;
+
+			tempDeck = chooseCardDeck(Info.PrivateFairyBattleRare.No);
+			Info.PrivateFairyBattleRare.No = tempDeck.No;
+			Info.PrivateFairyBattleRare.BC = tempDeck.BC;
+			Info.PrivateFairyBattleRare.card = tempDeck.card;
+			Info.PrivateFairyBattleRare.leader = tempDeck.leader;
+
+			tempDeck = chooseCardDeck(Info.FriendFairyBattleNormal.No);
+			Info.FriendFairyBattleNormal.No = tempDeck.No;
+			Info.FriendFairyBattleNormal.BC = tempDeck.BC;
+			Info.FriendFairyBattleNormal.card = tempDeck.card;
+			Info.FriendFairyBattleNormal.leader = tempDeck.leader;
+
+			tempDeck = chooseCardDeck(Info.FriendFairyBattleRare.No);
+			Info.FriendFairyBattleRare.No = tempDeck.No;
+			Info.FriendFairyBattleRare.BC = tempDeck.BC;
+			Info.FriendFairyBattleRare.card = tempDeck.card;
+			Info.FriendFairyBattleRare.leader = tempDeck.leader;
+
+			tempDeck = chooseCardDeck(Info.BCFullBattleDeck.No);
+			Info.BCFullBattleDeck.No = tempDeck.No;
+			Info.BCFullBattleDeck.BC = tempDeck.BC;
+			Info.BCFullBattleDeck.card = tempDeck.card;
+			Info.BCFullBattleDeck.leader = tempDeck.leader;
+
+			tempDeck = chooseCardDeck(Info.KillFairyDeck.No);
+			Info.KillFairyDeck.No = tempDeck.No;
+			Info.KillFairyDeck.BC = tempDeck.BC;
+			Info.KillFairyDeck.card = tempDeck.card;
+			Info.KillFairyDeck.leader = tempDeck.leader;
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
@@ -195,5 +256,31 @@ public class GetConfig {
 			}
 		}
 
+	}
+
+	private static Deck chooseCardDeck(String Number) {
+		int n = Integer.parseInt(Number);
+		Deck defaultDeck = new Deck();
+		defaultDeck.BC = 0;
+		defaultDeck.No = "3";
+		defaultDeck.card = "";
+		switch (n) {
+		case 0:
+			return Info.MyDeck0;
+		case 1:
+			return Info.MyDeck1;
+		case 101:
+			return Info.MyDeckA1;
+		case 102:
+			return Info.MyDeckA2;
+		case 103:
+			return Info.MyDeckA3;
+		case 104:
+			return Info.MyDeckA4;
+		case 105:
+			return Info.MyDeckA5;
+		default:
+			return defaultDeck;
+		}
 	}
 }

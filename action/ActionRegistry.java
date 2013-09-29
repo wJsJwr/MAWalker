@@ -58,6 +58,10 @@ public class ActionRegistry {
 		/**
 		 * 主城界面
 		 */
-		GOTO_MAIN_MENU
+		GOTO_MAIN_MENU,
+		/**
+		 * 获得当前卡组信息
+		 */
+		GET_CARD_DECK
 	}
 }

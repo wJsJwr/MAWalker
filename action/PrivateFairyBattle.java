@@ -36,6 +36,26 @@ public class PrivateFairyBattle {
 		FairyBattleResult = PrivateFairyBattleResult.unknown;
 		RecFairyDianzan.run();
 
+		boolean flag_deck = false;
+
+		if (Integer.parseInt(Process.info.CurrentDeck.No) > 100) {
+			if (ChangeCardDeck.run()) {
+				Process.info.pfairy.No = "2";
+				flag_deck = true;
+				walker.Go.log(String.format(
+						"Succeed to change card deck to Deck %s",
+						Process.info.CurrentDeck.No));
+			} else {
+				flag_deck = false;
+				walker.Go.log("Fail to change card deck.");
+			}
+		} else {
+			Process.info.pfairy.No = Process.info.CurrentDeck.No;
+			flag_deck = true;
+		}
+		if (!flag_deck)
+			return false;
+
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("no", Process.info.pfairy.No));
 		post.add(new BasicNameValuePair("serial_id",
@@ -105,7 +125,7 @@ public class PrivateFairyBattle {
 			} else {
 				Process.info.gather = -1;
 			}
-			
+
 			if (!Process.info.PrivateFairyList.isEmpty()) {
 				Process.AddUrgentTask(Info.EventType.fairyCanBattle);
 			}

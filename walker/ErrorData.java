@@ -51,7 +51,11 @@ public class ErrorData {
 		//cookie
 		CookieOutOfDate, CookieLoginDataError, CookieLoginDataParseError, CookieLoginResponse,
 		//主城界面
-		MainMenuDataError, GotoMainMenuDataParseError
+		MainMenuDataError, GotoMainMenuDataParseError,
+		//获取卡组信息
+		GetCardDeckDataError, GetCardDeckDataParseError, GetCardDeckResponse,
+		//更换卡组
+		ChangeCardDeckDataError, ChangeCardDeckDataParseError, ChangeCardDeckResponse		
 	}
 
 	public static void clear() {
