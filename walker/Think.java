@@ -218,8 +218,6 @@ public class Think {
 
 	private static boolean canExplore() {
 		try {
-			// if (Process.info.bc == 0)
-			// return false;
 			// 首先确定楼层
 			if (Process.info.floor.isEmpty())
 				return false;
@@ -237,7 +235,7 @@ public class Think {
 			if (Process.info.ap < Process.info.front.cost)
 				return false;
 
-			if (Process.info.ap == Process.info.apMax - 1)
+			if (Process.info.ap > Process.info.apMax - 5)
 				return true;
 
 			if (Process.info.myFairyStillAlive)
