@@ -154,7 +154,7 @@ public class Think {
 						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.FriendFairyBattleNormal.ForceBattle) {
 					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
-					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
+					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (Process.info.bc >= Info.FriendFairyBattleNormal.BC) {
 					Process.info.pfairy.No = Info.FriendFairyBattleNormal.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
