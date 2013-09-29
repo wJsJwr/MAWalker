@@ -114,7 +114,7 @@ public class Go {
 		if (message == null || message.isEmpty())
 			return;
 		if (!message.contains("\n")) {
-			LogString = df.format(new Date());//new Date()为获取当前系统时间
+			LogString = df.format(new Date());// new Date()为获取当前系统时间
 			System.out.print(LogString);
 			Log2File(LogString);
 			LogString = "> " + message;
@@ -186,6 +186,31 @@ public class Go {
 			node = (Node) xpath.evaluate("/config/sessionId", doc,
 					XPathConstants.NODE);
 			node.setTextContent(sessionid);
+
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Transformer transformer = tFactory.newTransformer();
+
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File(configFile));
+			transformer.transform(source, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public static void saveDeck(int deckNumber, String cardList) {
+		Document doc = null;
+		try {
+			doc = Process.ParseXMLBytes(ReadFileAll(configFile));
+			Node node = null;
+			XPathFactory xpathFactory = XPathFactory.newInstance();
+			XPath xpath = xpathFactory.newXPath();
+
+			node = (Node) xpath.evaluate(String.format(
+					"/config/deck/deck_profile[no=%d]/card", deckNumber), doc,
+					XPathConstants.NODE);
+			node.setTextContent(cardList);
 
 			TransformerFactory tFactory = TransformerFactory.newInstance();
 			Transformer transformer = tFactory.newTransformer();

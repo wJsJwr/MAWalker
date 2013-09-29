@@ -20,6 +20,7 @@ import action.AutoMedicine;
 import action.CookieLogin;
 import action.Explore;
 import action.FairyDianzan;
+import action.GetCardDeck;
 import action.GetFairyList;
 import action.GetFairyReward;
 import action.GetFloorInfo;
@@ -231,6 +232,8 @@ public class Process {
 				break;
 			case autoExplore:
 				result.add(Action.EXPLORE);
+			case getCardDeck:
+				result.add(Action.GET_CARD_DECK);
 			}
 			if (!result.isEmpty())
 				return result;
@@ -249,6 +252,7 @@ public class Process {
 									info.bc, info.bcMax, info.cardList.size(),
 									info.cardMax, info.ticket, Info.sessionId));
 					Process.info.events.clear();
+					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
 				} else {
@@ -273,6 +277,7 @@ public class Process {
 									info.bc, info.bcMax, info.cardList.size(),
 									info.cardMax, info.ticket, Info.sessionId));
 					Process.info.events.clear();
+					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
 				} else {
@@ -589,6 +594,18 @@ public class Process {
 				} else {
 					Go.log("Something wrong@MEDICINE.");
 				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
+					throw ex;
+			}
+			break;
+		case GET_CARD_DECK:
+			try {
+				if (GetCardDeck.run()) {
+					Go.log("Succeed to get card deck info.");
+				} else {
+					Go.log("Something wrong@GET_CARD_DECK.");
+				}				
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
 					throw ex;

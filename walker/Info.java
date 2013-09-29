@@ -142,6 +142,14 @@ public class Info {
 	public static Deck BCFullBattleDeck = new Deck("Force Battle Deck");
 	public static Deck KillFairyDeck = new Deck ("Kill Fairy Deck");
 	public Deck CurrentDeck = new Deck();
+	public static Deck MyDeckA1 = new Deck();
+	public static Deck MyDeckA2 = new Deck();
+	public static Deck MyDeckA3= new Deck();
+	public static Deck MyDeckA4 = new Deck();
+	public static Deck MyDeck0 = new Deck();
+	public static Deck MyDeck1 = new Deck();
+	public static Deck MyDeck2 = new Deck();
+	public static String LastDeckNo = "";
 
 	// area
 	public Hashtable<Integer, Area> area;
@@ -182,7 +190,8 @@ public class Info {
 	public enum EventType {
 		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList,
 		fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull,
-		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin
+		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin,
+		getCardDeck
 	}
 
 	public Stack<EventType> events;
@@ -202,6 +211,8 @@ public class Info {
 		pfairy = new FairyBattleInfo();
 		gfairy = new FairyBattleInfo();
 		gfbforce = new GuildFairyBattleForce();
+
+		CurrentDeck = new Deck();
 	}
 
 }

@@ -34,7 +34,7 @@ public class Think {
 				return Action.FAIRY_DIANZAN;
 			case PRIVATE_FAIRY_BATTLE:
 				Process.info.pfairy = Process.info.PrivateFairyList.poll();
-				if (Think.canBattle())
+				if (canBattle())
 					return Action.PRIVATE_FAIRY_BATTLE;
 				break;
 			case EXPLORE:
@@ -65,6 +65,8 @@ public class Think {
 				if (decideAutoMedicine())
 					return Action.AUTO_MEDICINE;
 				break;
+			case GET_CARD_DECK:
+				return Action.GET_CARD_DECK;
 			default:
 				break;
 			}
@@ -143,7 +145,6 @@ public class Think {
 	private static boolean canBattle() {
 		if (Process.info.pfairy.ForceKill) {
 			if (Process.info.bc >= Info.KillFairyDeck.BC) {
-				Process.info.pfairy.No = Info.KillFairyDeck.No;
 				Process.info.CurrentDeck = Info.KillFairyDeck;
 			}
 		} else {
@@ -153,10 +154,8 @@ public class Think {
 						* Info.FriendFairyBattleNormal.BcForceBattle
 						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.FriendFairyBattleNormal.ForceBattle) {
-					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
-					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
+					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (Process.info.bc >= Info.FriendFairyBattleNormal.BC) {
-					Process.info.pfairy.No = Info.FriendFairyBattleNormal.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleNormal;
 				} else {
 					return false;
@@ -167,10 +166,8 @@ public class Think {
 						* Info.FriendFairyBattleRare.BcForceBattle
 						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.FriendFairyBattleRare.ForceBattle) {
-					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (Process.info.bc >= Info.FriendFairyBattleRare.BC) {
-					Process.info.pfairy.No = Info.FriendFairyBattleRare.No;
 					Process.info.CurrentDeck = Info.FriendFairyBattleRare;
 				} else {
 					return false;
@@ -181,10 +178,8 @@ public class Think {
 						* Info.PrivateFairyBattleNormal.BcForceBattle
 						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.PrivateFairyBattleNormal.ForceBattle) {
-					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (Process.info.bc >= Info.PrivateFairyBattleNormal.BC) {
-					Process.info.pfairy.No = Info.PrivateFairyBattleNormal.No;
 					Process.info.CurrentDeck = Info.PrivateFairyBattleNormal;
 				} else {
 					return false;
@@ -195,10 +190,8 @@ public class Think {
 						* Info.PrivateFairyBattleRare.BcForceBattle
 						&& Process.info.bc >= Info.BCFullBattleDeck.BC
 						&& Info.PrivateFairyBattleRare.ForceBattle) {
-					Process.info.pfairy.No = Info.BCFullBattleDeck.No;
 					Process.info.CurrentDeck = Info.BCFullBattleDeck;
 				} else if (Process.info.bc >= Info.PrivateFairyBattleRare.BC) {
-					Process.info.pfairy.No = Info.PrivateFairyBattleRare.No;
 					Process.info.CurrentDeck = Info.PrivateFairyBattleRare;
 				} else {
 					return false;
@@ -218,8 +211,6 @@ public class Think {
 
 	private static boolean canExplore() {
 		try {
-			// if (Process.info.bc == 0)
-			// return false;
 			// 首先确定楼层
 			if (Process.info.floor.isEmpty())
 				return false;

@@ -6,6 +6,8 @@ public class Deck {
 	public int BC = 0;
 	public boolean ForceBattle = false;
 	public double BcForceBattle = 0.9;
+	public String card = "";
+	public String leader = "";
 
 	public Deck(String Name) {
 		DeckName = Name;
