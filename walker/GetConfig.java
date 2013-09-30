@@ -8,6 +8,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import net.Network;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -21,6 +23,7 @@ public class GetConfig {
 			Info.LoginId = xpath.evaluate("/config/username", doc);
 			Info.LoginPw = xpath.evaluate("/config/password", doc);
 			Info.sessionId = xpath.evaluate("/config/sessionId", doc);
+			Network.UserAgent = xpath.evaluate("/config/UserAgent", doc);
 
 			NodeList idl = (NodeList) xpath.evaluate("/config/sell_card/id",
 					doc, XPathConstants.NODESET);
