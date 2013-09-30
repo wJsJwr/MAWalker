@@ -27,7 +27,7 @@ public class Network {
 	private static final String Auth = "eWa25vrE";
 	private static final String Key = "2DbcAh3G";
 
-	private static final String UserAgent = "Million/235 (C6603; C6603_1270-5695; 4.2.2) Sony/C6603_1270-5695/C6603:4.2.2/10.3.1.A.0.244/C_93rg:user/release-keys GooglePlay";
+	private static final String UserAgent = "Million/236 (C6603; C6603_1270-5695; 4.2.2) Sony/C6603_1270-5695/C6603:4.2.2/10.3.1.A.0.244/C_93rg:user/release-keys GooglePlay";
 	private DefaultHttpClient client;
 	public CookieStore cookie;
 
