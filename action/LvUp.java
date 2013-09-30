@@ -59,7 +59,8 @@ public class LvUp {
 
 			ParseUserDataInfo.parse(doc);
 
-			// Process.info.SetTimeoutByAction(Name);
+			Process.info.apUp = 0;
+			Process.info.bcUp = 0;
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)

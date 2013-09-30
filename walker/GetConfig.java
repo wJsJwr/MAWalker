@@ -41,6 +41,8 @@ public class GetConfig {
 					.equals("1");
 			Info.AutoAddp = xpath
 					.evaluate("/config/option/auto_add_point", doc).equals("1");
+			Info.AutoAddAP = xpath
+					.evaluate("/config/option/auto_add_ap", doc).equals("1");
 			Info.AllowAttackSameFairy = xpath.evaluate(
 					"/config/option/allow_attack_same_fairy", doc).equals("1");
 

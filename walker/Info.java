@@ -114,6 +114,8 @@ public class Info {
 	public static long killFairyHp = 3000;
 	
 	public static boolean FairyBattleFirst = false;
+	
+	public static boolean AutoAddAP = false;
 
 	public enum autoUseType {
 		HALF_ONLY, FULL_ONLY, ALL

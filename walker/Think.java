@@ -208,8 +208,13 @@ public class Think {
 	}
 
 	private static void decideUpPoint() {
-		Process.info.apUp = 0;
-		Process.info.bcUp = Process.info.pointToAdd;
+		if (Info.AutoAddAP) {
+			Process.info.apUp = Process.info.pointToAdd;
+			Process.info.bcUp = 0;
+		} else {
+			Process.info.apUp = 0;
+			Process.info.bcUp = Process.info.pointToAdd;
+		}
 	}
 
 	private static boolean canExplore() {
