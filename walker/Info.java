@@ -79,7 +79,6 @@ public class Info {
 	 * 跑每日秘境
 	 */
 	public static boolean GoDailyArea = true;
-
 	/**
 	 * 调试输出
 	 */
@@ -93,30 +92,39 @@ public class Info {
 	 */
 	public static int ticket_max = 0;
 	public static double battlewinscale = 1;
-	
 	/**
 	 * night mode 开关
 	 */
 	public static boolean nightModeSwitch = true;
-
+	/**
+	 * 自动卖卡
+	 */
 	public static boolean sellcard = false;
 	public static boolean sellallcard = false;
-
-	// 吃药相关的开关
+	/**
+	 * 吃药相关的开关
+	 */
 	public static boolean autoUseAp = true;
 	public static boolean autoUseBc = true;
-	
 	/**
 	 * cookie登陆的sessionId
 	 */	
 	public static String sessionId = "";
-	
+	/**
+	 * 尾刀卡组HP判定上限
+	 */
 	public static long killFairyHp = 3000;
-	
+	/**
+	 * 妖精战优先
+	 */
 	public static boolean FairyBattleFirst = false;
-	
+	/**
+	 * 自动加点，AP/BC选择
+	 */
 	public static boolean AutoAddAP = false;
-
+	/**
+	 * 自动吃药方式
+	 */
 	public enum autoUseType {
 		HALF_ONLY, FULL_ONLY, ALL
 	}

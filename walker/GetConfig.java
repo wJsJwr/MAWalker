@@ -55,7 +55,7 @@ public class GetConfig {
 
 			Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc)
 					.equals("1");
-			// if (Info.autoUseAp) {
+
 			String aphalf = xpath.evaluate("/config/use/strategy/ap/half", doc);
 			if (aphalf.equals("0")) {
 				Info.autoApType = Info.autoUseType.FULL_ONLY;
@@ -68,10 +68,10 @@ public class GetConfig {
 					"/config/use/strategy/ap/low", doc));
 			Info.autoApFullLow = Integer.parseInt(xpath.evaluate(
 					"/config/use/strategy/ap/full_low", doc));
-			// }
+
 			Info.autoUseBc = xpath.evaluate("/config/use/auto_use_bc", doc)
 					.equals("1");
-			// if (Info.autoUseBc) {
+
 			String bchalf = xpath.evaluate("/config/use/strategy/bc/half", doc);
 			if (bchalf.equals("0")) {
 				Info.autoBcType = Info.autoUseType.FULL_ONLY;

@@ -90,8 +90,6 @@ public class Explore {
 					doc));
 			Process.info.guildId = xpath.evaluate("//your_data/party_id", doc);
 
-			// Process.info.SetTimeoutByAction(Name);
-
 			// TODO: 添加升级事件
 			Process.info.exp = Integer.parseInt(xpath.evaluate(
 					"//explore/next_exp", doc));

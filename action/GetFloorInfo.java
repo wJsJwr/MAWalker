@@ -100,7 +100,6 @@ public class GetFloorInfo {
 			} // end of area iterator
 			if (Process.info.front == null)
 				Process.info.front = Process.info.floor.get(1);
-			// Process.info.SetTimeoutByAction(Name);
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
