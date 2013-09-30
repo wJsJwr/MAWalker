@@ -143,8 +143,10 @@ public class Think {
 	}
 
 	private static boolean canBattle() {
-		if (Process.info.pfairy.ForceKill && Process.info.bc >= Info.KillFairyDeck.BC) {
-			Process.info.CurrentDeck = Info.KillFairyDeck;
+		if (Process.info.pfairy.ForceKill) {
+			if(Process.info.bc >= Info.KillFairyDeck.BC) {
+				Process.info.CurrentDeck = Info.KillFairyDeck;
+			}
 		} else {
 			switch (Process.info.pfairy.Type) {
 			case 4:

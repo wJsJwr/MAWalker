@@ -163,6 +163,7 @@ public class GetFairyList {
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
 				FairyBattleInfo fbi = new FairyBattleInfo();
+				fbi.ForceKill = false;
 				boolean attack_flag = false;
 				do {
 					if (f.getNodeName().equals("serial_id")) {
@@ -185,11 +186,7 @@ public class GetFairyList {
 						}
 					} else if (f.getNodeName().equals("hp")) {
 						fbi.FairyHp = Integer.parseInt(f.getFirstChild()
-								.getNodeValue());
-						if (fbi.FairyHp < Info.killFairyHp)
-							fbi.ForceKill = true;
-						else
-							fbi.ForceKill = false;
+								.getNodeValue());						
 					} else if (f.getNodeName().equals("hp_max")) {
 						fbi.FairyHpMax = Integer.parseInt(f.getFirstChild()
 								.getNodeValue());
@@ -206,10 +203,11 @@ public class GetFairyList {
 							if (bi.equals(fbi)) {
 								// 已经舔过
 								attack_flag = true;
-								break;
+								if (fbi.FairyHp < Info.killFairyHp)
+									fbi.ForceKill = true;
 							}
 						}
-						if (!attack_flag)
+						if (!attack_flag || fbi.ForceKill)
 							Process.info.PrivateFairyList.offer(fbi);
 					}
 				}
