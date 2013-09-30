@@ -94,8 +94,11 @@ public class GetCardDeck {
 				return false;
 
 			Info.MyDeck0.card = myDeckList.get(0);
+			Info.MyDeck0.leader = Info.MyDeck0.card.split(",")[0];
 			Info.MyDeck1.card = myDeckList.get(1);
+			Info.MyDeck1.leader = Info.MyDeck1.card.split(",")[0];
 			Info.MyDeck2.card = myDeckList.get(2);
+			Info.MyDeck2.leader = Info.MyDeck2.card.split(",")[0];
 
 			walker.Go.saveDeck(0, Info.MyDeck0.card);
 			walker.Go.saveDeck(1, Info.MyDeck1.card);

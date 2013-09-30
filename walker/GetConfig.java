@@ -173,11 +173,15 @@ public class GetConfig {
 									"/config/fairy/fairy_profile[name='KillFairyDeck']/hp_kill",
 									doc));
 
+			Info.MyDeck0.No = "0";
 			Info.MyDeck0.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[no=0]/bc", doc));
 
+			Info.MyDeck1.No = "1";
 			Info.MyDeck1.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[no=1]/bc", doc));
+
+			Info.MyDeck2.No = "2";
 
 			Info.MyDeckA1.No = "101";
 			Info.MyDeckA1.BC = Integer.parseInt(xpath.evaluate(
