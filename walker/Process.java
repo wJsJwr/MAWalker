@@ -245,7 +245,8 @@ public class Process {
 		switch (action) {
 		case COOKIELOGIN:
 			try {
-				if (CookieLogin.run()) {
+				switch (CookieLogin.run()) {
+				case 1:
 					Go.log(String
 							.format("Cookie Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
@@ -255,11 +256,16 @@ public class Process {
 					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
-				} else {
+					break;
+				case 0:
 					Go.log(ErrorData.text);
 					Go.log("Cookie Login Failed, waiting to login with username and password.");
 					ErrorData.clear();
 					AddUrgentTask(Info.EventType.notLoggedIn);
+					break;
+				case 2:
+					AddUrgentTask(Info.EventType.cookieLogin);
+					break;
 				}
 			} catch (Exception ex) {
 				AddUrgentTask(Info.EventType.cookieOutOfDate);
@@ -270,7 +276,8 @@ public class Process {
 			break;
 		case LOGIN:
 			try {
-				if (Login.run()) {
+				switch (Login.run()) {
+				case 1:
 					Go.log(String
 							.format("Normal Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
@@ -280,8 +287,13 @@ public class Process {
 					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
-				} else {
+					break;
+				case 0:
 					AddUrgentTask(Info.EventType.notLoggedIn);
+					break;
+				case 2:
+					AddUrgentTask(Info.EventType.cookieLogin);
+					break;
 				}
 			} catch (Exception ex) {
 				AddUrgentTask(Info.EventType.notLoggedIn);
@@ -402,10 +414,16 @@ public class Process {
 			break;
 		case GOTO_MAIN_MENU:
 			try {
-				if (GotoMainMenu.run()) {
+				switch (GotoMainMenu.run()) {
+				case 1:
 					AddTask(Info.EventType.gotoFloor);
-				} else {
+					break;
+				case 0:
 					Go.log("Something wrong@GOTO_MAIN_MENU.");
+					break;
+				case 2:
+					AddUrgentTask(Info.EventType.needAPBCInfo);
+					break;
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -605,7 +623,7 @@ public class Process {
 					Go.log("Succeed to get card deck info.");
 				} else {
 					Go.log("Something wrong@GET_CARD_DECK.");
-				}				
+				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
 					throw ex;
