@@ -47,7 +47,7 @@ public class Login {
 				throw ex;
 			}
 
-			Thread.sleep(Process.getRandom(2000, 3000));
+			Thread.sleep(Process.getRandom(1000, 2000));
 		}
 		ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
 		al.add(new BasicNameValuePair("login_id", Info.LoginId));
@@ -62,7 +62,7 @@ public class Login {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(2000, 3000));
+		Thread.sleep(Process.getRandom(1000, 2000));
 
 		try {
 			doc = Process.ParseXMLBytes(result);

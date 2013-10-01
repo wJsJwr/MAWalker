@@ -40,7 +40,7 @@ public class GotoFloor {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(2000, 3000));
+		Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("GET_FLOOR.xml");

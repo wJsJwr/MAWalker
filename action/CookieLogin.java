@@ -46,7 +46,7 @@ public class CookieLogin {
 				result = Process.network.ConnectToServer(URL_CHECK_INSPECTION,
 						new ArrayList<NameValuePair>(), true);
 
-				Thread.sleep(Process.getRandom(2000, 3000));
+				Thread.sleep(Process.getRandom(1000, 2000));
 				
 			} catch (Exception ex) {
 				ErrorData.currentDataType = ErrorData.DataType.text;
@@ -67,7 +67,7 @@ public class CookieLogin {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(2000, 3000));
+		Thread.sleep(Process.getRandom(1000, 2000));
 
 		try {
 			doc = Process.ParseXMLBytes(result); // 通过分析匿名类获得当前类名
