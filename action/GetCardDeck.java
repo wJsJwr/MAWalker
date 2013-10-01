@@ -38,6 +38,8 @@ public class GetCardDeck {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		if (Info.Debug) {
 			File outputFile = new File("GET_CARD_DECK.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
@@ -76,7 +78,8 @@ public class GetCardDeck {
 			}
 
 			NodeList tempDeckList = (NodeList) xpath.evaluate(
-					"/response/body/roundtable_edit/deck", doc, XPathConstants.NODESET);
+					"/response/body/roundtable_edit/deck", doc,
+					XPathConstants.NODESET);
 			ArrayList<String> myDeckList = new ArrayList<String>();
 			for (int i = 0; i < tempDeckList.getLength(); i++) {
 				Node f = tempDeckList.item(i).getFirstChild();

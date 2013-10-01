@@ -72,6 +72,8 @@ public class PrivateFairyBattle {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		if (Info.Debug) {
 			File outputFile = new File("PRIVATE_BATTLE.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);

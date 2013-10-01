@@ -47,6 +47,8 @@ public class GuildBattle {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		if (Info.Debug) {
 			File outputFile = new File("GUILD_BATTLE.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);

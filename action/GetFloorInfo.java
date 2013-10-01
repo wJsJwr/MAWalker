@@ -44,6 +44,8 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		if (Info.Debug) {
 			File outputFile = new File("FLOOR_AREA.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
@@ -123,6 +125,8 @@ public class GetFloorInfo {
 			ErrorData.text = ex.getLocalizedMessage();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(2000, 3000));
 
 		if (Info.Debug) {
 			File outputFile = new File("FLOOR_FLOOR.xml");

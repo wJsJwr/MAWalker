@@ -23,7 +23,7 @@ public class GetConfig {
 			Info.LoginId = xpath.evaluate("/config/username", doc);
 			Info.LoginPw = xpath.evaluate("/config/password", doc);
 			Info.sessionId = xpath.evaluate("/config/sessionId", doc);
-			Network.UserAgent = xpath.evaluate("/config/UserAgent", doc);
+			Network.UserAgent = xpath.evaluate("/config/UserAgent", doc).trim();
 
 			NodeList idl = (NodeList) xpath.evaluate("/config/sell_card/id",
 					doc, XPathConstants.NODESET);
@@ -44,8 +44,8 @@ public class GetConfig {
 					.equals("1");
 			Info.AutoAddp = xpath
 					.evaluate("/config/option/auto_add_point", doc).equals("1");
-			Info.AutoAddAP = xpath
-					.evaluate("/config/option/auto_add_ap", doc).equals("1");
+			Info.AutoAddAP = xpath.evaluate("/config/option/auto_add_ap", doc)
+					.equals("1");
 			Info.AllowAttackSameFairy = xpath.evaluate(
 					"/config/option/allow_attack_same_fairy", doc).equals("1");
 
@@ -87,8 +87,10 @@ public class GetConfig {
 					"/config/use/strategy/bc/low", doc));
 			Info.autoBcFullLow = Integer.parseInt(xpath.evaluate(
 					"/config/use/strategy/bc/full_low", doc));
-			// }
-
+			Info.sleep_time = Long.parseLong(xpath.evaluate(
+					"/config/option/sleep_time", doc));
+			if (Info.sleep_time < 5)
+				Info.sleep_time = 5;
 			Info.ApForceGo = Double.parseDouble(xpath.evaluate(
 					"/config/option/ap_force_go", doc));
 			Info.GoNoEventArea = xpath.evaluate(

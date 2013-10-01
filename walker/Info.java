@@ -15,14 +15,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-
 public class Info {
 	// INFO: static variants are need to be configured in configure file
 
 	// login info
 	public static String LoginId = "";
 	public static String LoginPw = "";
-	
 
 	// user info
 	public String username = "";
@@ -108,7 +106,7 @@ public class Info {
 	public static boolean autoUseBc = true;
 	/**
 	 * cookie登陆的sessionId
-	 */	
+	 */
 	public static String sessionId = "";
 	/**
 	 * 尾刀卡组HP判定上限
@@ -122,6 +120,11 @@ public class Info {
 	 * 自动加点，AP/BC选择
 	 */
 	public static boolean AutoAddAP = false;
+	/**
+	 * 检测间隔
+	 */
+	public static long sleep_time = 10;
+
 	/**
 	 * 自动吃药方式
 	 */
@@ -150,11 +153,11 @@ public class Info {
 	public static Deck PrivateFairyBattleRare = new Deck("My Rare Fairy Deck");
 	public static Deck FriendFairyBattleNormal = new Deck("Friend's Fairy Deck");
 	public static Deck BCFullBattleDeck = new Deck("Force Battle Deck");
-	public static Deck KillFairyDeck = new Deck ("Kill Fairy Deck");
+	public static Deck KillFairyDeck = new Deck("Kill Fairy Deck");
 	public Deck CurrentDeck = new Deck();
 	public static Deck MyDeckA1 = new Deck();
 	public static Deck MyDeckA2 = new Deck();
-	public static Deck MyDeckA3= new Deck();
+	public static Deck MyDeckA3 = new Deck();
 	public static Deck MyDeckA4 = new Deck();
 	public static Deck MyDeckA5 = new Deck();
 	public static Deck MyDeck0 = new Deck();
@@ -199,10 +202,7 @@ public class Info {
 
 	// event
 	public enum EventType {
-		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList,
-		fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull,
-		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin,
-		getCardDeck
+		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck
 	}
 
 	public Stack<EventType> events;

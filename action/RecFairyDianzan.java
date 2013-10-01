@@ -37,6 +37,8 @@ public class RecFairyDianzan {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		if (Info.Debug) {
 			File outputFile = new File("PRIVATE_BATTLE_TOP.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);

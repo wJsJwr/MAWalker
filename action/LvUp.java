@@ -34,6 +34,8 @@ public class LvUp {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		Document doc;
 		try {
 			doc = Process.ParseXMLBytes(response);

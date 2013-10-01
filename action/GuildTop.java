@@ -38,6 +38,8 @@ public class GuildTop {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		if (Info.Debug) {
 			File outputFile = new File("GUILD_TOP.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);

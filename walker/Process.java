@@ -71,10 +71,11 @@ public class Process {
 				}
 				execute(ActionToDo);
 				long delta = System.currentTimeMillis() - start;
-				if (delta < 5000)
-					Thread.sleep(5000 - delta);
+				long tmp = getRandom(0, 5000);
+				if (delta < Info.sleep_time * 1000 + tmp)
+					Thread.sleep(Info.sleep_time * 1000 + tmp - delta);
 				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy)
-					Thread.sleep(60000); // 半夜速度慢点,等待60s
+					Thread.sleep(2 * 60000); // 半夜速度慢点,等待60s
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -86,32 +87,32 @@ public class Process {
 			public void run() {
 				AddTask(Info.EventType.getFairyList);
 			}
-		}, 0, 3 * 1000);// 3s
+		}, 0, 5 * 1000);// 5s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.guildTop);
 			}
-		}, 0, 30 * 1000);// 30s
+		}, 0, 45 * 1000);// 45s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoExplore);
 			}
-		}, 0, 30 * 1000l);// 30s
+		}, 0, 45 * 1000l);// 45s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needFloorInfo);
 			}
-		}, 0, 3 * 60 * 1000);// 3min
+		}, 0, 5 * 60 * 1000);// 5min
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needAPBCInfo);
 			}
-		}, 0, 3 * 60 * 1000);// 3min
+		}, 0, 5 * 60 * 1000);// 5min
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoMedicine);
 			}
-		}, 0, 3 * 60 * 1000); // 3min
+		}, 0, 5 * 60 * 1000); // 5min
 		Calendar myCal = Calendar.getInstance();
 		if (myCal.get(Calendar.HOUR_OF_DAY) >= 1) {
 			int date = myCal.get(Calendar.DAY_OF_YEAR);
@@ -651,6 +652,10 @@ public class Process {
 		} catch (Exception ex) {
 			throw ex;
 		}
+	}
+
+	public static long getRandom(long time1, long time2) {
+		return Math.round(time1 + (time2 - time1) * Math.random());
 	}
 
 }

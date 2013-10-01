@@ -46,6 +46,8 @@ public class Login {
 				ErrorData.text = ERR_CHECK_INSPECTION;
 				throw ex;
 			}
+
+			Thread.sleep(Process.getRandom(2000, 3000));
 		}
 		ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
 		al.add(new BasicNameValuePair("login_id", Info.LoginId));
@@ -59,6 +61,9 @@ public class Login {
 			ex.printStackTrace();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(2000, 3000));
+
 		try {
 			doc = Process.ParseXMLBytes(result);
 		} catch (Exception ex) {
@@ -85,23 +90,23 @@ public class Login {
 						"/response/header/error/message", doc);
 				return 0;
 			}
-			
-			//System.out.println("Post logon cookies:");
-			List <Cookie> cookies = Process.network.cookie.getCookies();
+
+			// System.out.println("Post logon cookies:");
+			List<Cookie> cookies = Process.network.cookie.getCookies();
 			if (cookies.isEmpty()) {
 				System.out.println("None");
 			} else {
 				for (int i = 0; i < cookies.size(); i++) {
-					//System.out.println("- " + cookies.get(i).getName());
+					// System.out.println("- " + cookies.get(i).getName());
 					if (cookies.get(i).getName().equals("S")) {
-						//System.out.println("- " + cookies.get(i).getValue());
+						// System.out.println("- " + cookies.get(i).getValue());
 						Info.sessionId = cookies.get(i).getValue();
 						walker.Go.saveSessionId(Info.sessionId);
 					}
 				}
 			}
 
-			if (GuildDefeat.judge(doc)) {				
+			if (GuildDefeat.judge(doc)) {
 				return 2;
 			}
 
