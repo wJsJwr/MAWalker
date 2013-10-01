@@ -89,6 +89,7 @@ public class GuildTop {
 			} else {
 				Process.info.NoFairy = false;
 			}
+
 			Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name", doc);
 			Process.info.gfairy.SerialId = xpath.evaluate("//fairy/serial_id",
 					doc);
@@ -96,6 +97,24 @@ public class GuildTop {
 					"//fairy/discoverer_id", doc);
 			Process.info.gfairy.FairyLevel = Integer.parseInt(xpath.evaluate(
 					"//fairy/lv", doc));
+			if (Info.OnlyBcBuff) {
+				if ((boolean) xpath.evaluate("count(//spp_skill_effect)>0",
+						doc, XPathConstants.BOOLEAN)) {
+					String tmp = xpath.evaluate("//spp_skill_effect", doc);
+					if (tmp.indexOf("BC") == -1) {
+						walker.Go.log(String.format(
+								"Guild Fairy Buff: %s, skip.", tmp));
+						if (Process.info.ticket < Info.ticket_max) {
+							return false;
+						} else {
+							walker.Go.log("Too many tickets!");
+						}
+					} else {
+						walker.Go.log(String.format(
+								"Guild Fairy Buff: %s, fight!", tmp));
+					}
+				}
+			}
 
 			if ((boolean) xpath.evaluate("count(//force_gauge)>0", doc,
 					XPathConstants.BOOLEAN)) {// 第一次遇怪没有这些信息，需要先打一下

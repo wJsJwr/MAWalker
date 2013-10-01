@@ -124,7 +124,10 @@ public class Info {
 	 * 检测间隔
 	 */
 	public static long sleep_time = 10;
-
+	/**
+	 * 外敌战BC Buff
+	 */
+	public static boolean OnlyBcBuff = false;
 	/**
 	 * 自动吃药方式
 	 */

@@ -48,6 +48,8 @@ public class GetConfig {
 					.equals("1");
 			Info.AllowAttackSameFairy = xpath.evaluate(
 					"/config/option/allow_attack_same_fairy", doc).equals("1");
+			Info.OnlyBcBuff = xpath.evaluate(
+					"/config/option/only_bc_buff", doc).equals("1");
 
 			Info.nightModeSwitch = xpath.evaluate("/config/option/night_mode",
 					doc).equals("1");
