@@ -138,7 +138,7 @@ public class FairyDianzan {
 			throw ex;
 		}
 
-		Thread.sleep(2500 + Math.round(Math.random() * 2500));
+		Thread.sleep(Process.getRandom(2000, 3000));
 
 		if (Info.Debug) {
 			File outputFile = new File("PRIVATE_BATTLE_DIANZAN.xml");
