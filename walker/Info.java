@@ -62,10 +62,6 @@ public class Info {
 	 */
 	public static boolean AutoAddp = true;
 	/**
-	 * 允许舔同一个怪
-	 */
-	public static boolean AllowAttackSameFairy = true;
-	/**
 	 * 强制跑图AP上限
 	 */
 	public static double ApForceGo = 0.8;
@@ -89,7 +85,7 @@ public class Info {
 	 * 强制外敌战挑战书上限
 	 */
 	public static int ticket_max = 0;
-	public static double battlewinscale = 1;
+	public static double battle_win_scale = 1;
 	/**
 	 * night mode 开关
 	 */
@@ -109,10 +105,6 @@ public class Info {
 	 */
 	public static String sessionId = "";
 	/**
-	 * 尾刀卡组HP判定上限
-	 */
-	public static long killFairyHp = 3000;
-	/**
 	 * 妖精战优先
 	 */
 	public static boolean FairyBattleFirst = false;
@@ -128,6 +120,10 @@ public class Info {
 	 * 外敌战BC Buff
 	 */
 	public static boolean OnlyBcBuff = false;
+	/**
+	 * 尾刀卡组出击bc下限
+	 */
+	public static double KillFairyScale = 0; 
 	/**
 	 * 自动吃药方式
 	 */
@@ -155,7 +151,7 @@ public class Info {
 	public static Deck PrivateFairyBattleNormal = new Deck("My Fairy Deck");
 	public static Deck PrivateFairyBattleRare = new Deck("My Rare Fairy Deck");
 	public static Deck FriendFairyBattleNormal = new Deck("Friend's Fairy Deck");
-	public static Deck BCFullBattleDeck = new Deck("Force Battle Deck");
+	public static Deck BcInsufficientDeck = new Deck("BcInsufficientDeck");
 	public static Deck KillFairyDeck = new Deck("Kill Fairy Deck");
 	public Deck CurrentDeck = new Deck();
 	public static Deck MyDeckA1 = new Deck();

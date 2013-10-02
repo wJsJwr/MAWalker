@@ -195,24 +195,38 @@ public class GetFairyList {
 					}
 					f = f.getNextSibling();
 				} while (f != null);
-				if (Info.AllowAttackSameFairy) {
-					Process.info.PrivateFairyList.offer(fbi);
-				} else {
-					if (fbi.ForceKill) {
-						Process.info.PrivateFairyList.offer(fbi);
-					} else {
-						for (FairyBattleInfo bi : Process.info.LatestFairyList) {
-							if (bi.equals(fbi)) {
-								// 已经舔过
-								attack_flag = true;
-								if (fbi.FairyHp < Info.killFairyHp)
-									fbi.ForceKill = true;
-							}
-						}
-						if (!attack_flag || fbi.ForceKill)
-							Process.info.PrivateFairyList.offer(fbi);
+				long killFairyHpMax = 0;
+				boolean useKillFairyDeck = false;
+				switch (fbi.Type) {
+				case 4:
+					killFairyHpMax = Info.FriendFairyBattleNormal.KillFairyHpMax;
+					useKillFairyDeck = Info.FriendFairyBattleNormal.UseKillFairyDeck;
+					break;
+				case 5:
+					killFairyHpMax = Info.FriendFairyBattleRare.KillFairyHpMax;
+					useKillFairyDeck = Info.FriendFairyBattleRare.UseKillFairyDeck;
+					break;
+				case 6:
+					killFairyHpMax = Info.PrivateFairyBattleNormal.KillFairyHpMax;
+					useKillFairyDeck = Info.PrivateFairyBattleNormal.UseKillFairyDeck;
+					break;
+				case 7:
+					killFairyHpMax = Info.PrivateFairyBattleRare.KillFairyHpMax;
+					useKillFairyDeck = Info.PrivateFairyBattleRare.UseKillFairyDeck;
+					break;
+				default:
+					break;
+				}
+				for (FairyBattleInfo bi : Process.info.LatestFairyList) {
+					if (bi.equals(fbi)) {
+						// 已经舔过
+						attack_flag = true;
+						if (fbi.FairyHp < killFairyHpMax && useKillFairyDeck)
+							fbi.ForceKill = true;
 					}
 				}
+				if (!attack_flag || fbi.ForceKill)
+					Process.info.PrivateFairyList.offer(fbi);
 			}
 
 			if (!Process.info.PrivateFairyList.isEmpty()) {

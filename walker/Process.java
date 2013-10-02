@@ -466,10 +466,11 @@ public class Process {
 						str += String.format(
 								"Fairy Info: SerialID: %s, UserID: %s.\n",
 								info.pfairy.SerialId, info.pfairy.UserId);
-					str += String.format(
-							"Card Deck Info: %s, Number: %s, BC: %d.\n",
-							info.CurrentDeck.DeckName, info.CurrentDeck.No,
-							info.CurrentDeck.BC);
+					str += String
+							.format("Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.\n",
+									info.CurrentDeck.DeckName,
+									info.CurrentDeck.CustomDeckName,
+									info.CurrentDeck.No, info.CurrentDeck.BC);
 					Go.log(str);
 				} else {
 
@@ -522,8 +523,8 @@ public class Process {
 									info.bcMax, info.ap, info.apMax,
 									info.ticket, info.week, result)
 							+ String.format(
-									"Card Deck Info: %s, Number: %s, BC: %d.",
-									info.CurrentDeck.DeckName,
+									"Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.",
+									info.CurrentDeck.DeckName, info.CurrentDeck.CustomDeckName,
 									info.CurrentDeck.No, info.CurrentDeck.BC);
 					Thread.sleep(5000);
 					Go.log(str);

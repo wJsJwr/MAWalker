@@ -113,6 +113,9 @@ public class GuildTop {
 						walker.Go.log(String.format(
 								"Guild Fairy Buff: %s, fight!", tmp));
 					}
+				} else {
+					walker.Go.log("Guild Fairy Buff: None, skip.");
+					return false;
 				}
 			}
 
@@ -134,8 +137,8 @@ public class GuildTop {
 				Process.info.gfbforce.rivalscale = Process.info.gfbforce.rival
 						* 100 / Process.info.gfbforce.total;
 				if (Process.info.ticket > 0) {
-					if (Process.info.gfbforce.ownscale < 100 * Info.battlewinscale
-							&& Process.info.gfbforce.rivalscale < 100 * Info.battlewinscale) {
+					if (Process.info.gfbforce.ownscale < 100 * Info.battle_win_scale
+							&& Process.info.gfbforce.rivalscale < 100 * Info.battle_win_scale) {
 						Process.AddUrgentTask(Info.EventType.guildBattle);
 					} else if (Process.info.ticket >= Info.ticket_max) {
 						Process.AddUrgentTask(Info.EventType.guildBattle);

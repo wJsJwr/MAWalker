@@ -38,7 +38,7 @@ public class PrivateFairyBattle {
 
 		boolean flag_deck = false;
 
-		if (Integer.parseInt(Process.info.CurrentDeck.No) > 100) {
+		if (Integer.parseInt(Process.info.CurrentDeck.No) > 200) {
 			if (ChangeCardDeck.run()) {
 				Process.info.pfairy.No = "2";
 				flag_deck = true;

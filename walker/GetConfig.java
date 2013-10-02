@@ -46,8 +46,6 @@ public class GetConfig {
 					.evaluate("/config/option/auto_add_point", doc).equals("1");
 			Info.AutoAddAP = xpath.evaluate("/config/option/auto_add_ap", doc)
 					.equals("1");
-			Info.AllowAttackSameFairy = xpath.evaluate(
-					"/config/option/allow_attack_same_fairy", doc).equals("1");
 			Info.OnlyBcBuff = xpath.evaluate(
 					"/config/option/only_bc_buff", doc).equals("1");
 
@@ -100,34 +98,63 @@ public class GetConfig {
 			Info.GoDailyArea = xpath.evaluate("/config/option/go_daily_area",
 					doc).equals("1");
 
-			Info.FriendFairyBattleRare.No = xpath
+			//自己普通妖精
+			Info.PrivateFairyBattleNormal.No = xpath.evaluate(
+					"/config/fairy/fairy_profile[name='FairyDeck']/no", doc);
+			Info.PrivateFairyBattleNormal.UseBcInsufficientDeck = xpath
 					.evaluate(
-							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/no",
-							doc);
-			Info.FriendFairyBattleRare.ForceBattle = xpath
-					.evaluate(
-							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/force_battle",
+							"/config/fairy/fairy_profile[name='FairyDeck']/use_bc_insufficient_deck",
 							doc).equals("1");
-			Info.FriendFairyBattleRare.BcForceBattle = Double
+			Info.PrivateFairyBattleNormal.BcInsufficientScale = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/bc_force_battle",
+									"/config/fairy/fairy_profile[name='FairyDeck']/bc_insufficient_scale",
+									doc));
+			Info.PrivateFairyBattleNormal.BcInsufficientHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='FairyDeck']/bc_insufficient_hp_max",
+									doc));
+			Info.PrivateFairyBattleNormal.UseKillFairyDeck = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='FairyDeck']/use_kill_fairy_deck",
+							doc).equals("1");
+			Info.PrivateFairyBattleNormal.KillFairyHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='FairyDeck']/kill_fairy_hp_max",
 									doc));
 
-			Info.FriendFairyBattleNormal.No = xpath
+			//自己觉醒妖精
+			Info.PrivateFairyBattleRare.No = xpath
 					.evaluate(
-							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/no",
+							"/config/fairy/fairy_profile[name='RareFairyDeck']/no",
 							doc);
-			Info.FriendFairyBattleNormal.ForceBattle = xpath
+			Info.PrivateFairyBattleRare.UseBcInsufficientDeck = xpath
 					.evaluate(
-							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/force_battle",
+							"/config/fairy/fairy_profile[name='RareFairyDeck']/use_bc_insufficient_deck",
 							doc).equals("1");
-			Info.FriendFairyBattleNormal.BcForceBattle = Double
+			Info.PrivateFairyBattleRare.BcInsufficientScale = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/bc_force_battle",
+									"/config/fairy/fairy_profile[name='RareFairyDeck']/bc_insufficient_scale",
+									doc));
+			Info.PrivateFairyBattleRare.BcInsufficientHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='RareFairyDeck']/bc_insufficient_hp_max",
+									doc));
+			Info.PrivateFairyBattleRare.UseKillFairyDeck = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='RareFairyDeck']/use_kill_fairy_deck",
+							doc).equals("1");
+			Info.PrivateFairyBattleRare.KillFairyHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='RareFairyDeck']/kill_fairy_hp_max",
 									doc));
 
+			//外敌
 			Info.PublicFairyBattle.No = xpath.evaluate(
 					"/config/fairy/fairy_profile[name='GuildFairyDeck']/no",
 					doc);
@@ -136,137 +163,189 @@ public class GetConfig {
 							.evaluate(
 									"/config/fairy/fairy_profile[name='GuildFairyDeck']/ticket_max",
 									doc));
-			Info.battlewinscale = Double
+			Info.battle_win_scale = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/fairy/fairy_profile[name='GuildFairyDeck']/battlewinscale",
+									"/config/fairy/fairy_profile[name='GuildFairyDeck']/battle_win_scale",
 									doc));
 
-			Info.PrivateFairyBattleNormal.No = xpath.evaluate(
-					"/config/fairy/fairy_profile[name='FairyDeck']/no", doc);
-			Info.PrivateFairyBattleNormal.ForceBattle = xpath
+			//基友普通妖精
+			Info.FriendFairyBattleNormal.No = xpath
 					.evaluate(
-							"/config/fairy/fairy_profile[name='FairyDeck']/force_battle",
-							doc).equals("1");
-			Info.PrivateFairyBattleNormal.BcForceBattle = Double
-					.parseDouble(xpath
-							.evaluate(
-									"/config/fairy/fairy_profile[name='FairyDeck']/bc_force_battle",
-									doc));
-
-			Info.PrivateFairyBattleRare.No = xpath
-					.evaluate(
-							"/config/fairy/fairy_profile[name='RareFairyDeck']/no",
+							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/no",
 							doc);
-			Info.PrivateFairyBattleRare.ForceBattle = xpath
+			Info.FriendFairyBattleNormal.UseBcInsufficientDeck = xpath
 					.evaluate(
-							"/config/fairy/fairy_profile[name='RareFairyDeck']/force_battle",
+							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/use_bc_insufficient_deck",
 							doc).equals("1");
-			Info.PrivateFairyBattleRare.BcForceBattle = Double
+			Info.FriendFairyBattleNormal.BcInsufficientScale = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/fairy/fairy_profile[name='RareFairyDeck']/bc_force_battle",
+									"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/bc_insufficient_scale",
+									doc));
+			Info.FriendFairyBattleNormal.BcInsufficientHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/bc_insufficient_hp_max",
+									doc));
+			Info.FriendFairyBattleNormal.UseKillFairyDeck = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/use_kill_fairy_deck",
+							doc).equals("1");
+			Info.FriendFairyBattleNormal.KillFairyHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/kill_fairy_hp_max",
 									doc));
 
-			Info.BCFullBattleDeck.No = xpath.evaluate(
-					"/config/fairy/fairy_profile[name='BCFullBattleDeck']/no",
+			//基友觉醒妖精
+			Info.FriendFairyBattleRare.No = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/no",
+							doc);
+			Info.FriendFairyBattleRare.UseBcInsufficientDeck = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/use_bc_insufficient_deck",
+							doc).equals("1");
+			Info.FriendFairyBattleRare.BcInsufficientScale = Double
+					.parseDouble(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/bc_insufficient_scale",
+									doc));
+			Info.FriendFairyBattleRare.BcInsufficientHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/bc_insufficient_hp_max",
+									doc));
+			Info.FriendFairyBattleRare.UseKillFairyDeck = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/use_kill_fairy_deck",
+							doc).equals("1");
+			Info.FriendFairyBattleRare.KillFairyHpMax = Long
+					.parseLong(xpath
+							.evaluate(
+									"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/kill_fairy_hp_max",
+									doc));
+
+			//BC不足出击卡组
+			Info.BcInsufficientDeck.No = xpath.evaluate(
+					"/config/fairy/fairy_profile[name='BcInsufficientDeck']/no",
 					doc);
 
+			//尾刀卡组
 			Info.KillFairyDeck.No = xpath
 					.evaluate(
 							"/config/fairy/fairy_profile[name='KillFairyDeck']/no",
 							doc);
-			Info.killFairyHp = Long
-					.parseLong(xpath
-							.evaluate(
-									"/config/fairy/fairy_profile[name='KillFairyDeck']/hp_kill",
-									doc));
-			Info.KillFairyDeck.BcKillFairy = Double
+			Info.KillFairyScale = Double
 					.parseDouble(xpath
 							.evaluate(
-									"/config/fairy/fairy_profile[name='KillFairyDeck']/bc_kill_fairy",
+									"/config/fairy/fairy_profile[name='KillFairyDeck']/kill_fairy_scale",
 									doc));
 
 			Info.MyDeck0.No = "0";
 			Info.MyDeck0.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[no=0]/bc", doc));
+			Info.MyDeck0.CustomDeckName = xpath.evaluate(
+					"/config/deck/deck_profile[no=0]/custom_name", doc);
 
 			Info.MyDeck1.No = "1";
 			Info.MyDeck1.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[no=1]/bc", doc));
+			Info.MyDeck1.CustomDeckName = xpath.evaluate(
+					"/config/deck/deck_profile[no=1]/custom_name", doc);
 
 			Info.MyDeck2.No = "2";
 
-			Info.MyDeckA1.No = "101";
+			Info.MyDeckA1.No = "201";
 			Info.MyDeckA1.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[no=101]/bc", doc));
+					"/config/deck/deck_profile[no=201]/bc", doc));
 			Info.MyDeckA1.card = xpath.evaluate(
-					"/config/deck/deck_profile[no=101]/card", doc);
+					"/config/deck/deck_profile[no=201]/card", doc);
 			Info.MyDeckA1.leader = Info.MyDeckA1.card.split(",")[0];
+			Info.MyDeckA1.CustomDeckName = xpath.evaluate(
+					"/config/deck/deck_profile[no=201]/custom_name", doc);
 
-			Info.MyDeckA2.No = "102";
+			Info.MyDeckA2.No = "202";
 			Info.MyDeckA2.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[no=102]/bc", doc));
+					"/config/deck/deck_profile[no=202]/bc", doc));
 			Info.MyDeckA2.card = xpath.evaluate(
-					"/config/deck/deck_profile[no=102]/card", doc);
-			Info.MyDeckA3.leader = Info.MyDeckA1.card.split(",")[0];
+					"/config/deck/deck_profile[no=202]/card", doc);
+			Info.MyDeckA2.leader = Info.MyDeckA2.card.split(",")[0];
+			Info.MyDeckA2.CustomDeckName = xpath.evaluate(
+					"/config/deck/deck_profile[no=202]/custom_name", doc);
 
-			Info.MyDeckA3.No = "103";
+			Info.MyDeckA3.No = "203";
 			Info.MyDeckA3.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[no=103]/bc", doc));
+					"/config/deck/deck_profile[no=203]/bc", doc));
 			Info.MyDeckA3.card = xpath.evaluate(
-					"/config/deck/deck_profile[no=103]/card", doc);
+					"/config/deck/deck_profile[no=203]/card", doc);
 			Info.MyDeckA3.leader = Info.MyDeckA1.card.split(",")[0];
+			Info.MyDeckA3.CustomDeckName = xpath.evaluate(
+					"/config/deck/deck_profile[no=203]/custom_name", doc);
 
-			Info.MyDeckA4.No = "104";
+			Info.MyDeckA4.No = "204";
 			Info.MyDeckA4.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[no=104]/bc", doc));
+					"/config/deck/deck_profile[no=204]/bc", doc));
 			Info.MyDeckA4.card = xpath.evaluate(
-					"/config/deck/deck_profile[no=104]/card", doc);
+					"/config/deck/deck_profile[no=204]/card", doc);
 			Info.MyDeckA4.leader = Info.MyDeckA1.card.split(",")[0];
+			Info.MyDeckA4.CustomDeckName = xpath.evaluate(
+					"/config/deck/deck_profile[no=204]/custom_name", doc);
 
-			Info.MyDeckA5.No = "105";
+			Info.MyDeckA5.No = "205";
 			Info.MyDeckA5.BC = Integer.parseInt(xpath.evaluate(
-					"/config/deck/deck_profile[no=105]/bc", doc));
+					"/config/deck/deck_profile[no=205]/bc", doc));
 			Info.MyDeckA5.card = xpath.evaluate(
-					"/config/deck/deck_profile[no=105]/card", doc);
+					"/config/deck/deck_profile[no=205]/card", doc);
 			Info.MyDeckA5.leader = Info.MyDeckA5.card.split(",")[0];
+			Info.MyDeckA5.CustomDeckName = xpath.evaluate(
+					"/config/deck/deck_profile[no=205]/custom_name", doc);
 
 			Deck tempDeck = chooseCardDeck(Info.PrivateFairyBattleNormal.No);
 			Info.PrivateFairyBattleNormal.No = tempDeck.No;
 			Info.PrivateFairyBattleNormal.BC = tempDeck.BC;
 			Info.PrivateFairyBattleNormal.card = tempDeck.card;
 			Info.PrivateFairyBattleNormal.leader = tempDeck.leader;
+			Info.PrivateFairyBattleNormal.CustomDeckName = tempDeck.CustomDeckName;
 
 			tempDeck = chooseCardDeck(Info.PrivateFairyBattleRare.No);
 			Info.PrivateFairyBattleRare.No = tempDeck.No;
 			Info.PrivateFairyBattleRare.BC = tempDeck.BC;
 			Info.PrivateFairyBattleRare.card = tempDeck.card;
 			Info.PrivateFairyBattleRare.leader = tempDeck.leader;
+			Info.PrivateFairyBattleRare.CustomDeckName = tempDeck.CustomDeckName;
 
 			tempDeck = chooseCardDeck(Info.FriendFairyBattleNormal.No);
 			Info.FriendFairyBattleNormal.No = tempDeck.No;
 			Info.FriendFairyBattleNormal.BC = tempDeck.BC;
 			Info.FriendFairyBattleNormal.card = tempDeck.card;
 			Info.FriendFairyBattleNormal.leader = tempDeck.leader;
+			Info.FriendFairyBattleNormal.CustomDeckName = tempDeck.CustomDeckName;
 
 			tempDeck = chooseCardDeck(Info.FriendFairyBattleRare.No);
 			Info.FriendFairyBattleRare.No = tempDeck.No;
 			Info.FriendFairyBattleRare.BC = tempDeck.BC;
 			Info.FriendFairyBattleRare.card = tempDeck.card;
 			Info.FriendFairyBattleRare.leader = tempDeck.leader;
+			Info.FriendFairyBattleRare.CustomDeckName = tempDeck.CustomDeckName;
 
-			tempDeck = chooseCardDeck(Info.BCFullBattleDeck.No);
-			Info.BCFullBattleDeck.No = tempDeck.No;
-			Info.BCFullBattleDeck.BC = tempDeck.BC;
-			Info.BCFullBattleDeck.card = tempDeck.card;
-			Info.BCFullBattleDeck.leader = tempDeck.leader;
+			tempDeck = chooseCardDeck(Info.BcInsufficientDeck.No);
+			Info.BcInsufficientDeck.No = tempDeck.No;
+			Info.BcInsufficientDeck.BC = tempDeck.BC;
+			Info.BcInsufficientDeck.card = tempDeck.card;
+			Info.BcInsufficientDeck.leader = tempDeck.leader;
+			Info.BcInsufficientDeck.CustomDeckName = tempDeck.CustomDeckName;
 
 			tempDeck = chooseCardDeck(Info.KillFairyDeck.No);
 			Info.KillFairyDeck.No = tempDeck.No;
 			Info.KillFairyDeck.BC = tempDeck.BC;
 			Info.KillFairyDeck.card = tempDeck.card;
 			Info.KillFairyDeck.leader = tempDeck.leader;
+			Info.KillFairyDeck.CustomDeckName = tempDeck.CustomDeckName;
+			
+			tempDeck = chooseCardDeck(Info.PublicFairyBattle.No);
+			Info.PublicFairyBattle.CustomDeckName = tempDeck.CustomDeckName;
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
@@ -287,15 +366,15 @@ public class GetConfig {
 			return Info.MyDeck0;
 		case 1:
 			return Info.MyDeck1;
-		case 101:
+		case 201:
 			return Info.MyDeckA1;
-		case 102:
+		case 202:
 			return Info.MyDeckA2;
-		case 103:
+		case 203:
 			return Info.MyDeckA3;
-		case 104:
+		case 204:
 			return Info.MyDeckA4;
-		case 105:
+		case 205:
 			return Info.MyDeckA5;
 		default:
 			return defaultDeck;
