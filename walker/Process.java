@@ -71,10 +71,11 @@ public class Process {
 				}
 				execute(ActionToDo);
 				long delta = System.currentTimeMillis() - start;
-				if (delta < 5000)
-					Thread.sleep(5000 - delta);
+				long tmp = getRandom(0, 5000);
+				if (delta < Info.sleep_time * 1000 + tmp)
+					Thread.sleep(Info.sleep_time * 1000 + tmp - delta);
 				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy)
-					Thread.sleep(60000); // 半夜速度慢点,等待60s
+					Thread.sleep(2 * 60000); // 半夜速度慢点,等待60s
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -86,32 +87,32 @@ public class Process {
 			public void run() {
 				AddTask(Info.EventType.getFairyList);
 			}
-		}, 0, 3 * 1000);// 3s
+		}, 0, 5 * 1000);// 5s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.guildTop);
 			}
-		}, 0, 30 * 1000);// 30s
+		}, 0, 45 * 1000);// 45s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoExplore);
 			}
-		}, 0, 30 * 1000l);// 30s
+		}, 0, 45 * 1000l);// 45s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needFloorInfo);
 			}
-		}, 0, 3 * 60 * 1000);// 3min
+		}, 0, 5 * 60 * 1000);// 5min
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needAPBCInfo);
 			}
-		}, 0, 3 * 60 * 1000);// 3min
+		}, 0, 5 * 60 * 1000);// 5min
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.autoMedicine);
 			}
-		}, 0, 3 * 60 * 1000); // 3min
+		}, 0, 5 * 60 * 1000); // 5min
 		Calendar myCal = Calendar.getInstance();
 		if (myCal.get(Calendar.HOUR_OF_DAY) >= 1) {
 			int date = myCal.get(Calendar.DAY_OF_YEAR);
@@ -245,7 +246,8 @@ public class Process {
 		switch (action) {
 		case COOKIELOGIN:
 			try {
-				if (CookieLogin.run()) {
+				switch (CookieLogin.run()) {
+				case 1:
 					Go.log(String
 							.format("Cookie Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
@@ -255,11 +257,16 @@ public class Process {
 					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
-				} else {
+					break;
+				case 0:
 					Go.log(ErrorData.text);
 					Go.log("Cookie Login Failed, waiting to login with username and password.");
 					ErrorData.clear();
 					AddUrgentTask(Info.EventType.notLoggedIn);
+					break;
+				case 2:
+					AddUrgentTask(Info.EventType.cookieLogin);
+					break;
 				}
 			} catch (Exception ex) {
 				AddUrgentTask(Info.EventType.cookieOutOfDate);
@@ -270,7 +277,8 @@ public class Process {
 			break;
 		case LOGIN:
 			try {
-				if (Login.run()) {
+				switch (Login.run()) {
+				case 1:
 					Go.log(String
 							.format("Normal Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
@@ -280,8 +288,13 @@ public class Process {
 					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
-				} else {
+					break;
+				case 0:
 					AddUrgentTask(Info.EventType.notLoggedIn);
+					break;
+				case 2:
+					AddUrgentTask(Info.EventType.cookieLogin);
+					break;
 				}
 			} catch (Exception ex) {
 				AddUrgentTask(Info.EventType.notLoggedIn);
@@ -402,10 +415,16 @@ public class Process {
 			break;
 		case GOTO_MAIN_MENU:
 			try {
-				if (GotoMainMenu.run()) {
+				switch (GotoMainMenu.run()) {
+				case 1:
 					AddTask(Info.EventType.gotoFloor);
-				} else {
+					break;
+				case 0:
 					Go.log("Something wrong@GOTO_MAIN_MENU.");
+					break;
+				case 2:
+					AddUrgentTask(Info.EventType.needAPBCInfo);
+					break;
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -447,10 +466,11 @@ public class Process {
 						str += String.format(
 								"Fairy Info: SerialID: %s, UserID: %s.\n",
 								info.pfairy.SerialId, info.pfairy.UserId);
-					str += String.format(
-							"Card Deck Info: %s, Number: %s, BC: %d.\n",
-							info.CurrentDeck.DeckName, info.CurrentDeck.No,
-							info.CurrentDeck.BC);
+					str += String
+							.format("Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.\n",
+									info.CurrentDeck.DeckName,
+									info.CurrentDeck.CustomDeckName,
+									info.CurrentDeck.No, info.CurrentDeck.BC);
 					Go.log(str);
 				} else {
 
@@ -503,8 +523,8 @@ public class Process {
 									info.bcMax, info.ap, info.apMax,
 									info.ticket, info.week, result)
 							+ String.format(
-									"Card Deck Info: %s, Number: %s, BC: %d.",
-									info.CurrentDeck.DeckName,
+									"Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.",
+									info.CurrentDeck.DeckName, info.CurrentDeck.CustomDeckName,
 									info.CurrentDeck.No, info.CurrentDeck.BC);
 					Thread.sleep(5000);
 					Go.log(str);
@@ -605,7 +625,7 @@ public class Process {
 					Go.log("Succeed to get card deck info.");
 				} else {
 					Go.log("Something wrong@GET_CARD_DECK.");
-				}				
+				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
 					throw ex;
@@ -633,6 +653,10 @@ public class Process {
 		} catch (Exception ex) {
 			throw ex;
 		}
+	}
+
+	public static long getRandom(long time1, long time2) {
+		return Math.round(time1 + (time2 - time1) * Math.random());
 	}
 
 }

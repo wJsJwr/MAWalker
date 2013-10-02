@@ -45,6 +45,8 @@ public class FairyDianzan {
 				throw ex;
 			}
 
+			Thread.sleep(Process.getRandom(1000, 2000));
+
 			if (Info.Debug) {
 				File outputFile = new File("PRIVATE_BATTLE_HISTORY.xml");
 				FileOutputStream outputFileStream = new FileOutputStream(
@@ -135,6 +137,9 @@ public class FairyDianzan {
 			ErrorData.text = ex.getLocalizedMessage();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		if (Info.Debug) {
 			File outputFile = new File("PRIVATE_BATTLE_DIANZAN.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);

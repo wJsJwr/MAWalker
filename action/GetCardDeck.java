@@ -5,11 +5,14 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
 import walker.Info;
@@ -34,6 +37,8 @@ public class GetCardDeck {
 			ErrorData.text = ex.getMessage();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("GET_CARD_DECK.xml");
@@ -72,12 +77,31 @@ public class GetCardDeck {
 				return false;
 			}
 
-			Info.MyDeck0.card = xpath.evaluate(
-					"/response/body/deck[deckname='デッキ1']/deck_cards", doc);
-			Info.MyDeck1.card = xpath.evaluate(
-					"/response/body/deck[deckname='デッキ2']/deck_cards", doc);
-			Info.MyDeck2.card = xpath.evaluate(
-					"/response/body/deck[deckname='デッキ3']/deck_cards", doc);
+			NodeList tempDeckList = (NodeList) xpath.evaluate(
+					"/response/body/roundtable_edit/deck", doc,
+					XPathConstants.NODESET);
+			ArrayList<String> myDeckList = new ArrayList<String>();
+			for (int i = 0; i < tempDeckList.getLength(); i++) {
+				Node f = tempDeckList.item(i).getFirstChild();
+				String tempDeck = "";
+				do {
+					if (f.getNodeName().equals("deck_cards")) {
+						tempDeck = f.getFirstChild().getNodeValue();
+					}
+					f = f.getNextSibling();
+				} while (f != null);
+				myDeckList.add(tempDeck);
+			}
+
+			if (myDeckList.size() != 4)
+				return false;
+
+			Info.MyDeck0.card = myDeckList.get(0);
+			Info.MyDeck0.leader = Info.MyDeck0.card.split(",")[0];
+			Info.MyDeck1.card = myDeckList.get(1);
+			Info.MyDeck1.leader = Info.MyDeck1.card.split(",")[0];
+			Info.MyDeck2.card = myDeckList.get(2);
+			Info.MyDeck2.leader = Info.MyDeck2.card.split(",")[0];
 
 			walker.Go.saveDeck(0, Info.MyDeck0.card);
 			walker.Go.saveDeck(1, Info.MyDeck1.card);

@@ -38,7 +38,7 @@ public class PrivateFairyBattle {
 
 		boolean flag_deck = false;
 
-		if (Integer.parseInt(Process.info.CurrentDeck.No) > 100) {
+		if (Integer.parseInt(Process.info.CurrentDeck.No) > 200) {
 			if (ChangeCardDeck.run()) {
 				Process.info.pfairy.No = "2";
 				flag_deck = true;
@@ -71,6 +71,8 @@ public class PrivateFairyBattle {
 			ErrorData.text = ex.getLocalizedMessage();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("PRIVATE_BATTLE.xml");

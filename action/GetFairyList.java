@@ -41,6 +41,8 @@ public class GetFairyList {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		if (Info.Debug) {
 			File outputFile = new File("FAIRY_LIST.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
@@ -163,6 +165,7 @@ public class GetFairyList {
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
 				FairyBattleInfo fbi = new FairyBattleInfo();
+				fbi.ForceKill = false;
 				boolean attack_flag = false;
 				do {
 					if (f.getNodeName().equals("serial_id")) {
@@ -186,33 +189,44 @@ public class GetFairyList {
 					} else if (f.getNodeName().equals("hp")) {
 						fbi.FairyHp = Integer.parseInt(f.getFirstChild()
 								.getNodeValue());
-						if (fbi.FairyHp < Info.killFairyHp)
-							fbi.ForceKill = true;
-						else
-							fbi.ForceKill = false;
 					} else if (f.getNodeName().equals("hp_max")) {
 						fbi.FairyHpMax = Integer.parseInt(f.getFirstChild()
 								.getNodeValue());
 					}
 					f = f.getNextSibling();
 				} while (f != null);
-				if (Info.AllowAttackSameFairy) {
-					Process.info.PrivateFairyList.offer(fbi);
-				} else {
-					if (fbi.ForceKill) {
-						Process.info.PrivateFairyList.offer(fbi);
-					} else {
-						for (FairyBattleInfo bi : Process.info.LatestFairyList) {
-							if (bi.equals(fbi)) {
-								// 已经舔过
-								attack_flag = true;
-								break;
-							}
-						}
-						if (!attack_flag)
-							Process.info.PrivateFairyList.offer(fbi);
+				long killFairyHpMax = 0;
+				boolean useKillFairyDeck = false;
+				switch (fbi.Type) {
+				case 4:
+					killFairyHpMax = Info.FriendFairyBattleNormal.KillFairyHpMax;
+					useKillFairyDeck = Info.FriendFairyBattleNormal.UseKillFairyDeck;
+					break;
+				case 5:
+					killFairyHpMax = Info.FriendFairyBattleRare.KillFairyHpMax;
+					useKillFairyDeck = Info.FriendFairyBattleRare.UseKillFairyDeck;
+					break;
+				case 6:
+					killFairyHpMax = Info.PrivateFairyBattleNormal.KillFairyHpMax;
+					useKillFairyDeck = Info.PrivateFairyBattleNormal.UseKillFairyDeck;
+					break;
+				case 7:
+					killFairyHpMax = Info.PrivateFairyBattleRare.KillFairyHpMax;
+					useKillFairyDeck = Info.PrivateFairyBattleRare.UseKillFairyDeck;
+					break;
+				default:
+					break;
+				}
+				for (FairyBattleInfo bi : Process.info.LatestFairyList) {
+					if (bi.equals(fbi)) {
+						// 已经舔过
+						attack_flag = true;
+						if (fbi.FairyHp < killFairyHpMax && useKillFairyDeck)
+							fbi.ForceKill = true;
 					}
 				}
+				if (!attack_flag || fbi.ForceKill)
+					Process.info.PrivateFairyList.offer(fbi);
 			}
 
 			if (!Process.info.PrivateFairyList.isEmpty()) {

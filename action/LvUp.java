@@ -34,6 +34,8 @@ public class LvUp {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		Document doc;
 		try {
 			doc = Process.ParseXMLBytes(response);
@@ -59,7 +61,8 @@ public class LvUp {
 
 			ParseUserDataInfo.parse(doc);
 
-			// Process.info.SetTimeoutByAction(Name);
+			Process.info.apUp = 0;
+			Process.info.bcUp = 0;
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)

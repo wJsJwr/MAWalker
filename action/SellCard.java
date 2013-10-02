@@ -34,6 +34,8 @@ public class SellCard {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		Document doc;
 		try {
 			doc = Process.ParseXMLBytes(response);

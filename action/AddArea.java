@@ -42,6 +42,8 @@ public class AddArea {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		if (Info.Debug) {
 			File outputFile = new File("AREA.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);

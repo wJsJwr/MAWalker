@@ -38,6 +38,8 @@ public class GuildTop {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		if (Info.Debug) {
 			File outputFile = new File("GUILD_TOP.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
@@ -87,21 +89,36 @@ public class GuildTop {
 			} else {
 				Process.info.NoFairy = false;
 			}
-			if ((boolean) xpath.evaluate("count(//fairy)>0", doc,
-					XPathConstants.BOOLEAN)) {
-				Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name",
-						doc);
-				Process.info.gfairy.SerialId = xpath.evaluate(
-						"//fairy/serial_id", doc);
-				Process.info.gfairy.GuildId = xpath.evaluate(
-						"//fairy/discoverer_id", doc);
-				Process.info.gfairy.FairyLevel = Integer.parseInt(xpath
-						.evaluate("//fairy/lv", doc));
-			} else {
-				if (Info.Debug)
-					walker.Go.log("Fix @GuildTop works.");
-				return false;
+
+			Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name", doc);
+			Process.info.gfairy.SerialId = xpath.evaluate("//fairy/serial_id",
+					doc);
+			Process.info.gfairy.GuildId = xpath.evaluate(
+					"//fairy/discoverer_id", doc);
+			Process.info.gfairy.FairyLevel = Integer.parseInt(xpath.evaluate(
+					"//fairy/lv", doc));
+			if (Info.OnlyBcBuff) {
+				if ((boolean) xpath.evaluate("count(//spp_skill_effect)>0",
+						doc, XPathConstants.BOOLEAN)) {
+					String tmp = xpath.evaluate("//spp_skill_effect", doc);
+					if (tmp.indexOf("BC") == -1) {
+						walker.Go.log(String.format(
+								"Guild Fairy Buff: %s, skip.", tmp));
+						if (Process.info.ticket < Info.ticket_max) {
+							return false;
+						} else {
+							walker.Go.log("Too many tickets!");
+						}
+					} else {
+						walker.Go.log(String.format(
+								"Guild Fairy Buff: %s, fight!", tmp));
+					}
+				} else {
+					walker.Go.log("Guild Fairy Buff: None, skip.");
+					return false;
+				}
 			}
+
 			if ((boolean) xpath.evaluate("count(//force_gauge)>0", doc,
 					XPathConstants.BOOLEAN)) {// 第一次遇怪没有这些信息，需要先打一下
 				Process.info.gfbforce.total = Long.parseLong(xpath.evaluate(
@@ -120,8 +137,8 @@ public class GuildTop {
 				Process.info.gfbforce.rivalscale = Process.info.gfbforce.rival
 						* 100 / Process.info.gfbforce.total;
 				if (Process.info.ticket > 0) {
-					if (Process.info.gfbforce.ownscale < 100 * Info.battlewinscale
-							&& Process.info.gfbforce.rivalscale < 100 * Info.battlewinscale) {
+					if (Process.info.gfbforce.ownscale < 100 * Info.battle_win_scale
+							&& Process.info.gfbforce.rivalscale < 100 * Info.battle_win_scale) {
 						Process.AddUrgentTask(Info.EventType.guildBattle);
 					} else if (Process.info.ticket >= Info.ticket_max) {
 						Process.AddUrgentTask(Info.EventType.guildBattle);

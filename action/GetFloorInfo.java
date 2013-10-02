@@ -44,6 +44,8 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		if (Info.Debug) {
 			File outputFile = new File("FLOOR_AREA.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
@@ -100,7 +102,6 @@ public class GetFloorInfo {
 			} // end of area iterator
 			if (Process.info.front == null)
 				Process.info.front = Process.info.floor.get(1);
-			// Process.info.SetTimeoutByAction(Name);
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
@@ -124,6 +125,8 @@ public class GetFloorInfo {
 			ErrorData.text = ex.getLocalizedMessage();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("FLOOR_FLOOR.xml");

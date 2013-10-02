@@ -26,7 +26,7 @@ public class Login {
 
 	private static byte[] result;
 
-	public static boolean run() throws Exception {
+	public static int run() throws Exception {
 		try {
 			return run(true);
 		} catch (Exception ex) {
@@ -34,7 +34,7 @@ public class Login {
 		}
 	}
 
-	public static boolean run(boolean jump) throws Exception {
+	public static int run(boolean jump) throws Exception {
 		Document doc;
 		if (!jump) {
 			try {
@@ -46,6 +46,8 @@ public class Login {
 				ErrorData.text = ERR_CHECK_INSPECTION;
 				throw ex;
 			}
+
+			Thread.sleep(Process.getRandom(1000, 2000));
 		}
 		ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
 		al.add(new BasicNameValuePair("login_id", Info.LoginId));
@@ -59,6 +61,9 @@ public class Login {
 			ex.printStackTrace();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		try {
 			doc = Process.ParseXMLBytes(result);
 		} catch (Exception ex) {
@@ -74,7 +79,7 @@ public class Login {
 		}
 	}
 
-	private static boolean parse(Document doc) throws Exception {
+	private static int parse(Document doc) throws Exception {
 		try {
 			XPathFactory factory = XPathFactory.newInstance();
 			XPath xpath = factory.newXPath();
@@ -83,18 +88,18 @@ public class Login {
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.text = xpath.evaluate(
 						"/response/header/error/message", doc);
-				return false;
+				return 0;
 			}
-			
-			//System.out.println("Post logon cookies:");
-			List <Cookie> cookies = Process.network.cookie.getCookies();
+
+			// System.out.println("Post logon cookies:");
+			List<Cookie> cookies = Process.network.cookie.getCookies();
 			if (cookies.isEmpty()) {
 				System.out.println("None");
 			} else {
 				for (int i = 0; i < cookies.size(); i++) {
-					//System.out.println("- " + cookies.get(i).getName());
+					// System.out.println("- " + cookies.get(i).getName());
 					if (cookies.get(i).getName().equals("S")) {
-						//System.out.println("- " + cookies.get(i).getValue());
+						// System.out.println("- " + cookies.get(i).getValue());
 						Info.sessionId = cookies.get(i).getValue();
 						walker.Go.saveSessionId(Info.sessionId);
 					}
@@ -102,7 +107,7 @@ public class Login {
 			}
 
 			if (GuildDefeat.judge(doc)) {
-				return false;
+				return 2;
 			}
 
 			if (!xpath.evaluate("//fairy_appearance", doc).equals("0")) {
@@ -124,7 +129,7 @@ public class Login {
 			ErrorData.bytes = result;
 			throw ex;
 		}
-		return true;
+		return 1;
 	}
 
 }

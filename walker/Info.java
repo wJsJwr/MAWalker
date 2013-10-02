@@ -15,14 +15,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-
 public class Info {
 	// INFO: static variants are need to be configured in configure file
 
 	// login info
 	public static String LoginId = "";
 	public static String LoginPw = "";
-	
 
 	// user info
 	public String username = "";
@@ -64,10 +62,6 @@ public class Info {
 	 */
 	public static boolean AutoAddp = true;
 	/**
-	 * 允许舔同一个怪
-	 */
-	public static boolean AllowAttackSameFairy = true;
-	/**
 	 * 强制跑图AP上限
 	 */
 	public static double ApForceGo = 0.8;
@@ -79,7 +73,6 @@ public class Info {
 	 * 跑每日秘境
 	 */
 	public static boolean GoDailyArea = true;
-
 	/**
 	 * 调试输出
 	 */
@@ -92,29 +85,48 @@ public class Info {
 	 * 强制外敌战挑战书上限
 	 */
 	public static int ticket_max = 0;
-	public static double battlewinscale = 1;
-	
+	public static double battle_win_scale = 1;
 	/**
 	 * night mode 开关
 	 */
 	public static boolean nightModeSwitch = true;
-
+	/**
+	 * 自动卖卡
+	 */
 	public static boolean sellcard = false;
 	public static boolean sellallcard = false;
-
-	// 吃药相关的开关
+	/**
+	 * 吃药相关的开关
+	 */
 	public static boolean autoUseAp = true;
 	public static boolean autoUseBc = true;
-	
 	/**
 	 * cookie登陆的sessionId
-	 */	
+	 */
 	public static String sessionId = "";
-	
-	public static long killFairyHp = 3000;
-	
+	/**
+	 * 妖精战优先
+	 */
 	public static boolean FairyBattleFirst = false;
-
+	/**
+	 * 自动加点，AP/BC选择
+	 */
+	public static boolean AutoAddAP = false;
+	/**
+	 * 检测间隔
+	 */
+	public static long sleep_time = 10;
+	/**
+	 * 外敌战BC Buff
+	 */
+	public static boolean OnlyBcBuff = false;
+	/**
+	 * 尾刀卡组出击bc下限
+	 */
+	public static double KillFairyScale = 0; 
+	/**
+	 * 自动吃药方式
+	 */
 	public enum autoUseType {
 		HALF_ONLY, FULL_ONLY, ALL
 	}
@@ -139,13 +151,14 @@ public class Info {
 	public static Deck PrivateFairyBattleNormal = new Deck("My Fairy Deck");
 	public static Deck PrivateFairyBattleRare = new Deck("My Rare Fairy Deck");
 	public static Deck FriendFairyBattleNormal = new Deck("Friend's Fairy Deck");
-	public static Deck BCFullBattleDeck = new Deck("Force Battle Deck");
-	public static Deck KillFairyDeck = new Deck ("Kill Fairy Deck");
+	public static Deck BcInsufficientDeck = new Deck("BcInsufficientDeck");
+	public static Deck KillFairyDeck = new Deck("Kill Fairy Deck");
 	public Deck CurrentDeck = new Deck();
 	public static Deck MyDeckA1 = new Deck();
 	public static Deck MyDeckA2 = new Deck();
-	public static Deck MyDeckA3= new Deck();
+	public static Deck MyDeckA3 = new Deck();
 	public static Deck MyDeckA4 = new Deck();
+	public static Deck MyDeckA5 = new Deck();
 	public static Deck MyDeck0 = new Deck();
 	public static Deck MyDeck1 = new Deck();
 	public static Deck MyDeck2 = new Deck();
@@ -188,10 +201,7 @@ public class Info {
 
 	// event
 	public enum EventType {
-		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList,
-		fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull,
-		needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin,
-		getCardDeck
+		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck
 	}
 
 	public Stack<EventType> events;

@@ -44,6 +44,8 @@ public class Explore {
 			throw ex;
 		}
 
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		if (Info.Debug) {
 			File outputFile = new File("EXPLORE.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
@@ -89,8 +91,6 @@ public class Explore {
 			Process.info.bcMax = Integer.parseInt(xpath.evaluate("//bc/max",
 					doc));
 			Process.info.guildId = xpath.evaluate("//your_data/party_id", doc);
-
-			// Process.info.SetTimeoutByAction(Name);
 
 			// TODO: 添加升级事件
 			Process.info.exp = Integer.parseInt(xpath.evaluate(

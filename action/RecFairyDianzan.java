@@ -16,10 +16,7 @@ import walker.ErrorData;
 import walker.Info;
 import walker.Process;
 
-//import action.ActionRegistry.Action;
-
 public class RecFairyDianzan {
-	// public static final Action Name = Action.REC_FAIRY_DIANZAN;
 	private static byte[] response;
 	private static final String URL_PRIVATE_BATTLE_TOP = "http://web.million-arthurs.com/connect/app/private_fairy/private_fairy_top?cyt=1";
 
@@ -39,6 +36,8 @@ public class RecFairyDianzan {
 			ErrorData.text = ex.getLocalizedMessage();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("PRIVATE_BATTLE_TOP.xml");

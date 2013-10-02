@@ -24,7 +24,7 @@ public class CookieLogin {
 
 	private static byte[] result;
 
-	public static boolean run() throws Exception {
+	public static int run() throws Exception {
 		try {
 			return run(false);
 		} catch (Exception ex) {
@@ -32,7 +32,7 @@ public class CookieLogin {
 		}
 	}
 
-	public static boolean run(boolean jump) throws Exception {
+	public static int run(boolean jump) throws Exception {
 		Document doc;
 		if (!jump) {
 			try {
@@ -45,6 +45,9 @@ public class CookieLogin {
 				}
 				result = Process.network.ConnectToServer(URL_CHECK_INSPECTION,
 						new ArrayList<NameValuePair>(), true);
+
+				Thread.sleep(Process.getRandom(1000, 2000));
+				
 			} catch (Exception ex) {
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
@@ -63,6 +66,9 @@ public class CookieLogin {
 			ex.printStackTrace();
 			throw ex;
 		}
+
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		try {
 			doc = Process.ParseXMLBytes(result); // 通过分析匿名类获得当前类名
 		} catch (Exception ex) {
@@ -78,7 +84,7 @@ public class CookieLogin {
 		}
 	}
 
-	private static boolean parse(Document doc) throws Exception {
+	private static int parse(Document doc) throws Exception {
 		try {
 			XPathFactory factory = XPathFactory.newInstance();
 			XPath xpath = factory.newXPath();
@@ -87,11 +93,11 @@ public class CookieLogin {
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.text = xpath.evaluate(
 						"/response/header/error/message", doc);
-				return false;
+				return 0;
 			}
 
 			if (GuildDefeat.judge(doc)) {
-				return false;
+				return 2;
 			}
 
 			if (!xpath.evaluate("//fairy_appearance", doc).equals("0")) {
@@ -113,6 +119,6 @@ public class CookieLogin {
 			ErrorData.bytes = result;
 			throw ex;
 		}
-		return true;
+		return 1;
 	}
 }

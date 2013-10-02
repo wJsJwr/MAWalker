@@ -27,7 +27,7 @@ public class Network {
 	private static final String Auth = "eWa25vrE";
 	private static final String Key = "2DbcAh3G";
 
-	private static final String UserAgent = "Million/235 (C6603; C6603_1270-5695; 4.2.2) Sony/C6603_1270-5695/C6603:4.2.2/10.3.1.A.0.244/C_93rg:user/release-keys GooglePlay";
+	public static String UserAgent = "";
 	private DefaultHttpClient client;
 	public CookieStore cookie;
 
@@ -76,8 +76,8 @@ public class Network {
 		UsernamePasswordCredentials upc = new UsernamePasswordCredentials(Auth,
 				Key);
 		cp.setCredentials(as, upc);
-		
-		byte[] b = client.execute(hp, new HttpResponseHandler());	
+
+		byte[] b = client.execute(hp, new HttpResponseHandler());
 
 		/* end */
 		if (b != null) {

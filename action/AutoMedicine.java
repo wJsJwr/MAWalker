@@ -35,7 +35,9 @@ public class AutoMedicine {
 			ErrorData.text = ex.getLocalizedMessage();
 			throw ex;
 		}
-		
+
+		Thread.sleep(Process.getRandom(1000, 2000));
+
 		if (Info.Debug) {
 			File outputFile = new File("USE.xml");
 			FileOutputStream outputFileStream = new FileOutputStream(outputFile);

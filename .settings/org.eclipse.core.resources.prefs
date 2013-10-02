@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
+encoding//action/ChangeCardDeck.java=UTF-8
+encoding//action/GetCardDeck.java=UTF-8
 encoding//walker/Go.java=UTF-8
 encoding/<project>=UTF-8
