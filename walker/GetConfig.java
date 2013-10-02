@@ -361,6 +361,7 @@ public class GetConfig {
 		defaultDeck.BC = 0;
 		defaultDeck.No = "3";
 		defaultDeck.card = "";
+		defaultDeck.CustomDeckName = "自动配卡";
 		switch (n) {
 		case 0:
 			return Info.MyDeck0;
