@@ -1,5 +1,7 @@
 package walker;
 
+import info.GuildFairyBattleForce;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -524,7 +526,8 @@ public class Process {
 									info.ticket, info.week, result)
 							+ String.format(
 									"Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.",
-									info.CurrentDeck.DeckName, info.CurrentDeck.CustomDeckName,
+									info.CurrentDeck.DeckName,
+									info.CurrentDeck.CustomDeckName,
 									info.CurrentDeck.No, info.CurrentDeck.BC);
 					Thread.sleep(5000);
 					Go.log(str);
@@ -542,7 +545,8 @@ public class Process {
 			break;
 		case GUILD_TOP:
 			try {
-				if (GuildTop.run()) {
+				switch (GuildTop.run()) {
+				case 2:// 需要打，而且要显示
 					if (!Info.Nolog)
 						Go.log(String
 								.format("Guild Fairy Info: Max HP: %d, Our Team: %d(%d%%), Rival's Team: %d(%d%%). ",
@@ -555,10 +559,35 @@ public class Process {
 										info.ticket,
 										info.gfbforce.attack_compensation,
 										info.gfbforce.chain_counter));
-				} else {
+					Process.AddUrgentTask(Info.EventType.guildBattle);
+					break;
+				case 1:// 不能打，但需要显示
+					if (!Info.Nolog)
+						Go.log(String
+								.format("Guild Fairy Info: Max HP: %d, Our Team: %d(%d%%), Rival's Team: %d(%d%%). ",
+										info.gfbforce.total, info.gfbforce.own,
+										info.gfbforce.ownscale,
+										info.gfbforce.rival,
+										info.gfbforce.rivalscale)
+								+ String.format(
+										"Ticket: %d, Score Multiple: %.1f, Defeat Combo: %d.",
+										info.ticket,
+										info.gfbforce.attack_compensation,
+										info.gfbforce.chain_counter));
+					while (Process.info.events
+							.contains(Info.EventType.guildBattle)) {
+						Process.info.events.remove(Info.EventType.guildBattle);
+					}
+					break;
+				case 3:// 需要重新获取
+					Process.info.gfbforce = new GuildFairyBattleForce();
+					Process.AddUrgentTask(Info.EventType.guildTopRetry);
+					break;
+				case 0:// 什么都不做
 					if (info.NoFairy)
 						if (!Info.Nolog)
 							Go.log("Night Mode.");
+					break;
 				}
 
 			} catch (Exception ex) {
