@@ -2,8 +2,8 @@ package walker;
 
 public class Version {
 	private static String month = "10";
-	private static String date = "2";
-	private static String release = "Alpha";
+	private static String date = "3";
+	private static String release = "Beta";
 	private static String copyright = "2013©wjsjwr.org";
 	private static String code = "Crudity";
 
