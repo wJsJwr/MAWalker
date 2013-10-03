@@ -97,6 +97,7 @@ public class ChangeCardDeck {
 					.equals("0"))
 				return false;
 
+			//TODO:UTF-8的日文太闹心，这里需要重写
 			NodeList tempDeckList = (NodeList) xpath.evaluate(
 					"/response/body/deck", doc, XPathConstants.NODESET);
 			ArrayList<String> myDeckList = new ArrayList<String>();

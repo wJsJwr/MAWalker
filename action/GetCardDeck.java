@@ -77,6 +77,7 @@ public class GetCardDeck {
 				return false;
 			}
 
+			//TODO:UTF-8的日文太闹心，这里需要重写
 			NodeList tempDeckList = (NodeList) xpath.evaluate(
 					"/response/body/roundtable_edit/deck", doc,
 					XPathConstants.NODESET);
