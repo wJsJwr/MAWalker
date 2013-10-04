@@ -30,10 +30,19 @@ public class ChangeCardDeck {
 		else
 			Info.LastDeckNo = Process.info.CurrentDeck.No;
 
-		Document doc;
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("C", Process.info.CurrentDeck.card));
-		post.add(new BasicNameValuePair("lr", Process.info.CurrentDeck.leader));
+		String[] tmpCard = Info.MyDeckA1.card.split(",");
+		int cards = 0;
+		for (int i = 0; i < tmpCard.length; i++) {
+			if (!tmpCard[i].equals("empty")) {
+				cards++;
+			}
+		}
+		if (cards != 2) {
+			post.add(new BasicNameValuePair("lr",
+					Process.info.CurrentDeck.leader));
+		}
 		post.add(new BasicNameValuePair("no", "2"));
 		try {
 			response = walker.Process.network.ConnectToServer(
@@ -54,6 +63,7 @@ public class ChangeCardDeck {
 			outputFileStream.close();
 		}
 
+		Document doc;
 		try {
 			doc = Process.ParseXMLBytes(response);
 		} catch (Exception ex) {
@@ -87,6 +97,7 @@ public class ChangeCardDeck {
 					.equals("0"))
 				return false;
 
+			//TODO:UTF-8的日文太闹心，这里需要重写
 			NodeList tempDeckList = (NodeList) xpath.evaluate(
 					"/response/body/deck", doc, XPathConstants.NODESET);
 			ArrayList<String> myDeckList = new ArrayList<String>();

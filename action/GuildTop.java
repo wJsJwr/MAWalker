@@ -1,7 +1,5 @@
 package action;
 
-import info.GuildFairyBattleForce;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ public class GuildTop {
 
 	private static byte[] response;
 
-	public static boolean run() throws Exception {
+	public static int run() throws Exception {
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		try {
 			response = Process.network.ConnectToServer(URL_GUILD_TOP, post,
@@ -72,20 +70,22 @@ public class GuildTop {
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.text = xpath.evaluate(
 						"/response/header/error/message", doc);
-				return false;
+				return 0;
+			}
+
+			if (!(Boolean) xpath.evaluate("count(/response/body/guild_top)>0",
+					doc, XPathConstants.BOOLEAN)) {
+				return 3;// 需要重新获取
 			}
 
 			if (GuildDefeat.judge(doc)) {
-				Process.AddUrgentTask(Info.EventType.guildTopRetry);
-				Process.info.gfbforce = new GuildFairyBattleForce();
-				return false;
+				return 3;// 需要重新获取
 			}
 
 			if ((Boolean) xpath.evaluate("count(//guild_top_no_fairy)>0", doc,
 					XPathConstants.BOOLEAN)) {
-				// 深夜没有外敌战
-				Process.info.NoFairy = true;
-				return false;
+				Process.info.NoFairy = true;// 深夜没有外敌战
+				return 0;
 			} else {
 				Process.info.NoFairy = false;
 			}
@@ -97,64 +97,51 @@ public class GuildTop {
 					"//fairy/discoverer_id", doc);
 			Process.info.gfairy.FairyLevel = Integer.parseInt(xpath.evaluate(
 					"//fairy/lv", doc));
+			Process.info.gfbforce.chain_counter = Integer.parseInt(xpath
+					.evaluate("//chain_counter", doc));
+			Process.info.gfbforce.attack_compensation = Double
+					.parseDouble(xpath.evaluate("//attack_compensation", doc));
+
 			if (Info.OnlyBcBuff) {
 				if ((boolean) xpath.evaluate("count(//spp_skill_effect)>0",
 						doc, XPathConstants.BOOLEAN)) {
 					String tmp = xpath.evaluate("//spp_skill_effect", doc);
-					if (tmp.indexOf("BC") == -1) {
-						walker.Go.log(String.format(
-								"Guild Fairy Buff: %s, skip.", tmp));
-						if (Process.info.ticket < Info.ticket_max) {
-							return false;
-						} else {
-							walker.Go.log("Too many tickets!");
-						}
-					} else {
-						walker.Go.log(String.format(
-								"Guild Fairy Buff: %s, fight!", tmp));
-					}
+					walker.Go.log(String.format("Guild Fairy Buff: %s.", tmp));
+					if (tmp.indexOf("BC") == -1
+							&& Process.info.ticket < Info.ticket_max)
+						return 0;
 				} else {
-					walker.Go.log("Guild Fairy Buff: None, skip.");
-					return false;
+					walker.Go.log("Guild Fairy Buff: None.");
+					return 0;
 				}
 			}
 
 			if ((boolean) xpath.evaluate("count(//force_gauge)>0", doc,
-					XPathConstants.BOOLEAN)) {// 第一次遇怪没有这些信息，需要先打一下
+					XPathConstants.BOOLEAN)) {
 				Process.info.gfbforce.total = Long.parseLong(xpath.evaluate(
 						"//force_gauge/total", doc));
 				Process.info.gfbforce.own = Long.parseLong(xpath.evaluate(
 						"//force_gauge/own", doc));
 				Process.info.gfbforce.rival = Long.parseLong(xpath.evaluate(
 						"//force_gauge/rival", doc));
-				Process.info.gfbforce.chain_counter = Integer.parseInt(xpath
-						.evaluate("//chain_counter", doc));
-				Process.info.gfbforce.attack_compensation = Double
-						.parseDouble(xpath.evaluate("//attack_compensation",
-								doc));
 				Process.info.gfbforce.ownscale = Process.info.gfbforce.own
 						* 100 / Process.info.gfbforce.total;
 				Process.info.gfbforce.rivalscale = Process.info.gfbforce.rival
 						* 100 / Process.info.gfbforce.total;
-				if (Process.info.ticket > 0) {
-					if (Process.info.gfbforce.ownscale < 100 * Info.battle_win_scale
-							&& Process.info.gfbforce.rivalscale < 100 * Info.battle_win_scale) {
-						Process.AddUrgentTask(Info.EventType.guildBattle);
-					} else if (Process.info.ticket >= Info.ticket_max) {
-						Process.AddUrgentTask(Info.EventType.guildBattle);
-					} else {
-						while (Process.info.events
-								.contains(Info.EventType.guildBattle))
-							Process.info.events
-									.remove(Info.EventType.guildBattle);
-					}
-				}
-				return true;
+
+				if (Process.info.ticket == 0)
+					return 1;// 没票不打
+
+				if (Process.info.ticket >= Info.ticket_max)
+					return 2;// 挑战书太多要打
+
+				if (Process.info.gfbforce.ownscale > 100 * Info.battle_win_scale
+						|| Process.info.gfbforce.rivalscale > 100 * Info.battle_win_scale)
+					return 1;// 已经分出胜负不打
+
+				return 2;// 其他情况都要打
 			} else {
-				if (Info.Nolog == false)
-					walker.Go.log("Find a new Guild Fairy!");
-				// Process.AddUrgentTask(Info.EventType.guildBattle);
-				return false;
+				return 0;
 			}
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)

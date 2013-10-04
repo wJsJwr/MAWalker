@@ -46,8 +46,8 @@ public class GetConfig {
 					.evaluate("/config/option/auto_add_point", doc).equals("1");
 			Info.AutoAddAP = xpath.evaluate("/config/option/auto_add_ap", doc)
 					.equals("1");
-			Info.OnlyBcBuff = xpath.evaluate(
-					"/config/option/only_bc_buff", doc).equals("1");
+			Info.OnlyBcBuff = xpath
+					.evaluate("/config/option/only_bc_buff", doc).equals("1");
 
 			Info.nightModeSwitch = xpath.evaluate("/config/option/night_mode",
 					doc).equals("1");
@@ -98,7 +98,7 @@ public class GetConfig {
 			Info.GoDailyArea = xpath.evaluate("/config/option/go_daily_area",
 					doc).equals("1");
 
-			//自己普通妖精
+			// 自己普通妖精
 			Info.PrivateFairyBattleNormal.No = xpath.evaluate(
 					"/config/fairy/fairy_profile[name='FairyDeck']/no", doc);
 			Info.PrivateFairyBattleNormal.UseBcInsufficientDeck = xpath
@@ -125,7 +125,7 @@ public class GetConfig {
 									"/config/fairy/fairy_profile[name='FairyDeck']/kill_fairy_hp_max",
 									doc));
 
-			//自己觉醒妖精
+			// 自己觉醒妖精
 			Info.PrivateFairyBattleRare.No = xpath
 					.evaluate(
 							"/config/fairy/fairy_profile[name='RareFairyDeck']/no",
@@ -154,7 +154,7 @@ public class GetConfig {
 									"/config/fairy/fairy_profile[name='RareFairyDeck']/kill_fairy_hp_max",
 									doc));
 
-			//外敌
+			// 外敌
 			Info.PublicFairyBattle.No = xpath.evaluate(
 					"/config/fairy/fairy_profile[name='GuildFairyDeck']/no",
 					doc);
@@ -169,7 +169,7 @@ public class GetConfig {
 									"/config/fairy/fairy_profile[name='GuildFairyDeck']/battle_win_scale",
 									doc));
 
-			//基友普通妖精
+			// 基友普通妖精
 			Info.FriendFairyBattleNormal.No = xpath
 					.evaluate(
 							"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/no",
@@ -198,7 +198,7 @@ public class GetConfig {
 									"/config/fairy/fairy_profile[name='FriendFairyBattleNormal']/kill_fairy_hp_max",
 									doc));
 
-			//基友觉醒妖精
+			// 基友觉醒妖精
 			Info.FriendFairyBattleRare.No = xpath
 					.evaluate(
 							"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/no",
@@ -227,12 +227,13 @@ public class GetConfig {
 									"/config/fairy/fairy_profile[name='FriendFairyBattleRare']/kill_fairy_hp_max",
 									doc));
 
-			//BC不足出击卡组
-			Info.BcInsufficientDeck.No = xpath.evaluate(
-					"/config/fairy/fairy_profile[name='BcInsufficientDeck']/no",
-					doc);
+			// BC不足出击卡组
+			Info.BcInsufficientDeck.No = xpath
+					.evaluate(
+							"/config/fairy/fairy_profile[name='BcInsufficientDeck']/no",
+							doc);
 
-			//尾刀卡组
+			// 尾刀卡组
 			Info.KillFairyDeck.No = xpath
 					.evaluate(
 							"/config/fairy/fairy_profile[name='KillFairyDeck']/no",
@@ -257,12 +258,22 @@ public class GetConfig {
 
 			Info.MyDeck2.No = "2";
 
+			String[] tmpCard = null;
+			String tmpLeader = "";
+
 			Info.MyDeckA1.No = "201";
 			Info.MyDeckA1.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/bc", doc));
 			Info.MyDeckA1.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/card", doc);
-			Info.MyDeckA1.leader = Info.MyDeckA1.card.split(",")[0];
+			tmpCard = Info.MyDeckA1.card.split(",");
+			for (int i = 0; i < tmpCard.length; i++) {
+				if (!tmpCard[i].equals("empty")) {
+					tmpLeader = tmpCard[i];
+					break;
+				}
+			}
+			Info.MyDeckA1.leader = tmpLeader;
 			Info.MyDeckA1.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/custom_name", doc);
 
@@ -271,7 +282,14 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=202]/bc", doc));
 			Info.MyDeckA2.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=202]/card", doc);
-			Info.MyDeckA2.leader = Info.MyDeckA2.card.split(",")[0];
+			tmpCard = Info.MyDeckA2.card.split(",");
+			for (int i = 0; i < tmpCard.length; i++) {
+				if (!tmpCard[i].equals("empty")) {
+					tmpLeader = tmpCard[i];
+					break;
+				}
+			}
+			Info.MyDeckA2.leader = tmpLeader;
 			Info.MyDeckA2.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=202]/custom_name", doc);
 
@@ -280,7 +298,14 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=203]/bc", doc));
 			Info.MyDeckA3.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=203]/card", doc);
-			Info.MyDeckA3.leader = Info.MyDeckA1.card.split(",")[0];
+			tmpCard = Info.MyDeckA3.card.split(",");
+			for (int i = 0; i < tmpCard.length; i++) {
+				if (!tmpCard[i].equals("empty")) {
+					tmpLeader = tmpCard[i];
+					break;
+				}
+			}
+			Info.MyDeckA3.leader = tmpLeader;
 			Info.MyDeckA3.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=203]/custom_name", doc);
 
@@ -289,7 +314,14 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=204]/bc", doc));
 			Info.MyDeckA4.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=204]/card", doc);
-			Info.MyDeckA4.leader = Info.MyDeckA1.card.split(",")[0];
+			tmpCard = Info.MyDeckA4.card.split(",");
+			for (int i = 0; i < tmpCard.length; i++) {
+				if (!tmpCard[i].equals("empty")) {
+					tmpLeader = tmpCard[i];
+					break;
+				}
+			}
+			Info.MyDeckA4.leader = tmpLeader;
 			Info.MyDeckA4.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=204]/custom_name", doc);
 
@@ -298,7 +330,14 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=205]/bc", doc));
 			Info.MyDeckA5.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=205]/card", doc);
-			Info.MyDeckA5.leader = Info.MyDeckA5.card.split(",")[0];
+			tmpCard = Info.MyDeckA5.card.split(",");
+			for (int i = 0; i < tmpCard.length; i++) {
+				if (!tmpCard[i].equals("empty")) {
+					tmpLeader = tmpCard[i];
+					break;
+				}
+			}
+			Info.MyDeckA5.leader = tmpLeader;
 			Info.MyDeckA5.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=205]/custom_name", doc);
 
@@ -343,7 +382,7 @@ public class GetConfig {
 			Info.KillFairyDeck.card = tempDeck.card;
 			Info.KillFairyDeck.leader = tempDeck.leader;
 			Info.KillFairyDeck.CustomDeckName = tempDeck.CustomDeckName;
-			
+
 			tempDeck = chooseCardDeck(Info.PublicFairyBattle.No);
 			Info.PublicFairyBattle.CustomDeckName = tempDeck.CustomDeckName;
 
@@ -361,6 +400,7 @@ public class GetConfig {
 		defaultDeck.BC = 0;
 		defaultDeck.No = "3";
 		defaultDeck.card = "";
+		defaultDeck.CustomDeckName = "自动配卡";
 		switch (n) {
 		case 0:
 			return Info.MyDeck0;
