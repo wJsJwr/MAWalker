@@ -26,7 +26,6 @@ import net.Crypto;
 public class Go {
 
 	static String configFile;
-	static String logfile = "log.txt";
 
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -58,7 +57,6 @@ public class Go {
 
 			Process proc = new Process();
 
-			NewLogFile();
 			proc.run();
 
 		} else if (args.length == 2) {
@@ -134,18 +132,11 @@ public class Go {
 
 	private static void Log2File(String content) {
 		try {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+			String logfile = "log-" + df.format(new Date())+".txt";
 			FileWriter writer = new FileWriter(logfile, true);
 			writer.write(content);
 			;
-			writer.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	private static void NewLogFile() {
-		try {
-			FileWriter writer = new FileWriter(logfile);
 			writer.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -202,6 +193,7 @@ public class Go {
 	public static void saveDeck(int deckNumber, String cardList) {
 		Document doc = null;
 		try {
+			
 			doc = Process.ParseXMLBytes(ReadFileAll(configFile));
 			Node node = null;
 			XPathFactory xpathFactory = XPathFactory.newInstance();
