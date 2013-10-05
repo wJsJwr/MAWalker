@@ -7,6 +7,6 @@
 # Mac OS X #
 .DS_Store
 /bin
-*.xml
-*.txt
+/*.xml
+/*.txt
 CardDataBase

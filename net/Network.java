@@ -40,34 +40,20 @@ public class Network {
 	public static int myProxyPort = 8888;
 
 	public Network() {
-		// Use custom cookie store if necessary.
 		myCookie = new BasicCookieStore();
-		// Request configuration can be overridden at the request level.
-		// They will take precedence over the one set at the client level.
 		RequestConfig requestConfig;
 		if (!myProxy.isEmpty()) {
 			requestConfig = RequestConfig.custom().setSocketTimeout(0x7530)
 					.setConnectTimeout(0x7530)
-					// .setConnectionRequestTimeout(0x7530)
 					.setProxy(new HttpHost(myProxy, myProxyPort)).build();
 		} else {
 			requestConfig = RequestConfig.custom().setSocketTimeout(0x7530)
-					.setConnectTimeout(0x7530)
-					// .setConnectionRequestTimeout(0x7530)
-					// .setProxy(new HttpHost(myProxy, myProxyPort))
-					.build();
+					.setConnectTimeout(0x7530).build();
 		}
-		// Create an HttpClient with the given custom dependencies and
-		// configuration.
 		client = HttpClients.custom().setDefaultCookieStore(myCookie)
 				.setDefaultRequestConfig(requestConfig).build();
-		// Use custom credentials provider if necessary.
 		CredentialsProvider defaultcp = new BasicCredentialsProvider();
-		// Execution context can be customized locally.
 		context = HttpClientContext.create();
-		// Contextual attributes set the local context level will take
-		// precedence over those set at the client level.
-		// context.setCookieStore(myCookie);
 		context.setCredentialsProvider(defaultcp);
 	}
 
@@ -108,8 +94,6 @@ public class Network {
 		UsernamePasswordCredentials upc = new UsernamePasswordCredentials(Auth,
 				Key);
 		cp.setCredentials(as, upc);
-		// if (!myCookie.getCookies().isEmpty())
-		// context.setCookieStore(myCookie);
 		context.setCredentialsProvider(cp);
 
 		byte[] b = client.execute(hp, new HttpResponseHandler(), context);
