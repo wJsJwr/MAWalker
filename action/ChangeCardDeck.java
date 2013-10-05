@@ -32,10 +32,9 @@ public class ChangeCardDeck {
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("C", Process.info.CurrentDeck.card));
-		String[] tmpCard = Info.MyDeckA1.card.split(",");
 		int cards = 0;
-		for (int i = 0; i < tmpCard.length; i++) {
-			if (!tmpCard[i].equals("empty")) {
+		for (String i : Process.info.CurrentDeck.card.split(",")) {
+			if (!i.equals("empty")) {
 				cards++;
 			}
 		}
