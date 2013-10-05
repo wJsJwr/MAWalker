@@ -8,5 +8,5 @@
 .DS_Store
 /bin
 *.xml
-log.txt
+*.txt
 CardDataBase
