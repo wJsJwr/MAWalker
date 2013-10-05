@@ -106,12 +106,13 @@ public class GuildTop {
 				if ((boolean) xpath.evaluate("count(//spp_skill_effect)>0",
 						doc, XPathConstants.BOOLEAN)) {
 					String tmp = xpath.evaluate("//spp_skill_effect", doc);
-					walker.Go.log(String.format("Guild Fairy Buff: %s.", tmp));
+					walker.Go.log(String.format("Guild Fairy Buff: %s.", tmp),
+							!Info.Nolog);
 					if (tmp.indexOf("BC") == -1
 							&& Process.info.ticket < Info.ticket_max)
 						return 0;
 				} else {
-					walker.Go.log("Guild Fairy Buff: None.");
+					walker.Go.log("Guild Fairy Buff: None.", !Info.Nolog);
 					return 0;
 				}
 			}

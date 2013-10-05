@@ -47,7 +47,7 @@ public class CookieLogin {
 						new ArrayList<NameValuePair>(), true);
 
 				Thread.sleep(Process.getRandom(1000, 2000));
-				
+
 			} catch (Exception ex) {
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;

@@ -123,7 +123,8 @@ public class Info {
 	/**
 	 * 尾刀卡组出击bc下限
 	 */
-	public static double KillFairyScale = 0; 
+	public static double KillFairyScale = 0;
+
 	/**
 	 * 自动吃药方式
 	 */

@@ -42,29 +42,24 @@ public class Go {
 		if (args.length < 3) {
 			System.out.println(Version.printVersion());
 			Go.log(String.format("Read cards that can be sold (%d).",
-					Info.CanBeSold.size()));
+					Info.CanBeSold.size()), true);
 		}
-		if (args.length == 1
-				|| (args.length == 2 && (args[1].equals("-debug") || args[1]
-						.equals("-nolog")))) {
-			// auto mode
-			if (args.length == 2 && args[1].equals("-debug"))
-				Info.Debug = true;
-			else if (args.length == 2 && args[1].equals("-nolog"))
-				Info.Nolog = true;
-			else
-				Info.Debug = false;
-
+		if (args.length == 1) {
+			Info.Debug = false;
+			Info.Nolog = false;
 			Process proc = new Process();
-
 			proc.run();
-
 		} else if (args.length == 2) {
-			if (args[1].equals("-m")) {
-				// manual operation
-				System.out.println("come soon");
-			} else {
-				printHelp();
+			if (args[1].equals("-debug")) {
+				Info.Debug = true;
+				Info.Nolog = false;
+				Process proc = new Process();
+				proc.run();
+			} else if (args[1].equals("-nolog")) {
+				Info.Debug = false;
+				Info.Nolog = true;
+				Process proc = new Process();
+				proc.run();
 			}
 		} else if (args.length == 3) {
 			try {
@@ -106,34 +101,30 @@ public class Go {
 				.println("Usage: config_xml [-h][-f[1|2] file][-d[1|2] str][-m]");
 	}
 
-	public static void log(String message) {
+	public static void log(String message, boolean flag) {
 		String LogString = "";
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 		if (message == null || message.isEmpty())
 			return;
 		if (!message.contains("\n")) {
-			LogString = df.format(new Date());// new Date()为获取当前系统时间
-			System.out.print(LogString);
-			Log2File(LogString);
-			LogString = "> " + message;
-			System.out.println(LogString);
+			LogString = df.format(new Date()) + "> " + message;
 			Log2File(LogString + "\r\n");
+			if (flag)
+				System.out.println(LogString);
 			return;
 		}
 		for (String l : message.split("\n")) {
-			LogString = df.format(new Date());
-			System.out.print(LogString);
-			Log2File(LogString);
-			LogString = "> " + l;
-			System.out.println(LogString);
+			LogString = df.format(new Date()) + "> " + l;
 			Log2File(LogString + "\r\n");
+			if (flag)
+				System.out.println(LogString);
 		}
 	}
 
 	private static void Log2File(String content) {
 		try {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
-			String logfile = "log-" + df.format(new Date())+".txt";
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");// 设置日期格式
+			String logfile = "log-" + df.format(new Date()) + ".txt";
 			FileWriter writer = new FileWriter(logfile, true);
 			writer.write(content);
 			;
@@ -193,7 +184,7 @@ public class Go {
 	public static void saveDeck(int deckNumber, String cardList) {
 		Document doc = null;
 		try {
-			
+
 			doc = Process.ParseXMLBytes(ReadFileAll(configFile));
 			Node node = null;
 			XPathFactory xpathFactory = XPathFactory.newInstance();
