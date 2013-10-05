@@ -10,6 +10,7 @@ import info.FairyDianzanInfo;
 import info.GuildFairyBattleForce;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -124,6 +125,12 @@ public class Info {
 	 * 尾刀卡组出击bc下限
 	 */
 	public static double KillFairyScale = 0;
+	/**
+	 * 定时任务
+	 */
+	public static boolean useSleep = false;
+	public static Calendar startTime = Calendar.getInstance();
+	public static Calendar stopTime = Calendar.getInstance();
 
 	/**
 	 * 自动吃药方式

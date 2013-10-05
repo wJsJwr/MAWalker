@@ -3,6 +3,7 @@ package walker;
 import info.GuildFairyBattleForce;
 
 import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -48,7 +49,12 @@ public class Process {
 	}
 
 	public void run() {
-
+		if (Info.useSleep) {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Go.log("Sleep schedule: start time: "
+					+ df.format(Info.startTime.getTime()) + ", stop time: "
+					+ df.format(Info.stopTime.getTime()) + ".", true);
+		}
 		while (true) {
 			try {
 				auto();
@@ -79,6 +85,30 @@ public class Process {
 					Thread.sleep(Info.sleep_time * 1000 + tmp - delta);
 				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy)
 					Thread.sleep(2 * 60000); // 半夜速度慢点,等待60s
+				if (Info.useSleep)
+					SleepSchedule();
+			}
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+
+	private void SleepSchedule() throws Exception {
+		try {
+			long currentTime = Calendar.getInstance().getTimeInMillis();
+			long tmpStartTime = Info.startTime.getTimeInMillis();
+			long tmpStopTime = Info.stopTime.getTimeInMillis();
+			while (true) {
+				currentTime = Calendar.getInstance().getTimeInMillis();
+				if (currentTime > tmpStartTime && currentTime < tmpStopTime) {
+					Go.log("Sleeping~~~", Info.Nolog);
+					long sleepTime = (tmpStopTime - tmpStartTime) / 10;
+					if (sleepTime > tmpStopTime - currentTime)
+						sleepTime = tmpStopTime - currentTime + 5000;
+					Thread.sleep(sleepTime);
+				} else {
+					break;
+				}
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -119,10 +149,7 @@ public class Process {
 		Calendar myCal = Calendar.getInstance();
 		if (myCal.get(Calendar.HOUR_OF_DAY) >= 1) {
 			int date = myCal.get(Calendar.DAY_OF_YEAR);
-			if (date == 365)
-				myCal.set(Calendar.DAY_OF_YEAR, 1);
-			else
-				myCal.set(Calendar.DAY_OF_YEAR, date + 1);
+			myCal.set(Calendar.DAY_OF_YEAR, date + 1);
 		}
 		myCal.set(Calendar.HOUR_OF_DAY, 1);
 		myCal.set(Calendar.MINUTE, 0);

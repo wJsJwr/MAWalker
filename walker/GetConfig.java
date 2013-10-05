@@ -3,6 +3,7 @@ package walker;
 import info.Deck;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -101,6 +102,39 @@ public class GetConfig {
 					"/config/option/go_no_event_area", doc).equals("1");
 			Info.GoDailyArea = xpath.evaluate("/config/option/go_daily_area",
 					doc).equals("1");
+			Info.useSleep= xpath.evaluate("/config/sleep/use_timer", doc)
+					.equals("1");
+			if (Info.useSleep) {
+				int startHour = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StartTime']/hour", doc));
+				int startMinute = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StartTime']/minute", doc));
+				int stopHour = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StopTime']/hour", doc));
+				int stopMinute = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StopTime']/minute", doc));
+				Info.startTime = Calendar.getInstance();
+				Info.stopTime = Calendar.getInstance();
+				Info.startTime.set(Calendar.HOUR_OF_DAY, startHour);
+				Info.startTime.set(Calendar.MINUTE, startMinute);
+				Info.startTime.set(Calendar.SECOND, 0);
+				int tmpdate = Info.startTime.get(Calendar.DAY_OF_YEAR);
+				if (Calendar.getInstance().getTimeInMillis() > Info.startTime
+						.getTimeInMillis()) {
+					tmpdate++;
+					Info.startTime.set(Calendar.DAY_OF_YEAR, tmpdate);
+					Info.stopTime.set(Calendar.DAY_OF_YEAR, tmpdate);
+				}
+				Info.stopTime.set(Calendar.HOUR_OF_DAY, stopHour);
+				Info.stopTime.set(Calendar.MINUTE, stopMinute);
+				Info.stopTime.set(Calendar.SECOND, 0);
+				tmpdate = Info.startTime.get(Calendar.DAY_OF_YEAR);
+				if (Info.startTime.getTimeInMillis() > Info.stopTime
+						.getTimeInMillis()) {
+					tmpdate++;
+					Info.stopTime.set(Calendar.DAY_OF_YEAR, tmpdate);
+				}
+			}
 
 			// 自己普通妖精
 			Info.PrivateFairyBattleNormal.No = xpath.evaluate(
