@@ -258,22 +258,17 @@ public class GetConfig {
 
 			Info.MyDeck2.No = "2";
 
-			String[] tmpCard = null;
-			String tmpLeader = "";
-
 			Info.MyDeckA1.No = "201";
 			Info.MyDeckA1.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/bc", doc));
 			Info.MyDeckA1.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/card", doc);
-			tmpCard = Info.MyDeckA1.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA1.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA1.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA1.leader = tmpLeader;
 			Info.MyDeckA1.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/custom_name", doc);
 
@@ -282,14 +277,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=202]/bc", doc));
 			Info.MyDeckA2.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=202]/card", doc);
-			tmpCard = Info.MyDeckA2.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA2.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA2.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA2.leader = tmpLeader;
 			Info.MyDeckA2.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=202]/custom_name", doc);
 
@@ -298,14 +291,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=203]/bc", doc));
 			Info.MyDeckA3.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=203]/card", doc);
-			tmpCard = Info.MyDeckA3.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA3.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA3.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA3.leader = tmpLeader;
 			Info.MyDeckA3.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=203]/custom_name", doc);
 
@@ -314,14 +305,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=204]/bc", doc));
 			Info.MyDeckA4.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=204]/card", doc);
-			tmpCard = Info.MyDeckA4.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA4.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA4.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA4.leader = tmpLeader;
 			Info.MyDeckA4.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=204]/custom_name", doc);
 
@@ -330,14 +319,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=205]/bc", doc));
 			Info.MyDeckA5.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=205]/card", doc);
-			tmpCard = Info.MyDeckA5.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA5.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA5.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA5.leader = tmpLeader;
 			Info.MyDeckA5.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=205]/custom_name", doc);
 
