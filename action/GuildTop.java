@@ -102,14 +102,13 @@ public class GuildTop {
 			Process.info.gfbforce.attack_compensation = Double
 					.parseDouble(xpath.evaluate("//attack_compensation", doc));
 
-			if (Info.OnlyBcBuff) {
+			if (Info.OnlyBcBuff && Process.info.ticket < Info.ticket_max) {
 				if ((boolean) xpath.evaluate("count(//spp_skill_effect)>0",
 						doc, XPathConstants.BOOLEAN)) {
 					String tmp = xpath.evaluate("//spp_skill_effect", doc);
 					walker.Go.log(String.format("Guild Fairy Buff: %s.", tmp),
 							!Info.Nolog);
-					if (tmp.indexOf("BC") == -1
-							&& Process.info.ticket < Info.ticket_max)
+					if (tmp.indexOf("BC") == -1)
 						return 0;
 				} else {
 					walker.Go.log("Guild Fairy Buff: None.", !Info.Nolog);
