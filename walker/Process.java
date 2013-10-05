@@ -33,6 +33,7 @@ import action.GuildTop;
 import action.Login;
 import action.LvUp;
 import action.PrivateFairyBattle;
+import action.RecFairyDianzan;
 import action.SellCard;
 
 public class Process {
@@ -435,47 +436,52 @@ public class Process {
 			break;
 		case PRIVATE_FAIRY_BATTLE:
 			try {
-				if (PrivateFairyBattle.run()) {
-					String result = "";
-					switch (PrivateFairyBattle.FairyBattleResult) {
-					case escape:
-						result = "Too Late";
-						break;
-					case lose:
-						result = "Lose";
-						break;
-					case win:
-						result = "Win";
-						break;
-					default:
-						result = "Unknown";
-						break;
+				if (RecFairyDianzan.run()) {
+					if (PrivateFairyBattle.run()) {
+						String result = "";
+						switch (PrivateFairyBattle.FairyBattleResult) {
+						case escape:
+							result = "Too Late";
+							break;
+						case lose:
+							result = "Lose";
+							break;
+						case win:
+							result = "Win";
+							break;
+						default:
+							result = "Unknown";
+							break;
+						}
+						String str = String
+								.format("Private Fairy Battle, name: %s, Lv: %d, Hp: %d/%d, Finder: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+										info.pfairy.FairyName,
+										info.pfairy.FairyLevel,
+										info.pfairy.FairyHp,
+										info.pfairy.FairyHpMax,
+										info.FairySelectUserList
+												.get(info.pfairy.UserId).userName,
+										info.bc, info.bcMax, info.ap,
+										info.apMax, info.ticket, result);
+						if (info.gather != -1)
+							str += String.format(", gather=%d", info.gather);
+						str += ".\n";
+						if (Info.Debug)
+							str += String.format(
+									"Fairy Info: SerialID: %s, UserID: %s.\n",
+									info.pfairy.SerialId, info.pfairy.UserId);
+						str += String
+								.format("Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.\n",
+										info.CurrentDeck.DeckName,
+										info.CurrentDeck.CustomDeckName,
+										info.CurrentDeck.No,
+										info.CurrentDeck.BC);
+						Go.log(str);
+					} else {
+						Go.log("Something wrong@PrivateFairyBattle");
 					}
-					String str = String
-							.format("Private Fairy Battle, name: %s, Lv: %d, Hp: %d/%d, Finder: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
-									info.pfairy.FairyName,
-									info.pfairy.FairyLevel,
-									info.pfairy.FairyHp,
-									info.pfairy.FairyHpMax,
-									info.FairySelectUserList
-											.get(info.pfairy.UserId).userName,
-									info.bc, info.bcMax, info.ap, info.apMax,
-									info.ticket, result);
-					if (info.gather != -1)
-						str += String.format(", gather=%d", info.gather);
-					str += ".\n";
-					if (Info.Debug)
-						str += String.format(
-								"Fairy Info: SerialID: %s, UserID: %s.\n",
-								info.pfairy.SerialId, info.pfairy.UserId);
-					str += String
-							.format("Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.\n",
-									info.CurrentDeck.DeckName,
-									info.CurrentDeck.CustomDeckName,
-									info.CurrentDeck.No, info.CurrentDeck.BC);
-					Go.log(str);
 				} else {
-
+					Go.log("Something wrong@RecFairyDianzan");
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)

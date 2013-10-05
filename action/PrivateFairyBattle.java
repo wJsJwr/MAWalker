@@ -34,7 +34,6 @@ public class PrivateFairyBattle {
 
 	public static boolean run() throws Exception {
 		FairyBattleResult = PrivateFairyBattleResult.unknown;
-		RecFairyDianzan.run();
 
 		boolean flag_deck = false;
 
