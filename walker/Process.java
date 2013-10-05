@@ -99,7 +99,7 @@ public class Process {
 			public void run() {
 				AddTask(Info.EventType.autoExplore);
 			}
-		}, 0, 45 * 1000l);// 45s
+		}, 0, 30 * 1000);// 30s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needFloorInfo);
