@@ -26,9 +26,9 @@ public class GetConfig {
 			Info.sessionId = xpath.evaluate("/config/sessionId", doc);
 			Network.UserAgent = xpath.evaluate("/config/UserAgent", doc).trim();
 			Network.myProxy = xpath.evaluate("/config/proxy", doc);
-			String tmpPort = xpath.evaluate("/config/proxy_port", doc);
-			if (!tmpPort.isEmpty())
-				Network.myProxyPort = Integer.parseInt(tmpPort);
+			if (!Network.myProxy.isEmpty())
+				Network.myProxyPort = Integer.parseInt(xpath.evaluate(
+						"/config/proxy_port", doc));
 
 			NodeList idl = (NodeList) xpath.evaluate("/config/sell_card/id",
 					doc, XPathConstants.NODESET);
