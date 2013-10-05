@@ -11,32 +11,64 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpParams;
 
 public class Network {
 	private static final String Auth = "eWa25vrE";
 	private static final String Key = "2DbcAh3G";
 
 	public static String UserAgent = "";
-	private DefaultHttpClient client;
-	public CookieStore cookie;
+	private CloseableHttpClient client;
+	public CookieStore myCookie;
+	HttpClientContext context;
+	public static String myProxy = "";
+	public static int myProxyPort = 8888;
 
 	public Network() {
-		client = new DefaultHttpClient();
-		cookie = client.getCookieStore();
-		HttpParams hp = client.getParams();
-		hp.setParameter("http.socket.timeout", 0x7530);
-		hp.setParameter("http.connection.timeout", 0x7530);
+		// Use custom cookie store if necessary.
+		myCookie = new BasicCookieStore();
+		// Request configuration can be overridden at the request level.
+		// They will take precedence over the one set at the client level.
+		RequestConfig requestConfig;
+		if (!myProxy.isEmpty()) {
+			requestConfig = RequestConfig.custom().setSocketTimeout(0x7530)
+					.setConnectTimeout(0x7530)
+					// .setConnectionRequestTimeout(0x7530)
+					.setProxy(new HttpHost(myProxy, myProxyPort)).build();
+		} else {
+			requestConfig = RequestConfig.custom().setSocketTimeout(0x7530)
+					.setConnectTimeout(0x7530)
+					// .setConnectionRequestTimeout(0x7530)
+					// .setProxy(new HttpHost(myProxy, myProxyPort))
+					.build();
+		}
+		// Create an HttpClient with the given custom dependencies and
+		// configuration.
+		client = HttpClients.custom().setDefaultCookieStore(myCookie)
+				.setDefaultRequestConfig(requestConfig).build();
+		// Use custom credentials provider if necessary.
+		CredentialsProvider defaultcp = new BasicCredentialsProvider();
+		// Execution context can be customized locally.
+		context = HttpClientContext.create();
+		// Contextual attributes set the local context level will take
+		// precedence over those set at the client level.
+		// context.setCookieStore(myCookie);
+		context.setCredentialsProvider(defaultcp);
 	}
 
 	private List<NameValuePair> RequestProcess(List<NameValuePair> source,
@@ -70,14 +102,17 @@ public class Network {
 		hp.setHeader("Accept-Encoding", "gzip, deflate");
 		hp.setEntity(new UrlEncodedFormEntity(post, "UTF-8"));
 
+		CredentialsProvider cp = new BasicCredentialsProvider();
 		AuthScope as = new AuthScope(hp.getURI().getHost(), hp.getURI()
 				.getPort());
-		CredentialsProvider cp = client.getCredentialsProvider();
 		UsernamePasswordCredentials upc = new UsernamePasswordCredentials(Auth,
 				Key);
 		cp.setCredentials(as, upc);
+		// if (!myCookie.getCookies().isEmpty())
+		// context.setCookieStore(myCookie);
+		context.setCredentialsProvider(cp);
 
-		byte[] b = client.execute(hp, new HttpResponseHandler());
+		byte[] b = client.execute(hp, new HttpResponseHandler(), context);
 
 		/* end */
 		if (b != null) {

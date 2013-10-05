@@ -92,7 +92,7 @@ public class Login {
 			}
 
 			// System.out.println("Post logon cookies:");
-			List<Cookie> cookies = Process.network.cookie.getCookies();
+			List<Cookie> cookies = Process.network.myCookie.getCookies();
 			if (cookies.isEmpty()) {
 				System.out.println("None");
 			} else {
