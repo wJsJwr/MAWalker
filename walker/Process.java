@@ -41,11 +41,13 @@ public class Process {
 	public static Info info;
 	public static Network network;
 	public static Timer TaskTimer;
+	public static CardDataBase CardData;
 
 	public Process() {
 		info = new Info();
 		network = new Network();
 		TaskTimer = new Timer();
+		CardData = new CardDataBase();
 	}
 
 	public void run() {

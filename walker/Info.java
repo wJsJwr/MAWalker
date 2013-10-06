@@ -148,6 +148,7 @@ public class Info {
 
 	// card list
 	public ArrayList<Card> cardList;
+	public Hashtable<String, Card> myCardList;
 	public static ArrayList<String> CanBeSold = new ArrayList<String>();
 	public static ArrayList<String> KeepCard;
 	public String toSell = "";
@@ -219,6 +220,7 @@ public class Info {
 
 	public Info() {
 		cardList = new ArrayList<Card>();
+		myCardList = new Hashtable<String, Card>();
 		area = new Hashtable<Integer, Area>();
 		floor = new Hashtable<Integer, Floor>();
 		front = new Floor();
