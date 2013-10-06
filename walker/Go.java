@@ -40,7 +40,7 @@ public class Go {
 			return;
 		}
 		if (args.length < 3) {
-			System.out.println(Version.printVersion());
+			Go.log(Version.printVersion(),true);
 			Go.log(String.format("Read cards that can be sold (%d).",
 					Info.CanBeSold.size()), true);
 		}
