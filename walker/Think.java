@@ -289,11 +289,19 @@ public class Think {
 		for (Card c : Process.info.cardList) {
 			if (!c.exist)
 				continue;
-			if (c.holo && c.hp >= 3500)
-				continue; // 闪卡不卖，但是低等级的闪卡照样要卖
-			if (c.hp > 6000)
-				continue; // 防止不小心把贵重卡片卖了
-			if (Info.CanBeSold.contains(c.cardId)) {
+			if (c.star > 4)
+				continue;
+			if (c.lv > Info.levelCardNotSell)
+				continue;
+			if (c.star == 1 && !Info.sell1star)
+				continue;
+			if (c.star == 2 && !Info.sell2star)
+				continue;
+			if (c.star == 3 && !Info.sell3star)
+				continue;
+			if (c.star == 4 && !Info.sell4star)
+				continue;
+			if (!Info.CanNotBeSold.contains(c.cardId)) {
 				if (toSell.isEmpty()) {
 					toSell = c.serialId;
 				} else {

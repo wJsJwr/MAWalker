@@ -41,8 +41,8 @@ public class Go {
 		}
 		if (args.length < 3) {
 			System.out.println(Version.printVersion());
-			Go.log(String.format("Read cards that can be sold (%d).",
-					Info.CanBeSold.size()), true);
+			Go.log(String.format("Read cards that can not be sold (%d).",
+					Info.CanNotBeSold.size()), true);
 		}
 		if (args.length == 1) {
 			Info.Debug = false;

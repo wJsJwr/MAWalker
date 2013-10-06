@@ -22,6 +22,7 @@ import jxl.write.biff.RowsExceededException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import walker.Info;
 import walker.Process;
 
 public class ParseCardList {
@@ -62,8 +63,9 @@ public class ParseCardList {
 				Process.info.myCardList.put(c.serialId, c);
 			}
 			saveCardData();
+			if (cardCount > Info.cardFull)
+				Process.AddUrgentTask(Info.EventType.cardFull);
 		}
-
 	}
 
 	private static void saveCardData() {

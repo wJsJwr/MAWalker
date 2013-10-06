@@ -94,8 +94,13 @@ public class Info {
 	/**
 	 * 自动卖卡
 	 */
-	public static boolean sellcard = false;
-	public static boolean sellallcard = false;
+	public static boolean autoSellCard = false;
+	public static boolean sell1star = false;
+	public static boolean sell2star = false;
+	public static boolean sell3star = false;
+	public static boolean sell4star = false;
+	public static int levelCardNotSell = 0;
+	public static int cardFull = 200;
 	/**
 	 * 吃药相关的开关
 	 */
@@ -149,7 +154,7 @@ public class Info {
 	// card list
 	public ArrayList<Card> cardList;
 	public Hashtable<String, Card> myCardList;
-	public static ArrayList<String> CanBeSold = new ArrayList<String>();
+	public static ArrayList<String> CanNotBeSold = new ArrayList<String>();
 	public static ArrayList<String> KeepCard;
 	public String toSell = "";
 

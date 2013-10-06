@@ -152,6 +152,7 @@ public class Explore {
 				break;
 			case 3:
 				Process.info.ExploreResult = "Get Card";
+				ParseCardList.parse(doc);
 				break;
 			default:
 				Process.info.ExploreResult = String.format("Code: %d", evt);

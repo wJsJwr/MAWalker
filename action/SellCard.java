@@ -61,6 +61,7 @@ public class SellCard {
 				ErrorData.text = xpath.evaluate(
 						"/response/header/error/message", doc);
 				Process.info.toSell = "";
+				ParseCardList.parse(doc);
 				return true;
 			}
 

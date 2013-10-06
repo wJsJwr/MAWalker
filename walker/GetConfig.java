@@ -30,13 +30,13 @@ public class GetConfig {
 				Network.myProxyPort = Integer.parseInt(xpath.evaluate(
 						"/config/proxy_port", doc));
 
-			NodeList idl = (NodeList) xpath.evaluate("/config/sell_card/id",
+			NodeList idl = (NodeList) xpath.evaluate("/config/sell_card/card_not_sell/id",
 					doc, XPathConstants.NODESET);
-			Info.CanBeSold = new ArrayList<String>();
+			Info.CanNotBeSold = new ArrayList<String>();
 			for (int i = 0; i < idl.getLength(); i++) {
 				Node idx = idl.item(i);
 				try {
-					Info.CanBeSold.add(idx.getFirstChild().getNodeValue());
+					Info.CanNotBeSold.add(idx.getFirstChild().getNodeValue());
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -52,6 +52,18 @@ public class GetConfig {
 					ex.printStackTrace();
 				}
 			}
+			String tmp = xpath
+					.evaluate("/config/sell_card/policy", doc);
+			if(tmp.contains("1"))
+				Info.sell1star = true;
+			if(tmp.contains("2"))
+				Info.sell2star = true;
+			if(tmp.contains("3"))
+				Info.sell3star = true;
+			if(tmp.contains("4"))
+				Info.sell4star = true;
+			Info.cardFull = Integer.parseInt(xpath
+					.evaluate("/config/sell_card/card_full", doc));
 			Info.FairyBattleFirst = xpath.evaluate(
 					"/config/option/fairy_battle_first", doc).equals("1");
 			Info.AllowBCInsuffient = xpath.evaluate(
@@ -67,10 +79,11 @@ public class GetConfig {
 
 			Info.nightModeSwitch = xpath.evaluate("/config/option/night_mode",
 					doc).equals("1");
-			Info.sellcard = xpath.evaluate("/config/sell_card/on_off", doc)
-					.equals("1");
-			Info.sellallcard = xpath
-					.evaluate("/config/sell_card/sell_all", doc).equals("1");
+
+			Info.autoSellCard = xpath
+					.evaluate("/config/sell_card/auto_sell", doc).equals("1");
+			Info.levelCardNotSell = Integer.parseInt(xpath
+					.evaluate("/config/sell_card/level", doc));
 
 			Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc)
 					.equals("1");
