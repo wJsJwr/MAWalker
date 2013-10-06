@@ -41,13 +41,13 @@ public class CookieLogin {
 							Info.sessionId);
 					c.setDomain("web.million-arthurs.com");
 					c.setPath("/");
-					Process.network.cookie.addCookie(c);
+					Process.network.myCookie.addCookie(c);
 				}
 				result = Process.network.ConnectToServer(URL_CHECK_INSPECTION,
 						new ArrayList<NameValuePair>(), true);
 
 				Thread.sleep(Process.getRandom(1000, 2000));
-				
+
 			} catch (Exception ex) {
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;

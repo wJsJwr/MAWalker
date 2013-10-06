@@ -121,7 +121,7 @@ public class FairyDianzan {
 			String Attacker_UserId_List) throws Exception {
 		String dianzan_log;
 		dianzan_log = String.format("Waiting for dianzan.");
-		walker.Go.log(dianzan_log);
+		walker.Go.log(dianzan_log, !Info.Nolog);
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("dialog", "1"));
@@ -180,10 +180,10 @@ public class FairyDianzan {
 						"/response/body/friend_act_res/message", doc);
 				dianzan_log = String.format("Succeed to dianzan, message: %s.",
 						dianzan_message);
-				walker.Go.log(dianzan_log);
+				walker.Go.log(dianzan_log, true);
 			} else {
 				dianzan_log = String.format("Fail to dianzan.");
-				walker.Go.log(dianzan_log);
+				walker.Go.log(dianzan_log, true);
 			}
 
 		} catch (Exception ex) {

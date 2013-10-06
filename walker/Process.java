@@ -3,6 +3,7 @@ package walker;
 import info.GuildFairyBattleForce;
 
 import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,6 +34,7 @@ import action.GuildTop;
 import action.Login;
 import action.LvUp;
 import action.PrivateFairyBattle;
+import action.RecFairyDianzan;
 import action.SellCard;
 
 public class Process {
@@ -47,14 +49,19 @@ public class Process {
 	}
 
 	public void run() {
-
+		if (Info.useSleep) {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Go.log("Sleep schedule: start time: "
+					+ df.format(Info.startTime.getTime()) + ", stop time: "
+					+ df.format(Info.stopTime.getTime()) + ".", true);
+		}
 		while (true) {
 			try {
 				auto();
 			} catch (Exception ex) {
-				Go.log(ex.getMessage());
+				Go.log(ex.getMessage(), true);
 				Process.AddUrgentTask(Info.EventType.cookieOutOfDate);
-				Go.log("Restart");
+				Go.log("Restart", true);
 			}
 		}
 	}
@@ -78,6 +85,30 @@ public class Process {
 					Thread.sleep(Info.sleep_time * 1000 + tmp - delta);
 				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy)
 					Thread.sleep(2 * 60000); // 半夜速度慢点,等待60s
+				if (Info.useSleep)
+					SleepSchedule();
+			}
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+
+	private void SleepSchedule() throws Exception {
+		try {
+			long currentTime = Calendar.getInstance().getTimeInMillis();
+			long tmpStartTime = Info.startTime.getTimeInMillis();
+			long tmpStopTime = Info.stopTime.getTimeInMillis();
+			while (true) {
+				currentTime = Calendar.getInstance().getTimeInMillis();
+				if (currentTime > tmpStartTime && currentTime < tmpStopTime) {
+					Go.log("Sleeping~~~", Info.Nolog);
+					long sleepTime = (tmpStopTime - tmpStartTime) / 10;
+					if (sleepTime > tmpStopTime - currentTime)
+						sleepTime = tmpStopTime - currentTime + 5000;
+					Thread.sleep(sleepTime);
+				} else {
+					break;
+				}
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -99,7 +130,7 @@ public class Process {
 			public void run() {
 				AddTask(Info.EventType.autoExplore);
 			}
-		}, 0, 45 * 1000l);// 45s
+		}, 0, 30 * 1000);// 30s
 		TaskTimer.schedule(new TimerTask() {
 			public void run() {
 				AddTask(Info.EventType.needFloorInfo);
@@ -118,10 +149,7 @@ public class Process {
 		Calendar myCal = Calendar.getInstance();
 		if (myCal.get(Calendar.HOUR_OF_DAY) >= 1) {
 			int date = myCal.get(Calendar.DAY_OF_YEAR);
-			if (date == 365)
-				myCal.set(Calendar.DAY_OF_YEAR, 1);
-			else
-				myCal.set(Calendar.DAY_OF_YEAR, date + 1);
+			myCal.set(Calendar.DAY_OF_YEAR, date + 1);
 		}
 		myCal.set(Calendar.HOUR_OF_DAY, 1);
 		myCal.set(Calendar.MINUTE, 0);
@@ -137,37 +165,36 @@ public class Process {
 		if (!Process.info.events.contains(_Task)) {
 			Process.info.events.add(0, _Task);
 			if (Info.Debug)
-				Go.log(String.format("Add Task: %s", _Task));
+				Go.log(String.format("Add Task: %s", _Task), Info.Debug);
 		}
 	}
 
 	public static boolean AddUrgentTask(Info.EventType _Task) {
 		if (!Process.info.events.contains(_Task)) {
 			Process.info.events.push(_Task);
-			if (Info.Debug)
-				Go.log(String.format("Add Urgent Task: %s", _Task));
+			Go.log(String.format("Add Urgent Task: %s", _Task), Info.Debug);
 			return true;
 		} else {
 			Process.info.events.remove(_Task);
 			Process.info.events.push(_Task);
-			if (Info.Debug)
-				Go.log(String.format("Change and Add Urgent Task: %s", _Task));
+			Go.log(String.format("Change and Add Urgent Task: %s", _Task),
+					Info.Debug);
 			return false;
 		}
 	}
 
 	private void rescue() {
-		Go.log(ErrorData.currentErrorType.toString());
+		Go.log(ErrorData.currentErrorType.toString(), true);
 		switch (ErrorData.currentDataType) {
 		case bytes:
 			if (ErrorData.bytes != null) {
-				Go.log(new String(ErrorData.bytes));
+				Go.log(new String(ErrorData.bytes), true);
 			} else {
-				Go.log("Set type to byte, but no message");
+				Go.log("Set type to byte, but no message", true);
 			}
 			break;
 		case text:
-			Go.log(ErrorData.text);
+			Go.log(ErrorData.text, true);
 			break;
 		default:
 			break;
@@ -196,7 +223,7 @@ public class Process {
 				result.add(Action.GET_FAIRY_REWARD);
 				break;
 			case innerMapJump:// 里图
-				Go.log("Map Status Changed!");
+				Go.log("Map Status Changed!", true);
 			case needFloorInfo:// 获取秘境信息
 				result.add(Action.GET_FLOOR_INFO);
 				break;
@@ -224,9 +251,8 @@ public class Process {
 				result.add(Action.GOTO_FLOOR);
 				break;
 			case levelUp:// 升级
-				if (Info.AutoAddp == false) {
-					if (Info.Debug)
-						Go.log("Auto Adding points is closed.");
+				if (!Info.AutoAddp) {
+					Go.log("Auto Adding points is closed.", !Info.Nolog);
 				} else {
 					result.add(Action.LV_UP);
 				}
@@ -254,15 +280,17 @@ public class Process {
 							.format("Cookie Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.cardList.size(),
-									info.cardMax, info.ticket, Info.sessionId));
+									info.cardMax, info.ticket, Info.sessionId),
+							true);
 					Process.info.events.clear();
 					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
 					AddTimerTasks();
 					break;
 				case 0:
-					Go.log(ErrorData.text);
-					Go.log("Cookie Login Failed, waiting to login with username and password.");
+					Go.log(ErrorData.text, Info.Debug);
+					Go.log("Cookie Login Failed, waiting to login with username and password.",
+							true);
 					ErrorData.clear();
 					AddUrgentTask(Info.EventType.notLoggedIn);
 					break;
@@ -285,7 +313,8 @@ public class Process {
 							.format("Normal Login: User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, sessionId: %s",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.cardList.size(),
-									info.cardMax, info.ticket, Info.sessionId));
+									info.cardMax, info.ticket, Info.sessionId),
+							true);
 					Process.info.events.clear();
 					AddUrgentTask(Info.EventType.getCardDeck);
 					AddUrgentTask(Info.EventType.needFloorInfo);
@@ -310,11 +339,11 @@ public class Process {
 				if (GetFloorInfo.run()) {
 					if (Process.info.AllClear)
 						Process.info.front = Process.info.floor.get(1);
-					if (!Info.Nolog)
-						Go.log(String.format("Area(%d) Front: %s>%s@c=%d",
-								info.area.size(), info.area.get(Integer
-										.parseInt(info.front.areaId)).areaName,
-								info.front.floorId, info.front.cost));
+					Go.log(String.format(
+							"Area(%d) Front: %s>%s@c=%d",
+							info.area.size(),
+							info.area.get(Integer.parseInt(info.front.areaId)).areaName,
+							info.front.floorId, info.front.cost), true);
 				}
 
 			} catch (Exception ex) {
@@ -331,11 +360,11 @@ public class Process {
 			try {
 				if (AddArea.run()) {
 
-					if (!Info.Nolog)
-						Go.log(String.format("Area(%d) Front: %s>%s@c=%d",
-								info.area.size(), info.area.get(Integer
-										.parseInt(info.front.areaId)).areaName,
-								info.front.floorId, info.front.cost));
+					Go.log(String.format(
+							"Area(%d) Front: %s>%s@c=%d",
+							info.area.size(),
+							info.area.get(Integer.parseInt(info.front.areaId)).areaName,
+							info.front.floorId, info.front.cost), true);
 				}
 
 			} catch (Exception ex) {
@@ -354,18 +383,17 @@ public class Process {
 					if (!info.events.empty()
 							&& info.events
 									.contains(Info.EventType.fairyCanBattle)) {
-						if (!Info.Nolog)
-							Go.log(String.format("%d new fairy(s) found!",
-									Process.info.PrivateFairyList.size()));
+						Go.log(String.format("%d new fairy(s) found!",
+								Process.info.PrivateFairyList.size()),
+								!Info.Nolog);
 					} else {
-						if (!Info.Nolog)
-							Go.log("No fairy found.");
+						Go.log("No fairy found.", !Info.Nolog);
 					}
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.ConnectionError) {
 					AddUrgentTask(Info.EventType.getFairyList); // 再次检测
-					Go.log("Connection error.Retry to get fairy list.");
+					Go.log("Connection error.Retry to get fairy list.", true);
 					ErrorData.clear();
 				} else if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 					throw ex;
@@ -378,7 +406,7 @@ public class Process {
 				if (FairyDianzan.run()) {
 
 				} else {
-					Go.log("Something wrong@DIANZAN.");
+					Go.log("Something wrong@DIANZAN.", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -388,27 +416,24 @@ public class Process {
 		case GOTO_FLOOR:
 			try {
 				if (GotoFloor.run()) {
-					String my_state;
-					if (!Info.Nolog) {
-						my_state = String
-								.format("User Name: %s, AP: %d/%d, BC: %d/%d, Level: %d, Exp to level up: %d, Gold: %d, Friendship point: %d.\n",
-										info.username, info.ap, info.apMax,
-										info.bc, info.bcMax, info.lv, info.exp,
-										info.gold, info.friendshippoint);
-						my_state += String.format(
-								"Guild Fairy Battle Team: %s. Ticket: %d. ",
-								info.guildteamname, info.ticket);
-						my_state += String
-								.format("Position: %s>%s, Progress: %d%%.\n",
-										info.area.get(Integer
-												.parseInt(info.front.areaId)).areaName,
-										info.front.floorId,
-										info.area.get(Integer
-												.parseInt(info.front.areaId)).exploreProgress);
-						Go.log(my_state);
-					}
+					String my_state = String
+							.format("User Name: %s, AP: %d/%d, BC: %d/%d, Level: %d, Exp to level up: %d, Gold: %d, Friendship point: %d.\n",
+									info.username, info.ap, info.apMax,
+									info.bc, info.bcMax, info.lv, info.exp,
+									info.gold, info.friendshippoint);
+					my_state += String.format(
+							"Guild Fairy Battle Team: %s. Ticket: %d. ",
+							info.guildteamname, info.ticket);
+					my_state += String
+							.format("Position: %s>%s, Progress: %d%%.\n",
+									info.area.get(Integer
+											.parseInt(info.front.areaId)).areaName,
+									info.front.floorId,
+									info.area.get(Integer
+											.parseInt(info.front.areaId)).exploreProgress);
+					Go.log(my_state, true);
 				} else {
-					Go.log("Something wrong@GOTO_FLOOR.");
+					Go.log("Something wrong@GOTO_FLOOR.", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -422,7 +447,7 @@ public class Process {
 					AddTask(Info.EventType.gotoFloor);
 					break;
 				case 0:
-					Go.log("Something wrong@GOTO_MAIN_MENU.");
+					Go.log("Something wrong@GOTO_MAIN_MENU.", !Info.Nolog);
 					break;
 				case 2:
 					AddUrgentTask(Info.EventType.needAPBCInfo);
@@ -435,47 +460,49 @@ public class Process {
 			break;
 		case PRIVATE_FAIRY_BATTLE:
 			try {
-				if (PrivateFairyBattle.run()) {
-					String result = "";
-					switch (PrivateFairyBattle.FairyBattleResult) {
-					case escape:
-						result = "Too Late";
-						break;
-					case lose:
-						result = "Lose";
-						break;
-					case win:
-						result = "Win";
-						break;
-					default:
-						result = "Unknown";
-						break;
+				if (RecFairyDianzan.run()) {
+					if (PrivateFairyBattle.run()) {
+						String result = "";
+						switch (PrivateFairyBattle.FairyBattleResult) {
+						case escape:
+							result = "Too Late";
+							break;
+						case lose:
+							result = "Lose";
+							break;
+						case win:
+							result = "Win";
+							break;
+						default:
+							result = "Unknown";
+							break;
+						}
+						String str = String
+								.format("Private Fairy Battle, name: %s, Lv: %d, Hp: %d/%d, Finder: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+										info.pfairy.FairyName,
+										info.pfairy.FairyLevel,
+										info.pfairy.FairyHp,
+										info.pfairy.FairyHpMax,
+										info.FairySelectUserList
+												.get(info.pfairy.UserId).userName,
+										info.bc, info.bcMax, info.ap,
+										info.apMax, info.ticket, result);
+						if (info.gather != -1)
+							str += String.format(", gather=%d", info.gather);
+						str += ".\n";
+						str += String
+								.format("Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.\n",
+										info.CurrentDeck.DeckName,
+										info.CurrentDeck.CustomDeckName,
+										info.CurrentDeck.No,
+										info.CurrentDeck.BC);
+						Go.log(str, true);
+					} else {
+						Go.log("Something wrong@PrivateFairyBattle",
+								!Info.Nolog);
 					}
-					String str = String
-							.format("Private Fairy Battle, name: %s, Lv: %d, Hp: %d/%d, Finder: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
-									info.pfairy.FairyName,
-									info.pfairy.FairyLevel,
-									info.pfairy.FairyHp,
-									info.pfairy.FairyHpMax,
-									info.FairySelectUserList
-											.get(info.pfairy.UserId).userName,
-									info.bc, info.bcMax, info.ap, info.apMax,
-									info.ticket, result);
-					if (info.gather != -1)
-						str += String.format(", gather=%d", info.gather);
-					str += ".\n";
-					if (Info.Debug)
-						str += String.format(
-								"Fairy Info: SerialID: %s, UserID: %s.\n",
-								info.pfairy.SerialId, info.pfairy.UserId);
-					str += String
-							.format("Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.\n",
-									info.CurrentDeck.DeckName,
-									info.CurrentDeck.CustomDeckName,
-									info.CurrentDeck.No, info.CurrentDeck.BC);
-					Go.log(str);
 				} else {
-
+					Go.log("Something wrong@RecFairyDianzan", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -491,9 +518,10 @@ public class Process {
 											.parseInt(info.front.areaId)).areaName,
 									info.front.floorId, info.ap,
 									info.ExploreGold, info.ExploreExp,
-									info.ExploreProgress, info.ExploreResult));
+									info.ExploreProgress, info.ExploreResult),
+							true);
 				} else {
-
+					Go.log("Something wrong@Explore", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -529,8 +557,8 @@ public class Process {
 									info.CurrentDeck.DeckName,
 									info.CurrentDeck.CustomDeckName,
 									info.CurrentDeck.No, info.CurrentDeck.BC);
+					Go.log(str, true);
 					Thread.sleep(5000);
-					Go.log(str);
 					if (Process.info.ticket > 0) // 连续出击直至获胜
 						Process.AddUrgentTask(Info.EventType.ticketFull);
 					if (Info.FairyBattleFirst)
@@ -547,33 +575,31 @@ public class Process {
 			try {
 				switch (GuildTop.run()) {
 				case 2:// 需要打，而且要显示
-					if (!Info.Nolog)
-						Go.log(String
-								.format("Guild Fairy Info: Max HP: %d, Our Team: %d(%d%%), Rival's Team: %d(%d%%). ",
-										info.gfbforce.total, info.gfbforce.own,
-										info.gfbforce.ownscale,
-										info.gfbforce.rival,
-										info.gfbforce.rivalscale)
-								+ String.format(
-										"Ticket: %d, Score Multiple: %.1f, Defeat Combo: %d.",
-										info.ticket,
-										info.gfbforce.attack_compensation,
-										info.gfbforce.chain_counter));
+					Go.log(String
+							.format("Guild Fairy Info: Max HP: %d, Our Team: %d(%d%%), Rival's Team: %d(%d%%). ",
+									info.gfbforce.total, info.gfbforce.own,
+									info.gfbforce.ownscale,
+									info.gfbforce.rival,
+									info.gfbforce.rivalscale)
+							+ String.format(
+									"Ticket: %d, Score Multiple: %.1f, Defeat Combo: %d.",
+									info.ticket,
+									info.gfbforce.attack_compensation,
+									info.gfbforce.chain_counter), true);
 					Process.AddUrgentTask(Info.EventType.guildBattle);
 					break;
 				case 1:// 不能打，但需要显示
-					if (!Info.Nolog)
-						Go.log(String
-								.format("Guild Fairy Info: Max HP: %d, Our Team: %d(%d%%), Rival's Team: %d(%d%%). ",
-										info.gfbforce.total, info.gfbforce.own,
-										info.gfbforce.ownscale,
-										info.gfbforce.rival,
-										info.gfbforce.rivalscale)
-								+ String.format(
-										"Ticket: %d, Score Multiple: %.1f, Defeat Combo: %d.",
-										info.ticket,
-										info.gfbforce.attack_compensation,
-										info.gfbforce.chain_counter));
+					Go.log(String
+							.format("Guild Fairy Info: Max HP: %d, Our Team: %d(%d%%), Rival's Team: %d(%d%%). ",
+									info.gfbforce.total, info.gfbforce.own,
+									info.gfbforce.ownscale,
+									info.gfbforce.rival,
+									info.gfbforce.rivalscale)
+							+ String.format(
+									"Ticket: %d, Score Multiple: %.1f, Defeat Combo: %d.",
+									info.ticket,
+									info.gfbforce.attack_compensation,
+									info.gfbforce.chain_counter), !Info.Nolog);
 					while (Process.info.events
 							.contains(Info.EventType.guildBattle)) {
 						Process.info.events.remove(Info.EventType.guildBattle);
@@ -585,8 +611,7 @@ public class Process {
 					break;
 				case 0:// 什么都不做
 					if (info.NoFairy)
-						if (!Info.Nolog)
-							Go.log("Night Mode.");
+						Go.log("Night Mode.", !Info.Nolog);
 					break;
 				}
 
@@ -598,7 +623,7 @@ public class Process {
 		case GET_FAIRY_REWARD:
 			try {
 				if (GetFairyReward.run()) {
-					Go.log(ErrorData.text);
+					Go.log(ErrorData.text, true);
 					ErrorData.clear();
 					AddUrgentTask(Info.EventType.needAPBCInfo);
 				}
@@ -611,7 +636,7 @@ public class Process {
 			try {
 				if (LvUp.run()) {
 					Go.log(String.format("Level UP! AP:%d BC:%d", info.apMax,
-							info.bcMax));
+							info.bcMax), true);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -621,10 +646,10 @@ public class Process {
 		case SELL_CARD:
 			try {
 				if (SellCard.run()) {
-					Go.log(ErrorData.text);
+					Go.log(ErrorData.text, true);
 					ErrorData.clear();
 				} else {
-					Go.log("Something wrong@SELL_CARD.");
+					Go.log("Something wrong@SELL_CARD.", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -634,14 +659,15 @@ public class Process {
 		case AUTO_MEDICINE:
 			try {
 				if (AutoMedicine.run()) {
-					Go.log(ErrorData.text);
+					Go.log(ErrorData.text, true);
 					ErrorData.clear();
 					Go.log(String
 							.format("Bottles: FullAp:%d, HalfAp:%d/Today:%d, FullBc:%d, HalfBc:%d/Today:%d",
 									info.fullAp, info.halfAp, info.halfApToday,
-									info.fullBc, info.halfBc, info.halfBcToday));
+									info.fullBc, info.halfBc, info.halfBcToday),
+							true);
 				} else {
-					Go.log("Something wrong@MEDICINE.");
+					Go.log("Something wrong@MEDICINE.", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -651,9 +677,9 @@ public class Process {
 		case GET_CARD_DECK:
 			try {
 				if (GetCardDeck.run()) {
-					Go.log("Succeed to get card deck info.");
+					Go.log("Succeed to get card deck info.", true);
 				} else {
-					Go.log("Something wrong@GET_CARD_DECK.");
+					Go.log("Something wrong@GET_CARD_DECK.", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -661,8 +687,7 @@ public class Process {
 			}
 			break;
 		case NOTHING:
-			if (!Info.Nolog)
-				Go.log("Nothing to do, have a rest.");
+			Go.log("Nothing to do, have a rest.", !Info.Nolog);
 			break;
 		default:
 			break;

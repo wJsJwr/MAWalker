@@ -34,7 +34,6 @@ public class PrivateFairyBattle {
 
 	public static boolean run() throws Exception {
 		FairyBattleResult = PrivateFairyBattleResult.unknown;
-		RecFairyDianzan.run();
 
 		boolean flag_deck = false;
 
@@ -44,10 +43,10 @@ public class PrivateFairyBattle {
 				flag_deck = true;
 				walker.Go.log(String.format(
 						"Succeed to change card deck to Deck %s",
-						Process.info.CurrentDeck.No));
+						Process.info.CurrentDeck.No), true);
 			} else {
 				flag_deck = false;
-				walker.Go.log("Fail to change card deck.");
+				walker.Go.log("Fail to change card deck.", true);
 			}
 		} else {
 			Process.info.pfairy.No = Process.info.CurrentDeck.No;

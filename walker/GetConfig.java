@@ -3,6 +3,7 @@ package walker;
 import info.Deck;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -24,6 +25,10 @@ public class GetConfig {
 			Info.LoginPw = xpath.evaluate("/config/password", doc);
 			Info.sessionId = xpath.evaluate("/config/sessionId", doc);
 			Network.UserAgent = xpath.evaluate("/config/UserAgent", doc).trim();
+			Network.myProxy = xpath.evaluate("/config/proxy", doc);
+			if (!Network.myProxy.isEmpty())
+				Network.myProxyPort = Integer.parseInt(xpath.evaluate(
+						"/config/proxy_port", doc));
 
 			NodeList idl = (NodeList) xpath.evaluate("/config/sell_card/id",
 					doc, XPathConstants.NODESET);
@@ -97,6 +102,39 @@ public class GetConfig {
 					"/config/option/go_no_event_area", doc).equals("1");
 			Info.GoDailyArea = xpath.evaluate("/config/option/go_daily_area",
 					doc).equals("1");
+			Info.useSleep= xpath.evaluate("/config/sleep/use_timer", doc)
+					.equals("1");
+			if (Info.useSleep) {
+				int startHour = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StartTime']/hour", doc));
+				int startMinute = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StartTime']/minute", doc));
+				int stopHour = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StopTime']/hour", doc));
+				int stopMinute = Integer.parseInt(xpath.evaluate(
+						"/config/sleep/time[lable='StopTime']/minute", doc));
+				Info.startTime = Calendar.getInstance();
+				Info.stopTime = Calendar.getInstance();
+				Info.startTime.set(Calendar.HOUR_OF_DAY, startHour);
+				Info.startTime.set(Calendar.MINUTE, startMinute);
+				Info.startTime.set(Calendar.SECOND, 0);
+				int tmpdate = Info.startTime.get(Calendar.DAY_OF_YEAR);
+				if (Calendar.getInstance().getTimeInMillis() > Info.startTime
+						.getTimeInMillis()) {
+					tmpdate++;
+					Info.startTime.set(Calendar.DAY_OF_YEAR, tmpdate);
+					Info.stopTime.set(Calendar.DAY_OF_YEAR, tmpdate);
+				}
+				Info.stopTime.set(Calendar.HOUR_OF_DAY, stopHour);
+				Info.stopTime.set(Calendar.MINUTE, stopMinute);
+				Info.stopTime.set(Calendar.SECOND, 0);
+				tmpdate = Info.startTime.get(Calendar.DAY_OF_YEAR);
+				if (Info.startTime.getTimeInMillis() > Info.stopTime
+						.getTimeInMillis()) {
+					tmpdate++;
+					Info.stopTime.set(Calendar.DAY_OF_YEAR, tmpdate);
+				}
+			}
 
 			// 自己普通妖精
 			Info.PrivateFairyBattleNormal.No = xpath.evaluate(
@@ -258,22 +296,17 @@ public class GetConfig {
 
 			Info.MyDeck2.No = "2";
 
-			String[] tmpCard = null;
-			String tmpLeader = "";
-
 			Info.MyDeckA1.No = "201";
 			Info.MyDeckA1.BC = Integer.parseInt(xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/bc", doc));
 			Info.MyDeckA1.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/card", doc);
-			tmpCard = Info.MyDeckA1.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA1.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA1.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA1.leader = tmpLeader;
 			Info.MyDeckA1.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=201]/custom_name", doc);
 
@@ -282,14 +315,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=202]/bc", doc));
 			Info.MyDeckA2.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=202]/card", doc);
-			tmpCard = Info.MyDeckA2.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA2.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA2.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA2.leader = tmpLeader;
 			Info.MyDeckA2.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=202]/custom_name", doc);
 
@@ -298,14 +329,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=203]/bc", doc));
 			Info.MyDeckA3.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=203]/card", doc);
-			tmpCard = Info.MyDeckA3.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA3.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA3.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA3.leader = tmpLeader;
 			Info.MyDeckA3.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=203]/custom_name", doc);
 
@@ -314,14 +343,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=204]/bc", doc));
 			Info.MyDeckA4.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=204]/card", doc);
-			tmpCard = Info.MyDeckA4.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA4.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA4.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA4.leader = tmpLeader;
 			Info.MyDeckA4.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=204]/custom_name", doc);
 
@@ -330,14 +357,12 @@ public class GetConfig {
 					"/config/deck/deck_profile[no=205]/bc", doc));
 			Info.MyDeckA5.card = xpath.evaluate(
 					"/config/deck/deck_profile[no=205]/card", doc);
-			tmpCard = Info.MyDeckA5.card.split(",");
-			for (int i = 0; i < tmpCard.length; i++) {
-				if (!tmpCard[i].equals("empty")) {
-					tmpLeader = tmpCard[i];
+			for (String i : Info.MyDeckA5.card.split(",")) {
+				if (!i.equals("empty")) {
+					Info.MyDeckA5.leader = i;
 					break;
 				}
 			}
-			Info.MyDeckA5.leader = tmpLeader;
 			Info.MyDeckA5.CustomDeckName = xpath.evaluate(
 					"/config/deck/deck_profile[no=205]/custom_name", doc);
 

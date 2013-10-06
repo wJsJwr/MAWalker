@@ -96,7 +96,7 @@ public class RecFairyDianzan {
 				bc_result = String
 						.format("Receive Dianzan Message: %s, BC recovery: %d, BC before: %d, BC after: %d.",
 								bc_message, bc_add, bc_before, bc_after);
-				walker.Go.log(bc_result);
+				walker.Go.log(bc_result, true);
 			}
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType != ErrorData.ErrorType.none)

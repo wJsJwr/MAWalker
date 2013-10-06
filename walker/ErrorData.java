@@ -48,14 +48,14 @@ public class ErrorData {
 		RecFairyDianzanDataError, RecFairyDianzanDataParseError, RecFairyDianzanResponse,
 		// 吃药
 		AutoMedicineDataError, AutoMedicineResponse,
-		//cookie
+		// cookie
 		CookieOutOfDate, CookieLoginDataError, CookieLoginDataParseError, CookieLoginResponse,
-		//主城界面
+		// 主城界面
 		MainMenuDataError, GotoMainMenuDataParseError,
-		//获取卡组信息
+		// 获取卡组信息
 		GetCardDeckDataError, GetCardDeckDataParseError, GetCardDeckResponse,
-		//更换卡组
-		ChangeCardDeckDataError, ChangeCardDeckDataParseError, ChangeCardDeckResponse		
+		// 更换卡组
+		ChangeCardDeckDataError, ChangeCardDeckDataParseError, ChangeCardDeckResponse
 	}
 
 	public static void clear() {

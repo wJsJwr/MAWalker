@@ -5,14 +5,11 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
 import walker.Info;
@@ -32,10 +29,9 @@ public class ChangeCardDeck {
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("C", Process.info.CurrentDeck.card));
-		String[] tmpCard = Info.MyDeckA1.card.split(",");
 		int cards = 0;
-		for (int i = 0; i < tmpCard.length; i++) {
-			if (!tmpCard[i].equals("empty")) {
+		for (String i : Process.info.CurrentDeck.card.split(",")) {
+			if (!i.equals("empty")) {
 				cards++;
 			}
 		}
@@ -97,28 +93,12 @@ public class ChangeCardDeck {
 					.equals("0"))
 				return false;
 
-			//TODO:UTF-8的日文太闹心，这里需要重写
-			NodeList tempDeckList = (NodeList) xpath.evaluate(
-					"/response/body/deck", doc, XPathConstants.NODESET);
-			ArrayList<String> myDeckList = new ArrayList<String>();
-			for (int i = 0; i < tempDeckList.getLength(); i++) {
-				Node f = tempDeckList.item(i).getFirstChild();
-				String tempDeck = "";
-				do {
-					if (f.getNodeName().equals("deck_cards")) {
-						tempDeck = f.getFirstChild().getNodeValue();
-					}
-					f = f.getNextSibling();
-				} while (f != null);
-				myDeckList.add(tempDeck);
-			}
-
-			if (myDeckList.size() != 4)
-				return false;
-
-			Info.MyDeck0.card = myDeckList.get(0);
-			Info.MyDeck1.card = myDeckList.get(1);
-			Info.MyDeck2.card = myDeckList.get(2);
+			Info.MyDeck0.card = xpath.evaluate(
+					"//deck[deckname='デッキ1']/deck_cards", doc);
+			Info.MyDeck1.card = xpath.evaluate(
+					"//deck[deckname='デッキ2']/deck_cards", doc);
+			Info.MyDeck2.card = xpath.evaluate(
+					"//deck[deckname='デッキ3']/deck_cards", doc);
 
 			walker.Go.saveDeck(0, Info.MyDeck0.card);
 			walker.Go.saveDeck(1, Info.MyDeck1.card);

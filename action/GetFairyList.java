@@ -97,7 +97,7 @@ public class GetFairyList {
 				String dianzan_result = String.format(
 						"Find %d fairy(s) that we can send dianzan.",
 						fairy_dianzan.getLength());
-				walker.Go.log(dianzan_result);
+				walker.Go.log(dianzan_result, !Info.Nolog);
 			}
 
 			for (int i = 0; i < fairy_dianzan.getLength(); i++) {
