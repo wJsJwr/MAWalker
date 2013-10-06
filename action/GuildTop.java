@@ -75,19 +75,18 @@ public class GuildTop {
 
 			if (!(Boolean) xpath.evaluate("count(/response/body/guild_top)>0",
 					doc, XPathConstants.BOOLEAN)) {
-				return 3;// 需要重新获取
+				if ((Boolean) xpath.evaluate("count(//guild_top_no_fairy)>0", doc,
+						XPathConstants.BOOLEAN)) {
+					Process.info.NoFairy = true;// 深夜没有外敌战
+					return 0;
+				} else {
+					Process.info.NoFairy = false;
+					return 3;// 需要重新获取
+				}
 			}
 
 			if (GuildDefeat.judge(doc)) {
 				return 3;// 需要重新获取
-			}
-
-			if ((Boolean) xpath.evaluate("count(//guild_top_no_fairy)>0", doc,
-					XPathConstants.BOOLEAN)) {
-				Process.info.NoFairy = true;// 深夜没有外敌战
-				return 0;
-			} else {
-				Process.info.NoFairy = false;
 			}
 
 			Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name", doc);
