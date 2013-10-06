@@ -3,17 +3,13 @@ package action;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
 import walker.Info;
@@ -78,55 +74,20 @@ public class GetCardDeck {
 				return false;
 			}
 
-			// TODO:这种写法仍然很怪异，应该可以直接获得，需要重写
-			NodeList tempDeckList = (NodeList) xpath.evaluate(
-					"/response/body/roundtable_edit/deck", doc,
-					XPathConstants.NODESET);
-			Hashtable<Integer, String> myDeckList = new Hashtable<Integer, String>();
-			for (int i = 0; i < tempDeckList.getLength(); i++) {
-				Node f = tempDeckList.item(i).getFirstChild();
-				int tempDeckNumber = -1;
-				String tempDeck = "";
-				String tempDeckName = "";
-				do {
-					if (f.getNodeName().equals("deck_cards")) {
-						tempDeck = f.getFirstChild().getNodeValue();
-					} else if (f.getNodeName().equals("deckname")) {
-						tempDeckName = f.getFirstChild().getNodeValue();
-						if (tempDeckName.contains("1"))
-							tempDeckNumber = 1;
-						else if (tempDeckName.contains("2"))
-							tempDeckNumber = 2;
-						else if (tempDeckName.contains("3"))
-							tempDeckNumber = 3;
-						else
-							tempDeckNumber = -1;
-					}
-					f = f.getNextSibling();
-				} while (f != null);
-				if (tempDeckNumber > 0)
-					myDeckList.put(tempDeckNumber, tempDeck);
-			}
+			Info.MyDeck0.card = xpath.evaluate(
+					"//deck[deckname='デッキ1']/deck_cards", doc);
+			Info.MyDeck1.card = xpath.evaluate(
+					"//deck[deckname='デッキ2']/deck_cards", doc);
+			Info.MyDeck2.card = xpath.evaluate(
+					"//deck[deckname='デッキ3']/deck_cards", doc);
 
-			if (myDeckList.size() != 3)
-				return false;
-
-			Info.MyDeck0.card = myDeckList.get(1);
-			Info.MyDeck1.card = myDeckList.get(2);
-			Info.MyDeck2.card = myDeckList.get(3);
 			// leader不用获取
-			for (String i : Info.MyDeck0.card.split(",")) {
-				if (!i.equals("empty"))
-					Info.MyDeck0.leader = i;
-			}
-			for (String i : Info.MyDeck1.card.split(",")) {
-				if (!i.equals("empty"))
-					Info.MyDeck1.leader = i;
-			}
-			for (String i : Info.MyDeck2.card.split(",")) {
-				if (!i.equals("empty"))
-					Info.MyDeck2.leader = i;
-			}
+			Info.MyDeck0.leader = xpath.evaluate(
+					"//deck[deckname='デッキ1']/leader_card", doc);
+			Info.MyDeck1.leader = xpath.evaluate(
+					"//deck[deckname='デッキ2']/leader_card", doc);
+			Info.MyDeck2.leader = xpath.evaluate(
+					"//deck[deckname='デッキ3']/leader_card", doc);
 
 			walker.Go.saveDeck(0, Info.MyDeck0.card);
 			walker.Go.saveDeck(1, Info.MyDeck1.card);
