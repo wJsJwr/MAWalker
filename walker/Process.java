@@ -337,8 +337,6 @@ public class Process {
 		case GET_FLOOR_INFO:
 			try {
 				if (GetFloorInfo.run()) {
-					if (Process.info.AllClear)
-						Process.info.front = Process.info.floor.get(1);
 					Go.log(String.format(
 							"Area(%d) Front: %s>%s@c=%d",
 							info.area.size(),

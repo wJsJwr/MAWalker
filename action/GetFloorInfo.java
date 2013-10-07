@@ -6,6 +6,8 @@ import info.Floor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -81,7 +83,7 @@ public class GetFloorInfo {
 				Process.info.area.clear();
 				Process.info.floor.clear();
 			}
-			for (int i = areaCount; i >= 1; i--) {
+			for (int i = 1; i <= areaCount; i++) {
 				Area a = new Area();
 				String p = String.format("//area_info_list/area_info[%d]/", i);
 				a.areaId = Integer.parseInt(xpath.evaluate(p + "id", doc));
@@ -97,11 +99,31 @@ public class GetFloorInfo {
 			}
 			Process.info.AllClear = true;
 			Process.info.front = null;
-			for (int i : Process.info.area.keySet()) {
-				getFloor(Process.info.area.get(i));
-			} // end of area iterator
-			if (Process.info.front == null)
+			Iterator<Entry<Integer, Area>> itr = Process.info.area.entrySet().iterator();
+			while(itr.hasNext()) {
+				Area tmpArea = itr.next().getValue();
+				getFloor(tmpArea);
+			}
+			Iterator<Entry<Integer, Floor>> itr2 = Process.info.floor.entrySet().iterator();
+			while(itr2.hasNext()) {
+				Floor tmpFloor = itr2.next().getValue();
+				if (Process.info.front == null) {
+					Process.info.front = tmpFloor;
+				} else {
+					if (Integer.parseInt(Process.info.front.areaId)<Integer.parseInt(tmpFloor.areaId)) {
+						Process.info.front = tmpFloor;
+					} else if(Process.info.front.equals(tmpFloor.areaId)) {
+						if (Integer.parseInt(Process.info.front.floorId)< Integer.parseInt(tmpFloor.floorId)) {
+							Process.info.front = tmpFloor;
+						}
+					}
+				}
+			}
+			Process.info.AllClear = false;
+			if (Process.info.front.progress == 100) {
 				Process.info.front = Process.info.floor.get(1);
+				Process.info.AllClear = true;
+			}
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
@@ -170,11 +192,6 @@ public class GetFloorInfo {
 				}
 			}
 			Process.info.floor.put(f.cost, f);
-			if (f.progress != 100 && a.exploreProgress != 100
-					&& Process.info.AllClear) {
-				Process.info.front = f;
-				Process.info.AllClear = false;
-			}
 		}
 	}
 
