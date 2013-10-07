@@ -44,7 +44,7 @@ public class GetConfig {
 			NodeList idl2 = (NodeList) xpath.evaluate("/config/user/name",
 					doc, XPathConstants.NODESET);
 			Info.specUser = new ArrayList<String>();
-			for (int i = 0; i < idl.getLength(); i++) {
+			for (int i = 0; i < idl2.getLength(); i++) {
 				Node idx2 = idl2.item(i);
 				try {
 					Info.specUser.add(idx2.getFirstChild().getNodeValue());
