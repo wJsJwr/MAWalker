@@ -97,34 +97,36 @@ public class GetFloorInfo {
 				if (a.areaId >= 100000)
 					Process.info.area.put(a.areaId, a);
 			}
-			Process.info.AllClear = true;
 			Process.info.front = null;
-			Iterator<Entry<Integer, Area>> itr = Process.info.area.entrySet().iterator();
-			while(itr.hasNext()) {
+			Iterator<Entry<Integer, Area>> itr = Process.info.area.entrySet()
+					.iterator();
+			while (itr.hasNext()) {
 				Area tmpArea = itr.next().getValue();
 				getFloor(tmpArea);
 			}
-			Iterator<Entry<Integer, Floor>> itr2 = Process.info.floor.entrySet().iterator();
-			while(itr2.hasNext()) {
+			Iterator<Entry<Integer, Floor>> itr2 = Process.info.floor
+					.entrySet().iterator();
+			while (itr2.hasNext()) {
 				Floor tmpFloor = itr2.next().getValue();
 				if (Process.info.front == null) {
 					Process.info.front = tmpFloor;
 				} else {
-					if (Integer.parseInt(Process.info.front.areaId)<Integer.parseInt(tmpFloor.areaId)) {
+					if (Integer.parseInt(Process.info.front.areaId) < Integer
+							.parseInt(tmpFloor.areaId)) {
 						Process.info.front = tmpFloor;
-					} else if(Process.info.front.equals(tmpFloor.areaId)) {
-						if (Integer.parseInt(Process.info.front.floorId)< Integer.parseInt(tmpFloor.floorId)) {
+					} else if (Process.info.front.equals(tmpFloor.areaId)) {
+						if (Integer.parseInt(Process.info.front.floorId) < Integer
+								.parseInt(tmpFloor.floorId)) {
 							Process.info.front = tmpFloor;
 						}
 					}
 				}
 			}
-			Process.info.AllClear = false;
-			if (Process.info.front.progress == 100) {
-				Process.info.front = Process.info.floor.get(1);
-				Process.info.AllClear = true;
+			Process.info.AllClear = true;
+			if (Process.info.area.get(Integer
+					.parseInt(Process.info.front.areaId)).exploreProgress != 100) {
+				Process.info.AllClear = false;
 			}
-
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 				throw ex;
@@ -186,7 +188,7 @@ public class GetFloorInfo {
 			if (f.cost < 1)
 				continue; // 跳过秘境守护者
 			if (Process.info.floor.containsKey(f.cost)) {
-				if (Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer
+				if (Integer.parseInt(Process.info.floor.get(f.cost).areaId) >= Integer
 						.parseInt(f.areaId)) {
 					continue;
 				}
