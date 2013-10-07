@@ -41,6 +41,17 @@ public class GetConfig {
 					ex.printStackTrace();
 				}
 			}
+			NodeList idl2 = (NodeList) xpath.evaluate("/config/user/name",
+					doc, XPathConstants.NODESET);
+			Info.specUser = new ArrayList<String>();
+			for (int i = 0; i < idl.getLength(); i++) {
+				Node idx2 = idl2.item(i);
+				try {
+					Info.specUser.add(idx2.getFirstChild().getNodeValue());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
 			Info.FairyBattleFirst = xpath.evaluate(
 					"/config/option/fairy_battle_first", doc).equals("1");
 			Info.AllowBCInsuffient = xpath.evaluate(

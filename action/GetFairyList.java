@@ -227,6 +227,9 @@ public class GetFairyList {
 				}
 				if (!attack_flag || fbi.ForceKill)
 					Process.info.PrivateFairyList.offer(fbi);
+				else if (Info.specUser.contains(Process.info.FairySelectUserList
+						.get(fbi.UserId).userName))
+					Process.info.PrivateFairyList.offer(fbi);
 			}
 
 			if (!Process.info.PrivateFairyList.isEmpty()) {

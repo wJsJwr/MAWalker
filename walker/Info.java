@@ -190,6 +190,9 @@ public class Info {
 	public Queue<FairyBattleInfo> PrivateFairyList = new LinkedList<FairyBattleInfo>();
 	public Stack<FairyDianzanInfo> FairyDianzanList = new Stack<FairyDianzanInfo>();
 	public Hashtable<String, FairySelectUser> FairySelectUserList;
+	
+	//user
+	public static ArrayList<String> specUser = new ArrayList<String>();
 
 	// explore
 	public String ExploreResult = "";
