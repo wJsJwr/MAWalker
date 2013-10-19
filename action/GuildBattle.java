@@ -79,7 +79,7 @@ public class GuildBattle {
 			}
 
 			if (GuildDefeat.judge(doc)) {
-				Process.AddUrgentTask(Info.EventType.guildTopRetry);
+				Process.AddUrgentTask(Info.EventType.guildTop);
 				FairyBattleResult = GuildFairyBattleResult.escape;
 				return true;
 			}

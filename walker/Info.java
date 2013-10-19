@@ -191,8 +191,8 @@ public class Info {
 	public Queue<FairyBattleInfo> PrivateFairyList = new LinkedList<FairyBattleInfo>();
 	public Stack<FairyDianzanInfo> FairyDianzanList = new Stack<FairyDianzanInfo>();
 	public Hashtable<String, FairySelectUser> FairySelectUserList;
-	
-	//user
+
+	// user
 	public static ArrayList<String> specUser = new ArrayList<String>();
 
 	// explore
@@ -213,7 +213,7 @@ public class Info {
 
 	// event
 	public enum EventType {
-		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck
+		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildBattle, guildTop, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck
 	}
 
 	public Stack<EventType> events;

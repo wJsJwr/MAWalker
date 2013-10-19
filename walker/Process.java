@@ -241,9 +241,7 @@ public class Process {
 			case guildBattle:// 强敌战
 				result.add(Action.GUILD_BATTLE);
 				break;
-			case guildTopRetry:// 强敌战结束重新获取
 			case guildTop:// 强敌站界面
-			case ticketFull:// 有挑战书
 				result.add(Action.GUILD_TOP);
 				break;
 			case needAPBCInfo:// 更新apbc信息
@@ -560,7 +558,7 @@ public class Process {
 					Go.log(str, true);
 					Thread.sleep(5000);
 					if (Process.info.ticket > 0) // 连续出击直至获胜
-						Process.AddUrgentTask(Info.EventType.ticketFull);
+						Process.AddUrgentTask(Info.EventType.guildTop);
 					if (Info.FairyBattleFirst)
 						Process.AddUrgentTask(Info.EventType.getFairyList);
 				} else {
@@ -607,7 +605,7 @@ public class Process {
 					break;
 				case 3:// 需要重新获取
 					Process.info.gfbforce = new GuildFairyBattleForce();
-					Process.AddUrgentTask(Info.EventType.guildTopRetry);
+					Process.AddUrgentTask(Info.EventType.guildTop);
 					break;
 				case 0:// 什么都不做
 					if (info.NoFairy)
