@@ -121,6 +121,7 @@ public class Explore {
 							"//next_floor/floor_info/cost", doc));
 					Process.info.front = f;
 					Process.info.floor.put(f.cost, f);
+					Process.info.allFloors.add(f);
 					Process.info.ExploreResult = "Floor Clear";
 				} else {
 					Process.AddUrgentTask(Info.EventType.areaComplete);

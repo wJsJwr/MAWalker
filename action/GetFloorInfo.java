@@ -82,6 +82,7 @@ public class GetFloorInfo {
 				// Process.info.area = new Hashtable<Integer,Area>();
 				Process.info.area.clear();
 				Process.info.floor.clear();
+				Process.info.allFloors.clear();
 			}
 			for (int i = 1; i <= areaCount; i++) {
 				Area a = new Area();
@@ -104,10 +105,8 @@ public class GetFloorInfo {
 				Area tmpArea = itr.next().getValue();
 				getFloor(tmpArea);
 			}
-			Iterator<Entry<Integer, Floor>> itr2 = Process.info.floor
-					.entrySet().iterator();
-			while (itr2.hasNext()) {
-				Floor tmpFloor = itr2.next().getValue();
+
+			for (Floor tmpFloor : Process.info.allFloors) {
 				if (Process.info.front == null) {
 					Process.info.front = tmpFloor;
 				} else {
@@ -122,6 +121,7 @@ public class GetFloorInfo {
 					}
 				}
 			}
+
 			Process.info.AllClear = true;
 			if (Process.info.area.get(Integer
 					.parseInt(Process.info.front.areaId)).exploreProgress != 100) {
@@ -187,6 +187,9 @@ public class GetFloorInfo {
 			f.type = xpath.evaluate(p + "type", doc);
 			if (f.cost < 1)
 				continue; // 跳过秘境守护者
+			if(f.progress != 100) {
+				Process.info.allFloors.add(f);
+			}
 			if (Process.info.floor.containsKey(f.cost)) {
 				if (Integer.parseInt(Process.info.floor.get(f.cost).areaId) >= Integer
 						.parseInt(f.areaId)) {

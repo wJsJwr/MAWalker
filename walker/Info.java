@@ -179,6 +179,7 @@ public class Info {
 
 	// floor
 	public Hashtable<Integer, Floor> floor;
+	public ArrayList<Floor> allFloors;
 	public Floor front;
 	public boolean AllClear = false;
 
@@ -223,6 +224,7 @@ public class Info {
 		myCardList = new Hashtable<String, Card>();
 		area = new Hashtable<Integer, Area>();
 		floor = new Hashtable<Integer, Floor>();
+		allFloors = new ArrayList<Floor>();
 		front = new Floor();
 		PrivateFairyList = new LinkedList<FairyBattleInfo>();
 		FairyDianzanList = new Stack<FairyDianzanInfo>();
