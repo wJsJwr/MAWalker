@@ -22,9 +22,13 @@ public class ChangeCardDeck {
 
 	public static boolean run() throws Exception {
 
-		GetCardDeck.run();		
-		if (Info.LastDeck.card.equals(Process.info.CurrentDeck.card))
-			return true;
+		if (GetCardDeck.run()) {
+			if (Info.LastDeck.card.equals(Process.info.CurrentDeck.card))
+				return true;
+		} else {
+			walker.Go.log("Something wrong@GET_CARD_DECK.", !Info.Nolog);
+			return false;
+		}
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("C", Process.info.CurrentDeck.card));
@@ -49,7 +53,7 @@ public class ChangeCardDeck {
 			throw ex;
 		}
 
-		//Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("CHANGE_CARD_DECK.xml");
