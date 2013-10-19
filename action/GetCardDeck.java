@@ -89,6 +89,8 @@ public class GetCardDeck {
 			Info.MyDeck2.leader = xpath.evaluate(
 					"//deck[deckname='デッキ3']/leader_card", doc);
 
+			Info.LastDeck = Info.MyDeck2;
+
 			walker.Go.saveDeck(0, Info.MyDeck0.card);
 			walker.Go.saveDeck(1, Info.MyDeck1.card);
 			walker.Go.saveDeck(2, Info.MyDeck2.card);

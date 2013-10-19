@@ -22,10 +22,9 @@ public class ChangeCardDeck {
 
 	public static boolean run() throws Exception {
 
-		if (Info.LastDeckNo.equals(Process.info.CurrentDeck.No))
+		GetCardDeck.run();		
+		if (Info.LastDeck.card.equals(Process.info.CurrentDeck.card))
 			return true;
-		else
-			Info.LastDeckNo = Process.info.CurrentDeck.No;
 
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("C", Process.info.CurrentDeck.card));

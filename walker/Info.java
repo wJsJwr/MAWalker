@@ -171,7 +171,7 @@ public class Info {
 	public static Deck MyDeck0 = new Deck();
 	public static Deck MyDeck1 = new Deck();
 	public static Deck MyDeck2 = new Deck();
-	public static String LastDeckNo = "";
+	public static Deck LastDeck = new Deck();
 
 	// area
 	public Hashtable<Integer, Area> area;
