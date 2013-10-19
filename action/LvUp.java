@@ -34,7 +34,7 @@ public class LvUp {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		//Thread.sleep(Process.getRandom(1000, 2000));
 
 		Document doc;
 		try {

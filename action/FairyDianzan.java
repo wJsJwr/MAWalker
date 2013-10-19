@@ -45,7 +45,7 @@ public class FairyDianzan {
 				throw ex;
 			}
 
-			Thread.sleep(Process.getRandom(1000, 2000));
+			//Thread.sleep(Process.getRandom(1000, 2000));
 
 			if (Info.Debug) {
 				File outputFile = new File("PRIVATE_BATTLE_HISTORY.xml");
@@ -138,7 +138,7 @@ public class FairyDianzan {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		//Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("PRIVATE_BATTLE_DIANZAN.xml");

@@ -46,7 +46,7 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		//Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("FLOOR_AREA.xml");
@@ -150,7 +150,7 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		//Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("FLOOR_FLOOR.xml");

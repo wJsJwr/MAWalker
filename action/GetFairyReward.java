@@ -33,7 +33,7 @@ public class GetFairyReward {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		//Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
 			File outputFile = new File("GET_FAIRY_REWARD.xml");
