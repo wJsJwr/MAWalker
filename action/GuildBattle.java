@@ -14,10 +14,9 @@ import org.w3c.dom.Document;
 import walker.ErrorData;
 import walker.Info;
 import walker.Process;
-import action.ActionRegistry.Action;
 
 public class GuildBattle {
-	public static final Action Name = Action.GUILD_BATTLE;
+	//public static final Action Name = Action.GUILD_BATTLE;
 
 	private static final String URL_GUILD_BATTLE = "http://web.million-arthurs.com/connect/app/fairy/guild_fairy_battle?cyt=1";
 	private static byte[] response;

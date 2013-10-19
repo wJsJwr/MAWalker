@@ -238,9 +238,6 @@ public class Process {
 			case getFairyList:// 获取妖精战列表
 				result.add(Action.GET_FAIRY_LIST);
 				break;
-			case guildBattle:// 强敌战
-				result.add(Action.GUILD_BATTLE);
-				break;
 			case guildTop:// 强敌站界面
 				result.add(Action.GUILD_TOP);
 				break;
@@ -526,49 +523,6 @@ public class Process {
 					throw ex;
 			}
 			break;
-		case GUILD_BATTLE:
-			try {
-				if (GuildBattle.run()) {
-					String result = "";
-					switch (GuildBattle.FairyBattleResult) {
-					case escape:
-						result = "Too Late";
-						break;
-					case lose:
-						result = "Lose";
-						break;
-					case win:
-						result = "Win";
-						break;
-					default:
-						result = "Unknown";
-						break;
-					}
-					String str = String
-							.format("Guild Fairy Battle, name: %s, Lv: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s.\n",
-									info.gfairy.FairyName,
-									info.gfairy.FairyLevel, info.bc,
-									info.bcMax, info.ap, info.apMax,
-									info.ticket, info.week, result)
-							+ String.format(
-									"Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.",
-									info.CurrentDeck.DeckName,
-									info.CurrentDeck.CustomDeckName,
-									info.CurrentDeck.No, info.CurrentDeck.BC);
-					Go.log(str, true);
-					Thread.sleep(5000);
-					if (Process.info.ticket > 0) // 连续出击直至获胜
-						Process.AddUrgentTask(Info.EventType.guildTop);
-					if (Info.FairyBattleFirst)
-						Process.AddUrgentTask(Info.EventType.getFairyList);
-				} else {
-
-				}
-			} catch (Exception ex) {
-				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
-					throw ex;
-			}
-			break;
 		case GUILD_TOP:
 			try {
 				switch (GuildTop.run()) {
@@ -584,7 +538,45 @@ public class Process {
 									info.ticket,
 									info.gfbforce.attack_compensation,
 									info.gfbforce.chain_counter), true);
-					Process.AddUrgentTask(Info.EventType.guildBattle);
+					Process.info.gfairy.No = Info.PublicFairyBattle.No;
+					Process.info.CurrentDeck = Info.PublicFairyBattle;
+					Thread.sleep(5000);
+					if (GuildBattle.run()) {
+						String result = "";
+						switch (GuildBattle.FairyBattleResult) {
+						case escape:
+							result = "Too Late";
+							break;
+						case lose:
+							result = "Lose";
+							break;
+						case win:
+							result = "Win";
+							break;
+						default:
+							result = "Unknown";
+							break;
+						}
+						String str = String
+								.format("Guild Fairy Battle, name: %s, Lv: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s.\n",
+										info.gfairy.FairyName,
+										info.gfairy.FairyLevel, info.bc,
+										info.bcMax, info.ap, info.apMax,
+										info.ticket, info.week, result)
+								+ String.format(
+										"Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.",
+										info.CurrentDeck.DeckName,
+										info.CurrentDeck.CustomDeckName,
+										info.CurrentDeck.No,
+										info.CurrentDeck.BC);
+						Go.log(str, true);
+						if (Process.info.ticket > 0) // 连续出击直至获胜
+							Process.AddUrgentTask(Info.EventType.guildTop);
+						if (Info.FairyBattleFirst)
+							Process.AddUrgentTask(Info.EventType.getFairyList);
+					} else {
+						Go.log("Something wrong@GUILD_BATTLE.", !Info.Nolog);
+					}
 					break;
 				case 1:// 不能打，但需要显示
 					Go.log(String
@@ -598,10 +590,6 @@ public class Process {
 									info.ticket,
 									info.gfbforce.attack_compensation,
 									info.gfbforce.chain_counter), !Info.Nolog);
-					while (Process.info.events
-							.contains(Info.EventType.guildBattle)) {
-						Process.info.events.remove(Info.EventType.guildBattle);
-					}
 					break;
 				case 3:// 需要重新获取
 					Process.info.gfbforce = new GuildFairyBattleForce();

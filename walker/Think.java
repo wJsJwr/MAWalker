@@ -42,12 +42,6 @@ public class Think {
 					return Action.EXPLORE;
 				else
 					break;
-			case GUILD_BATTLE:
-				if (Process.info.ticket > 0) {
-					Process.info.gfairy.No = Info.PublicFairyBattle.No;
-					Process.info.CurrentDeck = Info.PublicFairyBattle;
-					return Action.GUILD_BATTLE;
-				}
 			case GUILD_TOP:
 				return Action.GUILD_TOP;
 			case GET_FAIRY_REWARD:

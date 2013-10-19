@@ -32,10 +32,6 @@ public class ActionRegistry {
 		 */
 		GUILD_TOP,
 		/**
-		 * 外敌迎击战
-		 */
-		GUILD_BATTLE,
-		/**
 		 * 卖卡
 		 */
 		SELL_CARD,
