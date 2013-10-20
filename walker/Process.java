@@ -594,6 +594,7 @@ public class Process {
 					} else {
 						Go.log("Something wrong@GUILD_BATTLE.", !Info.Nolog);
 					}
+					lastGuildBattleTime = System.currentTimeMillis();
 					break;
 				case 1:// 不能打，但需要显示
 					Go.log(String
