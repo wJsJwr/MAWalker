@@ -169,7 +169,7 @@ public class Process {
 			public void run() {
 				AddUrgentTask(Info.EventType.notLoggedIn);
 			}
-		}, myCal.getTime());// relogin at 1:00
+		}, myCal.getTime(), 24 * 60 * 60 * 1000l);// relogin at 1:00
 	}
 
 	public static void AddTask(Info.EventType _Task) {
