@@ -44,12 +44,14 @@ public class Process {
 	public static Network network;
 	public static Timer TaskTimer;
 	public static CardDataBase CardData;
+	private static long lastGuildBattleTime;
 
 	public Process() {
 		info = new Info();
 		network = new Network();
 		TaskTimer = new Timer();
 		CardData = new CardDataBase();
+		lastGuildBattleTime = System.currentTimeMillis();
 	}
 
 	public void run() {
@@ -426,7 +428,8 @@ public class Process {
 							.format("User Name: %s, AP: %d/%d, BC: %d/%d, Level: %d, Exp to level up: %d, Cards: %d, Gold: %d, Friendship point: %d.\n",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.lv, info.exp,
-									info.cardList.size(), info.gold, info.friendshippoint);
+									info.cardList.size(), info.gold,
+									info.friendshippoint);
 					my_state += String.format(
 							"Guild Fairy Battle Team: %s. Ticket: %d. ",
 							info.guildteamname, info.ticket);
@@ -551,7 +554,10 @@ public class Process {
 									info.gfbforce.chain_counter), true);
 					Process.info.gfairy.No = Info.PublicFairyBattle.No;
 					Process.info.CurrentDeck = Info.PublicFairyBattle;
-					Thread.sleep(5000);
+					Long currentGuildBattleTime = System.currentTimeMillis();
+					if (currentGuildBattleTime - lastGuildBattleTime < 10000)
+						Thread.sleep(10000 + lastGuildBattleTime
+								- currentGuildBattleTime);
 					if (GuildBattle.run()) {
 						String result = "";
 						switch (GuildBattle.FairyBattleResult) {
