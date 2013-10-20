@@ -58,6 +58,14 @@ public class ActionRegistry {
 		/**
 		 * 获得当前卡组信息
 		 */
-		GET_CARD_DECK
+		GET_CARD_DECK,
+		/**
+		 * 盒子界面
+		 */
+		REWARD_BOX,
+		/**
+		 * 开盒子
+		 */
+		GET_REWARDS
 	}
 }

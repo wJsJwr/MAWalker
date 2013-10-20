@@ -61,6 +61,15 @@ public class Think {
 				break;
 			case GET_CARD_DECK:
 				return Action.GET_CARD_DECK;
+			case REWARD_BOX:
+				if (Process.info.cardList.size() < Info.cardFull
+						|| Process.info.cardList.size() < 200)
+					return Action.REWARD_BOX;
+				break;
+			case GET_REWARDS:
+				if(!Process.info.rewardBoxList.isEmpty())
+					return Action.GET_REWARDS;
+				break;
 			default:
 				break;
 			}

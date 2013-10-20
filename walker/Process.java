@@ -27,6 +27,7 @@ import action.GetCardDeck;
 import action.GetFairyList;
 import action.GetFairyReward;
 import action.GetFloorInfo;
+import action.GetRewards;
 import action.GotoFloor;
 import action.GotoMainMenu;
 import action.GuildBattle;
@@ -35,6 +36,7 @@ import action.Login;
 import action.LvUp;
 import action.PrivateFairyBattle;
 import action.RecFairyDianzan;
+import action.RewardBox;
 import action.SellCard;
 
 public class Process {
@@ -148,6 +150,11 @@ public class Process {
 				AddTask(Info.EventType.autoMedicine);
 			}
 		}, 0, 5 * 60 * 1000); // 5min
+		TaskTimer.schedule(new TimerTask() {
+			public void run() {
+				AddTask(Info.EventType.rewardBox);
+			}
+		}, 0, 10 * 60 * 1000); // 10min
 		Calendar myCal = Calendar.getInstance();
 		if (myCal.get(Calendar.HOUR_OF_DAY) >= 1) {
 			int date = myCal.get(Calendar.DAY_OF_YEAR);
@@ -260,6 +267,10 @@ public class Process {
 				result.add(Action.EXPLORE);
 			case getCardDeck:
 				result.add(Action.GET_CARD_DECK);
+			case rewardBox:
+				result.add(Action.REWARD_BOX);
+			case getRewards:
+				result.add(Action.GET_REWARDS);
 			}
 			if (!result.isEmpty())
 				return result;
@@ -412,10 +423,10 @@ public class Process {
 			try {
 				if (GotoFloor.run()) {
 					String my_state = String
-							.format("User Name: %s, AP: %d/%d, BC: %d/%d, Level: %d, Exp to level up: %d, Gold: %d, Friendship point: %d.\n",
+							.format("User Name: %s, AP: %d/%d, BC: %d/%d, Level: %d, Exp to level up: %d, Cards: %d, Gold: %d, Friendship point: %d.\n",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.lv, info.exp,
-									info.gold, info.friendshippoint);
+									info.cardList.size(), info.gold, info.friendshippoint);
 					my_state += String.format(
 							"Guild Fairy Battle Team: %s. Ticket: %d. ",
 							info.guildteamname, info.ticket);
@@ -666,6 +677,31 @@ public class Process {
 					Go.log("Succeed to get card deck info.", true);
 				} else {
 					Go.log("Something wrong@GET_CARD_DECK.", !Info.Nolog);
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
+					throw ex;
+			}
+			break;
+		case REWARD_BOX:
+			try {
+				if (RewardBox.run()) {
+					Go.log("Succeed to get reward box info.", !Info.Nolog);
+				} else {
+					Go.log("Something wrong@REWARD_BOX.", !Info.Nolog);
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
+					throw ex;
+			}
+			break;
+		case GET_REWARDS:
+			try {
+				if (GetRewards.run()) {
+					Go.log(ErrorData.text, true);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong@GET_REWARDS.", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)

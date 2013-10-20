@@ -55,7 +55,11 @@ public class ErrorData {
 		// 获取卡组信息
 		GetCardDeckDataError, GetCardDeckDataParseError, GetCardDeckResponse,
 		// 更换卡组
-		ChangeCardDeckDataError, ChangeCardDeckDataParseError, ChangeCardDeckResponse
+		ChangeCardDeckDataError, ChangeCardDeckDataParseError, ChangeCardDeckResponse,
+		//盒子界面
+		RewardBoxDataError, RewardBoxDataParseError, RewardBoxResponse,
+		//开盒子
+		GetRewardsDataError, GetRewardsDataParseError, GetRewardsResponse
 	}
 
 	public static void clear() {

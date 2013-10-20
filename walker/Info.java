@@ -207,6 +207,9 @@ public class Info {
 	public String ExploreGold = "";
 	public String ExploreExp = "";
 	public String AreaProgress = "";
+	
+	// reward box
+	public String rewardBoxList = "";
 
 	// 吃药相关
 	public int fullBc = 0;
@@ -219,7 +222,7 @@ public class Info {
 
 	// event
 	public enum EventType {
-		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildTop, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck
+		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildTop, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck, rewardBox, getRewards
 	}
 
 	public Stack<EventType> events;
