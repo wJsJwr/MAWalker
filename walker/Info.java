@@ -50,17 +50,9 @@ public class Info {
 	public int bcUp = 0;
 	
 	/**
-	 * 自己放的妖是否被打死
-	 */
-	public boolean OwnFairyBattleKilled = true;
-	/**
 	 * 优先进行妖精战
 	 */
 	public static boolean FairyBattleFirst = true;
-	/**
-	 * 不使用狼舔觉醒
-	 */
-	public static boolean RareFairyUseNormalDeck = false;
 	/**
 	 * 允许deck不满足的情况下依旧走图和攻击
 	 */

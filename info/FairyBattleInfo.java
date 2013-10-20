@@ -39,6 +39,5 @@ public class FairyBattleInfo {
 	}
 
 	public FairyBattleInfo() {
-		// TODO Auto-generated constructor stub
 	}
 }

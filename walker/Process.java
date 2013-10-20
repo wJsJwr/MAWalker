@@ -179,16 +179,7 @@ public class Process {
 		result.add(Action.EXPLORE);
 		result.add(Action.USE);
 		// result.add(Action.GOTO_FLOOR);
-		if (!Process.info.OwnFairyBattleKilled){
-			try {
-				Thread.sleep(30000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			result.add(Action.GET_FAIRY_LIST);
-		}
-		if (Info.FairyBattleFirst)
-			result.add(Action.GET_FAIRY_LIST);
+		if (Info.FairyBattleFirst) result.add(Action.GET_FAIRY_LIST);
 		return result;
 	}
 	
@@ -311,7 +302,13 @@ public class Process {
 						}
 					}
 					String str = String.format("PFB name=%s(%s), Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
-							info.fairy.FairyName,info.FairySelectUserList.get(info.fairy.UserId).userName, info.fairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
+							info.fairy.FairyName,
+							info.FairySelectUserList.contains(info.fairy.UserId) ? info.FairySelectUserList.get(info.fairy.UserId).userName : "NA", 
+							info.fairy.FairyLevel, 
+							info.bc, 
+							info.bcMax, 
+							info.ap, 
+							info.apMax, 
 							info.ticket, result);
 					if (info.gather != -1) str += String.format(", gather=%d", info.gather);
 					Go.log(str);

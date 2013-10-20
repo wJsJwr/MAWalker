@@ -37,7 +37,6 @@ public class GetConfig {
 					}
 				}
 				Info.FairyBattleFirst = xpath.evaluate("/config/option/fairy_battle_first", doc).equals("1");
-				Info.RareFairyUseNormalDeck = xpath.evaluate("/config/option/rare_fairy_use_normal_deck", doc).equals("1");
 				Info.AllowBCInsuffient = xpath.evaluate("/config/option/allow_bc_insuffient", doc).equals("1");
 				Info.OneAPOnly = xpath.evaluate("/config/option/one_ap_only", doc).equals("1");
 				Info.AutoAddp = xpath.evaluate("/config/option/auto_add_point", doc).equals("1");
@@ -100,7 +99,6 @@ public class GetConfig {
 				Info.OneAPOnly = true;
 				Info.AllowBCInsuffient = true;
 				Info.FairyBattleFirst = false;
-				Info.RareFairyUseNormalDeck = false;
 				
 				Info.FriendFairyBattleRare.No = "0";
 				Info.FriendFairyBattleRare.BC = 0;

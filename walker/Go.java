@@ -43,9 +43,27 @@ public class Go {
 							break;
 						}
 					} catch (Exception ex) {
-						Go.log(ex.getMessage());
+						boolean printed = false;
+						if (ex.getMessage() != null) {
+							Go.log("[System] " + ex.getMessage());
+							printed = true;
+						}
+						if (ErrorData.text != null) {
+							Go.log("[User] " + ErrorData.text);
+							ErrorData.clear();
+							printed = true;
+						}
+						if (ErrorData.bytes != null) {
+							Go.log("[User] " + new String(ErrorData.bytes));
+							ErrorData.clear();
+							printed = true;
+						}
+						if (printed == false) {
+							Go.log("[System] Unexpected Error:");
+							ex.printStackTrace();
+						}
 						Process.info.events.add(EventType.cookieOutOfDate);
-						Go.log("Restart");
+						Go.log("[Global] Restart");
 					}
 				}
 			}
@@ -96,6 +114,7 @@ public class Go {
 	public static void log(String message) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		if (message == null || message.isEmpty()) return;
+		if (message.length() > 147) message = message.substring(0, 147) + "...";
 		if (!message.contains("\n")) {
 			System.out.print(df.format(new Date()));// new Date()为获取当前系统时间
 			System.out.println("> "+ message);

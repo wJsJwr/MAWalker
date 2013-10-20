@@ -96,7 +96,6 @@ public class Explore {
 				Process.info.fairy.UserId = xpath.evaluate("//ex_fairy/fairy/discoverer_id", doc);
 				
 				Process.info.events.push(Info.EventType.privateFairyAppear);
-				Process.info.events.push(Info.EventType.gotoFloor);
 				Process.info.events.push(Info.EventType.recvPFBGood);
 				Process.info.ExploreResult = "Fairy Appear";
 				break;
