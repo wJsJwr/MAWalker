@@ -78,7 +78,7 @@ public class RewardBox {
 			NodeList rewardbox_list = (NodeList) xpath.evaluate(
 					"//rewardbox_list/rewardbox", doc, XPathConstants.NODESET);
 
-			if (rewardbox_list.getLength() == 0)
+			if (rewardbox_list.getLength() < 10)// 少于10个reward box没必要收
 				return true;
 			String rewardbox_result = String.format("Find %d reward box(s).",
 					rewardbox_list.getLength());
