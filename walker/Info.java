@@ -99,6 +99,7 @@ public class Info {
 	public static boolean sell2star = false;
 	public static boolean sell3star = false;
 	public static boolean sell4star = false;
+	public static boolean sell5star = false;
 	public static int levelCardNotSell = 0;
 	public static int cardFull = 200;
 	/**

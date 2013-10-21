@@ -62,6 +62,8 @@ public class GetConfig {
 				Info.sell3star = true;
 			if(tmp.contains("4"))
 				Info.sell4star = true;
+			if(tmp.contains("5"))
+				Info.sell5star = true;
 			Info.cardFull = Integer.parseInt(xpath
 					.evaluate("/config/sell_card/card_full", doc));
 			Info.FairyBattleFirst = xpath.evaluate(

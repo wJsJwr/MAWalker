@@ -298,7 +298,7 @@ public class Think {
 		for (Card c : Process.info.cardList) {
 			if (!c.exist)
 				continue;
-			if (c.star > 4)
+			if (c.star > 5)
 				continue;
 			if (c.lv > Info.levelCardNotSell)
 				continue;
@@ -309,6 +309,10 @@ public class Think {
 			if (c.star == 3 && !Info.sell3star)
 				continue;
 			if (c.star == 4 && !Info.sell4star)
+				continue;
+			if (c.star == 5 && c.holo)
+				continue;
+			if (c.star == 5 && !c.holo && !Info.sell5star)
 				continue;
 			if (!Info.CanNotBeSold.contains(c.cardId)) {
 				if (toSell.isEmpty()) {
