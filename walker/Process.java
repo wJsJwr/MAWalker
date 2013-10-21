@@ -133,7 +133,7 @@ public class Process {
 				break;
 			case levelUp:
 				if (Info.AutoAddp == false) {
-					Go.log("自动加点已关闭");
+					//Go.log("自动加点已关闭");
 				} else {
 					result.add(Action.LV_UP);				
 				}
@@ -191,6 +191,7 @@ public class Process {
 					Go.log(String.format("User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d",
 							info.username, info.ap, info.apMax, info.bc, info.bcMax,
 							info.cardList.size(), info.cardMax, info.ticket));	
+					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
 				} else {
 					info.events.push(Info.EventType.notLoggedIn);
@@ -303,7 +304,7 @@ public class Process {
 					}
 					String str = String.format("PFB name=%s(%s), Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
 							info.fairy.FairyName,
-							info.FairySelectUserList.contains(info.fairy.UserId) ? info.FairySelectUserList.get(info.fairy.UserId).userName : "NA", 
+							info.FairySelectUserList.containsKey(info.fairy.UserId) ? info.FairySelectUserList.get(info.fairy.UserId).userName : "NA", 
 							info.fairy.FairyLevel, 
 							info.bc, 
 							info.bcMax, 
