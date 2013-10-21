@@ -1,7 +1,5 @@
 package action;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
@@ -16,7 +14,7 @@ import walker.Info;
 import walker.Process;
 
 public class GuildBattle {
-	//public static final Action Name = Action.GUILD_BATTLE;
+	// public static final Action Name = Action.GUILD_BATTLE;
 
 	private static final String URL_GUILD_BATTLE = "http://web.million-arthurs.com/connect/app/fairy/guild_fairy_battle?cyt=1";
 	private static byte[] response;
@@ -46,13 +44,16 @@ public class GuildBattle {
 			throw ex;
 		}
 
-		//Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("GUILD_BATTLE.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		Document doc;

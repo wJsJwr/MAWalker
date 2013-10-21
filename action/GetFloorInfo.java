@@ -3,8 +3,6 @@ package action;
 import info.Area;
 import info.Floor;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -46,13 +44,16 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
-		//Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("FLOOR_AREA.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		try {
@@ -150,13 +151,16 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
-		//Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("FLOOR_FLOOR.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		Document doc;
@@ -187,7 +191,7 @@ public class GetFloorInfo {
 			f.type = xpath.evaluate(p + "type", doc);
 			if (f.cost < 1)
 				continue; // 跳过秘境守护者
-			if(f.progress != 100) {
+			if (f.progress != 100) {
 				Process.info.allFloors.add(f);
 			}
 			if (Process.info.floor.containsKey(f.cost)) {

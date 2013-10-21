@@ -2,8 +2,6 @@ package action;
 
 import info.Card;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -12,13 +10,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -26,8 +17,6 @@ import walker.Info;
 import walker.Process;
 
 public class ParseCardList {
-
-	private static String myCardDatafile = "myCard.xls";
 
 	public static void parse(Document doc) throws NumberFormatException,
 			XPathExpressionException {
@@ -62,52 +51,9 @@ public class ParseCardList {
 				Process.info.cardList.add(c);
 				Process.info.myCardList.put(c.serialId, c);
 			}
-			saveCardData();
+			walker.Go.saveCardData();
 			if (cardCount > Info.cardFull)
 				Process.AddUrgentTask(Info.EventType.cardFull);
 		}
-	}
-
-	private static void saveCardData() {
-
-		WritableWorkbook wwb = null;
-		try {
-			wwb = Workbook.createWorkbook(new File(myCardDatafile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (wwb != null) {
-			WritableSheet ws = wwb.createSheet("My cards", 0);
-			for (int i = 0; i < Process.info.cardList.size() + 1; i++) {
-				String singleCardData = "";
-				if (i == 0) {
-					singleCardData = "SerialID,CardID,CnName,JpName,Star,Cost,Holo,Level,Hp,Atk";
-				} else {
-					Card c = Process.info.cardList.get(i - 1);
-					singleCardData = String.format(
-							"%s,%s,%s,%s,%d,%d,%b,%d,%d,%d,", c.serialId,
-							c.cardId, c.cardNameCn, c.cardNameJp, c.star,
-							c.cost, c.holo, c.lv, c.hp, c.atk);
-				}
-				for (int j = 0; j < singleCardData.split(",").length; j++) {
-					Label labelC = new Label(j, i, singleCardData.split(",")[j]);
-					try {
-						ws.addCell(labelC);
-					} catch (RowsExceededException e) {
-						e.printStackTrace();
-					} catch (WriteException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			try {
-				wwb.write();
-				wwb.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (WriteException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	}	
 }

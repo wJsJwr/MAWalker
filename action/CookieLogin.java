@@ -46,7 +46,18 @@ public class CookieLogin {
 				result = Process.network.ConnectToServer(URL_CHECK_INSPECTION,
 						new ArrayList<NameValuePair>(), true);
 
-				//Thread.sleep(Process.getRandom(1000, 2000));
+				// Thread.sleep(Process.getRandom(1000, 2000));
+
+				if (Info.Debug) {
+					String clazzName = new Object() {
+						public String getClassName() {
+							String clazzName = this.getClass().getName();
+							return clazzName.substring(0,
+									clazzName.lastIndexOf('$'));
+						}
+					}.getClassName();
+					walker.Go.saveXMLFile(result, clazzName);
+				}
 
 			} catch (Exception ex) {
 				ErrorData.currentDataType = ErrorData.DataType.text;
@@ -67,7 +78,17 @@ public class CookieLogin {
 			throw ex;
 		}
 
-		//Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
+
+		if (Info.Debug) {
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(result, clazzName);
+		}
 
 		try {
 			doc = Process.ParseXMLBytes(result); // 通过分析匿名类获得当前类名
