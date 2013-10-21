@@ -80,7 +80,7 @@ public class RewardBox {
 
 			if (rewardbox_list.getLength() < 10)// 少于10个reward box没必要收
 				return true;
-			String rewardbox_result = String.format("Find %d reward box(s).",
+			String rewardbox_result = String.format("Find %d reward box(es).",
 					rewardbox_list.getLength());
 			walker.Go.log(rewardbox_result, !Info.Nolog);
 
