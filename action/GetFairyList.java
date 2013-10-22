@@ -4,8 +4,6 @@ import info.FairyBattleInfo;
 import info.FairyDianzanInfo;
 import info.FairySelectUser;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -41,13 +39,16 @@ public class GetFairyList {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("FAIRY_LIST.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		Document doc;
@@ -227,6 +228,12 @@ public class GetFairyList {
 				}
 				if (!attack_flag || fbi.ForceKill)
 					Process.info.PrivateFairyList.offer(fbi);
+				else if (Info.specUser
+						.contains(Process.info.FairySelectUserList
+								.get(fbi.UserId).userName)) {
+					fbi.ForceKill = true;
+					Process.info.PrivateFairyList.offer(fbi);
+				}
 			}
 
 			if (!Process.info.PrivateFairyList.isEmpty()) {

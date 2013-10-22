@@ -94,8 +94,14 @@ public class Info {
 	/**
 	 * 自动卖卡
 	 */
-	public static boolean sellcard = false;
-	public static boolean sellallcard = false;
+	public static boolean autoSellCard = false;
+	public static boolean sell1star = false;
+	public static boolean sell2star = false;
+	public static boolean sell3star = false;
+	public static boolean sell4star = false;
+	public static boolean sell5star = false;
+	public static int levelCardNotSell = 0;
+	public static int cardFull = 200;
 	/**
 	 * 吃药相关的开关
 	 */
@@ -148,7 +154,8 @@ public class Info {
 
 	// card list
 	public ArrayList<Card> cardList;
-	public static ArrayList<String> CanBeSold = new ArrayList<String>();
+	public Hashtable<String, Card> myCardList;
+	public static ArrayList<String> CanNotBeSold = new ArrayList<String>();
 	public static ArrayList<String> KeepCard;
 	public String toSell = "";
 
@@ -170,7 +177,7 @@ public class Info {
 	public static Deck MyDeck0 = new Deck();
 	public static Deck MyDeck1 = new Deck();
 	public static Deck MyDeck2 = new Deck();
-	public static String LastDeckNo = "";
+	public static Deck LastDeck = new Deck();
 
 	// area
 	public Hashtable<Integer, Area> area;
@@ -178,6 +185,7 @@ public class Info {
 
 	// floor
 	public Hashtable<Integer, Floor> floor;
+	public ArrayList<Floor> allFloors;
 	public Floor front;
 	public boolean AllClear = false;
 
@@ -191,12 +199,18 @@ public class Info {
 	public Stack<FairyDianzanInfo> FairyDianzanList = new Stack<FairyDianzanInfo>();
 	public Hashtable<String, FairySelectUser> FairySelectUserList;
 
+	// user
+	public static ArrayList<String> specUser = new ArrayList<String>();
+
 	// explore
 	public String ExploreResult = "";
 	public String ExploreProgress = "";
 	public String ExploreGold = "";
 	public String ExploreExp = "";
 	public String AreaProgress = "";
+	
+	// reward box
+	public String rewardBoxList = "";
 
 	// 吃药相关
 	public int fullBc = 0;
@@ -209,15 +223,17 @@ public class Info {
 
 	// event
 	public enum EventType {
-		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildTopRetry, guildBattle, guildTop, ticketFull, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck
+		notLoggedIn, cookieOutOfDate, needFloorInfo, innerMapJump, areaComplete, getFairyList, fairyReward, fairyCanBattle, cardFull, guildTop, needAPBCInfo, levelUp, fairyDianzan, gotoFloor, autoMedicine, autoExplore, cookieLogin, getCardDeck, rewardBox, getRewards
 	}
 
 	public Stack<EventType> events;
 
 	public Info() {
 		cardList = new ArrayList<Card>();
+		myCardList = new Hashtable<String, Card>();
 		area = new Hashtable<Integer, Area>();
 		floor = new Hashtable<Integer, Floor>();
+		allFloors = new ArrayList<Floor>();
 		front = new Floor();
 		PrivateFairyList = new LinkedList<FairyBattleInfo>();
 		FairyDianzanList = new Stack<FairyDianzanInfo>();

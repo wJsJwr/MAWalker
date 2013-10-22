@@ -27,6 +27,7 @@ import action.GetCardDeck;
 import action.GetFairyList;
 import action.GetFairyReward;
 import action.GetFloorInfo;
+import action.GetRewards;
 import action.GotoFloor;
 import action.GotoMainMenu;
 import action.GuildBattle;
@@ -35,17 +36,22 @@ import action.Login;
 import action.LvUp;
 import action.PrivateFairyBattle;
 import action.RecFairyDianzan;
+import action.RewardBox;
 import action.SellCard;
 
 public class Process {
 	public static Info info;
 	public static Network network;
 	public static Timer TaskTimer;
+	public static CardDataBase CardData;
+	private static long lastGuildBattleTime;
 
 	public Process() {
 		info = new Info();
 		network = new Network();
 		TaskTimer = new Timer();
+		CardData = new CardDataBase();
+		lastGuildBattleTime = System.currentTimeMillis();
 	}
 
 	public void run() {
@@ -146,6 +152,11 @@ public class Process {
 				AddTask(Info.EventType.autoMedicine);
 			}
 		}, 0, 5 * 60 * 1000); // 5min
+		TaskTimer.schedule(new TimerTask() {
+			public void run() {
+				AddTask(Info.EventType.rewardBox);
+			}
+		}, 0, 10 * 60 * 1000); // 10min
 		Calendar myCal = Calendar.getInstance();
 		if (myCal.get(Calendar.HOUR_OF_DAY) >= 1) {
 			int date = myCal.get(Calendar.DAY_OF_YEAR);
@@ -158,7 +169,7 @@ public class Process {
 			public void run() {
 				AddUrgentTask(Info.EventType.notLoggedIn);
 			}
-		}, myCal.getTime());// relogin at 1:00
+		}, myCal.getTime(), 24 * 60 * 60 * 1000l);// relogin at 1:00
 	}
 
 	public static void AddTask(Info.EventType _Task) {
@@ -236,12 +247,7 @@ public class Process {
 			case getFairyList:// 获取妖精战列表
 				result.add(Action.GET_FAIRY_LIST);
 				break;
-			case guildBattle:// 强敌战
-				result.add(Action.GUILD_BATTLE);
-				break;
-			case guildTopRetry:// 强敌战结束重新获取
 			case guildTop:// 强敌站界面
-			case ticketFull:// 有挑战书
 				result.add(Action.GUILD_TOP);
 				break;
 			case needAPBCInfo:// 更新apbc信息
@@ -263,6 +269,10 @@ public class Process {
 				result.add(Action.EXPLORE);
 			case getCardDeck:
 				result.add(Action.GET_CARD_DECK);
+			case rewardBox:
+				result.add(Action.REWARD_BOX);
+			case getRewards:
+				result.add(Action.GET_REWARDS);
 			}
 			if (!result.isEmpty())
 				return result;
@@ -337,8 +347,6 @@ public class Process {
 		case GET_FLOOR_INFO:
 			try {
 				if (GetFloorInfo.run()) {
-					if (Process.info.AllClear)
-						Process.info.front = Process.info.floor.get(1);
 					Go.log(String.format(
 							"Area(%d) Front: %s>%s@c=%d",
 							info.area.size(),
@@ -417,10 +425,11 @@ public class Process {
 			try {
 				if (GotoFloor.run()) {
 					String my_state = String
-							.format("User Name: %s, AP: %d/%d, BC: %d/%d, Level: %d, Exp to level up: %d, Gold: %d, Friendship point: %d.\n",
+							.format("User Name: %s, AP: %d/%d, BC: %d/%d, Level: %d, Exp to level up: %d, Cards: %d, Gold: %d, Friendship point: %d.\n",
 									info.username, info.ap, info.apMax,
 									info.bc, info.bcMax, info.lv, info.exp,
-									info.gold, info.friendshippoint);
+									info.cardList.size(), info.gold,
+									info.friendshippoint);
 					my_state += String.format(
 							"Guild Fairy Battle Team: %s. Ticket: %d. ",
 							info.guildteamname, info.ticket);
@@ -528,49 +537,6 @@ public class Process {
 					throw ex;
 			}
 			break;
-		case GUILD_BATTLE:
-			try {
-				if (GuildBattle.run()) {
-					String result = "";
-					switch (GuildBattle.FairyBattleResult) {
-					case escape:
-						result = "Too Late";
-						break;
-					case lose:
-						result = "Lose";
-						break;
-					case win:
-						result = "Win";
-						break;
-					default:
-						result = "Unknown";
-						break;
-					}
-					String str = String
-							.format("Guild Fairy Battle, name: %s, Lv: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s.\n",
-									info.gfairy.FairyName,
-									info.gfairy.FairyLevel, info.bc,
-									info.bcMax, info.ap, info.apMax,
-									info.ticket, info.week, result)
-							+ String.format(
-									"Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.",
-									info.CurrentDeck.DeckName,
-									info.CurrentDeck.CustomDeckName,
-									info.CurrentDeck.No, info.CurrentDeck.BC);
-					Go.log(str, true);
-					Thread.sleep(5000);
-					if (Process.info.ticket > 0) // 连续出击直至获胜
-						Process.AddUrgentTask(Info.EventType.ticketFull);
-					if (Info.FairyBattleFirst)
-						Process.AddUrgentTask(Info.EventType.getFairyList);
-				} else {
-
-				}
-			} catch (Exception ex) {
-				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
-					throw ex;
-			}
-			break;
 		case GUILD_TOP:
 			try {
 				switch (GuildTop.run()) {
@@ -586,7 +552,49 @@ public class Process {
 									info.ticket,
 									info.gfbforce.attack_compensation,
 									info.gfbforce.chain_counter), true);
-					Process.AddUrgentTask(Info.EventType.guildBattle);
+					Process.info.gfairy.No = Info.PublicFairyBattle.No;
+					Process.info.CurrentDeck = Info.PublicFairyBattle;
+					Long currentGuildBattleTime = System.currentTimeMillis();
+					if (currentGuildBattleTime - lastGuildBattleTime < 10000)
+						Thread.sleep(10000 + lastGuildBattleTime
+								- currentGuildBattleTime);
+					if (GuildBattle.run()) {
+						String result = "";
+						switch (GuildBattle.FairyBattleResult) {
+						case escape:
+							result = "Too Late";
+							break;
+						case lose:
+							result = "Lose";
+							break;
+						case win:
+							result = "Win";
+							break;
+						default:
+							result = "Unknown";
+							break;
+						}
+						String str = String
+								.format("Guild Fairy Battle, name: %s, Lv: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s.\n",
+										info.gfairy.FairyName,
+										info.gfairy.FairyLevel, info.bc,
+										info.bcMax, info.ap, info.apMax,
+										info.ticket, info.week, result)
+								+ String.format(
+										"Card Deck Info: %s, Custom Name: %s, Number: %s, BC: %d.",
+										info.CurrentDeck.DeckName,
+										info.CurrentDeck.CustomDeckName,
+										info.CurrentDeck.No,
+										info.CurrentDeck.BC);
+						Go.log(str, true);
+						if (Process.info.ticket > 0) // 连续出击直至获胜
+							Process.AddUrgentTask(Info.EventType.guildTop);
+						if (Info.FairyBattleFirst)
+							Process.AddUrgentTask(Info.EventType.getFairyList);
+					} else {
+						Go.log("Something wrong@GUILD_BATTLE.", !Info.Nolog);
+					}
+					lastGuildBattleTime = System.currentTimeMillis();
 					break;
 				case 1:// 不能打，但需要显示
 					Go.log(String
@@ -600,14 +608,10 @@ public class Process {
 									info.ticket,
 									info.gfbforce.attack_compensation,
 									info.gfbforce.chain_counter), !Info.Nolog);
-					while (Process.info.events
-							.contains(Info.EventType.guildBattle)) {
-						Process.info.events.remove(Info.EventType.guildBattle);
-					}
 					break;
 				case 3:// 需要重新获取
 					Process.info.gfbforce = new GuildFairyBattleForce();
-					Process.AddUrgentTask(Info.EventType.guildTopRetry);
+					Process.AddUrgentTask(Info.EventType.guildTop);
 					break;
 				case 0:// 什么都不做
 					if (info.NoFairy)
@@ -680,6 +684,31 @@ public class Process {
 					Go.log("Succeed to get card deck info.", true);
 				} else {
 					Go.log("Something wrong@GET_CARD_DECK.", !Info.Nolog);
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
+					throw ex;
+			}
+			break;
+		case REWARD_BOX:
+			try {
+				if (RewardBox.run()) {
+					Go.log("Succeed to get reward box info.", !Info.Nolog);
+				} else {
+					Go.log("Something wrong@REWARD_BOX.", !Info.Nolog);
+				}
+			} catch (Exception ex) {
+				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
+					throw ex;
+			}
+			break;
+		case GET_REWARDS:
+			try {
+				if (GetRewards.run()) {
+					Go.log(ErrorData.text, true);
+					ErrorData.clear();
+				} else {
+					Go.log("Something wrong@GET_REWARDS.", !Info.Nolog);
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)

@@ -1,7 +1,5 @@
 package action;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
@@ -36,13 +34,16 @@ public class GuildTop {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("GUILD_TOP.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		Document doc;
@@ -75,19 +76,18 @@ public class GuildTop {
 
 			if (!(Boolean) xpath.evaluate("count(/response/body/guild_top)>0",
 					doc, XPathConstants.BOOLEAN)) {
-				return 3;// 需要重新获取
+				if ((Boolean) xpath.evaluate("count(//guild_top_no_fairy)>0",
+						doc, XPathConstants.BOOLEAN)) {
+					Process.info.NoFairy = true;// 深夜没有外敌战
+					return 0;
+				} else {
+					Process.info.NoFairy = false;
+					return 3;// 需要重新获取
+				}
 			}
 
 			if (GuildDefeat.judge(doc)) {
 				return 3;// 需要重新获取
-			}
-
-			if ((Boolean) xpath.evaluate("count(//guild_top_no_fairy)>0", doc,
-					XPathConstants.BOOLEAN)) {
-				Process.info.NoFairy = true;// 深夜没有外敌战
-				return 0;
-			} else {
-				Process.info.NoFairy = false;
 			}
 
 			Process.info.gfairy.FairyName = xpath.evaluate("//fairy/name", doc);

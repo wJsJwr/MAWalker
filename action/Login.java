@@ -47,7 +47,19 @@ public class Login {
 				throw ex;
 			}
 
-			Thread.sleep(Process.getRandom(1000, 2000));
+			// Thread.sleep(Process.getRandom(1000, 2000));
+
+			if (Info.Debug) {
+				String clazzName = new Object() {
+					public String getClassName() {
+						String clazzName = this.getClass().getName();
+						return clazzName.substring(0,
+								clazzName.lastIndexOf('$'));
+					}
+				}.getClassName();
+				walker.Go.saveXMLFile(result, clazzName);
+			}
+
 		}
 		ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
 		al.add(new BasicNameValuePair("login_id", Info.LoginId));
@@ -62,7 +74,17 @@ public class Login {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
+
+		if (Info.Debug) {
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(result, clazzName);
+		}
 
 		try {
 			doc = Process.ParseXMLBytes(result);

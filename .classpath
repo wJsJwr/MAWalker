@@ -9,5 +9,7 @@
 	<classpathentry kind="lib" path="httpcomponents-client-4.3/lib/httpclient-cache-4.3.jar"/>
 	<classpathentry kind="lib" path="httpcomponents-client-4.3/lib/httpcore-4.3.jar"/>
 	<classpathentry kind="lib" path="httpcomponents-client-4.3/lib/httpmime-4.3.jar"/>
+	<classpathentry kind="lib" path="lib/jexcelapi_2_6_12/jxl.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.7.2/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

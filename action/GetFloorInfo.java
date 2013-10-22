@@ -3,9 +3,9 @@ package action;
 import info.Area;
 import info.Floor;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -44,13 +44,16 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("FLOOR_AREA.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		try {
@@ -80,8 +83,9 @@ public class GetFloorInfo {
 				// Process.info.area = new Hashtable<Integer,Area>();
 				Process.info.area.clear();
 				Process.info.floor.clear();
+				Process.info.allFloors.clear();
 			}
-			for (int i = areaCount; i >= 1; i--) {
+			for (int i = 1; i <= areaCount; i++) {
 				Area a = new Area();
 				String p = String.format("//area_info_list/area_info[%d]/", i);
 				a.areaId = Integer.parseInt(xpath.evaluate(p + "id", doc));
@@ -95,14 +99,35 @@ public class GetFloorInfo {
 				if (a.areaId >= 100000)
 					Process.info.area.put(a.areaId, a);
 			}
-			Process.info.AllClear = true;
 			Process.info.front = null;
-			for (int i : Process.info.area.keySet()) {
-				getFloor(Process.info.area.get(i));
-			} // end of area iterator
-			if (Process.info.front == null)
-				Process.info.front = Process.info.floor.get(1);
+			Iterator<Entry<Integer, Area>> itr = Process.info.area.entrySet()
+					.iterator();
+			while (itr.hasNext()) {
+				Area tmpArea = itr.next().getValue();
+				getFloor(tmpArea);
+			}
 
+			for (Floor tmpFloor : Process.info.allFloors) {
+				if (Process.info.front == null) {
+					Process.info.front = tmpFloor;
+				} else {
+					if (Integer.parseInt(Process.info.front.areaId) < Integer
+							.parseInt(tmpFloor.areaId)) {
+						Process.info.front = tmpFloor;
+					} else if (Process.info.front.equals(tmpFloor.areaId)) {
+						if (Integer.parseInt(Process.info.front.floorId) < Integer
+								.parseInt(tmpFloor.floorId)) {
+							Process.info.front = tmpFloor;
+						}
+					}
+				}
+			}
+
+			Process.info.AllClear = true;
+			if (Process.info.area.get(Integer
+					.parseInt(Process.info.front.areaId)).exploreProgress != 100) {
+				Process.info.AllClear = false;
+			}
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 				throw ex;
@@ -126,13 +151,16 @@ public class GetFloorInfo {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("FLOOR_FLOOR.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		Document doc;
@@ -163,18 +191,16 @@ public class GetFloorInfo {
 			f.type = xpath.evaluate(p + "type", doc);
 			if (f.cost < 1)
 				continue; // 跳过秘境守护者
+			if (f.progress != 100) {
+				Process.info.allFloors.add(f);
+			}
 			if (Process.info.floor.containsKey(f.cost)) {
-				if (Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer
+				if (Integer.parseInt(Process.info.floor.get(f.cost).areaId) >= Integer
 						.parseInt(f.areaId)) {
 					continue;
 				}
 			}
 			Process.info.floor.put(f.cost, f);
-			if (f.progress != 100 && a.exploreProgress != 100
-					&& Process.info.AllClear) {
-				Process.info.front = f;
-				Process.info.AllClear = false;
-			}
 		}
 	}
 

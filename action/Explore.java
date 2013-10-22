@@ -2,8 +2,6 @@ package action;
 
 import info.Floor;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
@@ -44,13 +42,16 @@ public class Explore {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
 
 		if (Info.Debug) {
-			File outputFile = new File("EXPLORE.xml");
-			FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-			outputFileStream.write(response);
-			outputFileStream.close();
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
 		}
 
 		Document doc;
@@ -121,6 +122,7 @@ public class Explore {
 							"//next_floor/floor_info/cost", doc));
 					Process.info.front = f;
 					Process.info.floor.put(f.cost, f);
+					Process.info.allFloors.add(f);
 					Process.info.ExploreResult = "Floor Clear";
 				} else {
 					Process.AddUrgentTask(Info.EventType.areaComplete);
@@ -151,6 +153,7 @@ public class Explore {
 				break;
 			case 3:
 				Process.info.ExploreResult = "Get Card";
+				ParseCardList.parse(doc);
 				break;
 			default:
 				Process.info.ExploreResult = String.format("Code: %d", evt);

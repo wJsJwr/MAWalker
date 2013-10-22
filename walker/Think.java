@@ -42,12 +42,6 @@ public class Think {
 					return Action.EXPLORE;
 				else
 					break;
-			case GUILD_BATTLE:
-				if (Process.info.ticket > 0) {
-					Process.info.gfairy.No = Info.PublicFairyBattle.No;
-					Process.info.CurrentDeck = Info.PublicFairyBattle;
-					return Action.GUILD_BATTLE;
-				}
 			case GUILD_TOP:
 				return Action.GUILD_TOP;
 			case GET_FAIRY_REWARD:
@@ -67,6 +61,15 @@ public class Think {
 				break;
 			case GET_CARD_DECK:
 				return Action.GET_CARD_DECK;
+			case REWARD_BOX:
+				if (Process.info.cardList.size() < Info.cardFull
+						|| Process.info.cardList.size() < 200)
+					return Action.REWARD_BOX;
+				break;
+			case GET_REWARDS:
+				if(!Process.info.rewardBoxList.isEmpty())
+					return Action.GET_REWARDS;
+				break;
 			default:
 				break;
 			}
@@ -295,11 +298,23 @@ public class Think {
 		for (Card c : Process.info.cardList) {
 			if (!c.exist)
 				continue;
-			if (c.holo && c.hp >= 3500)
-				continue; // 闪卡不卖，但是低等级的闪卡照样要卖
-			if (c.hp > 6000)
-				continue; // 防止不小心把贵重卡片卖了
-			if (Info.CanBeSold.contains(c.cardId)) {
+			if (c.star > 5)
+				continue;
+			if (c.lv > Info.levelCardNotSell)
+				continue;
+			if (c.star == 1 && !Info.sell1star)
+				continue;
+			if (c.star == 2 && !Info.sell2star)
+				continue;
+			if (c.star == 3 && !Info.sell3star)
+				continue;
+			if (c.star == 4 && !Info.sell4star)
+				continue;
+			if (c.star == 5 && c.holo)
+				continue;
+			if (c.star == 5 && !c.holo && !Info.sell5star)
+				continue;
+			if (!Info.CanNotBeSold.contains(c.cardId)) {
 				if (toSell.isEmpty()) {
 					toSell = c.serialId;
 				} else {

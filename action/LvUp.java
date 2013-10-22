@@ -10,6 +10,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.w3c.dom.Document;
 
 import walker.ErrorData;
+import walker.Info;
 import walker.Process;
 import action.ActionRegistry.Action;
 
@@ -34,7 +35,17 @@ public class LvUp {
 			throw ex;
 		}
 
-		Thread.sleep(Process.getRandom(1000, 2000));
+		// Thread.sleep(Process.getRandom(1000, 2000));
+
+		if (Info.Debug) {
+			String clazzName = new Object() {
+				public String getClassName() {
+					String clazzName = this.getClass().getName();
+					return clazzName.substring(0, clazzName.lastIndexOf('$'));
+				}
+			}.getClassName();
+			walker.Go.saveXMLFile(response, clazzName);
+		}
 
 		Document doc;
 		try {

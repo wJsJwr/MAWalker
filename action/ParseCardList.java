@@ -3,6 +3,7 @@ package action;
 import info.Card;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -12,9 +13,11 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import walker.Info;
 import walker.Process;
 
 public class ParseCardList {
+
 	public static void parse(Document doc) throws NumberFormatException,
 			XPathExpressionException {
 		XPathFactory factory = XPathFactory.newInstance();
@@ -23,25 +26,34 @@ public class ParseCardList {
 		int cardCount = ((NodeList) xpath.evaluate(
 				"//owner_card_list/user_card", doc, XPathConstants.NODESET))
 				.getLength();
-		if (cardCount > 0)
+		if (cardCount > 0) {
 			Process.info.cardList = new ArrayList<Card>();
-		for (int i = 1; i < cardCount + 1; i++) {
-			Card c = new Card();
-			String p = String.format("//owner_card_list/user_card[%d]", i);
+			Process.info.myCardList = new Hashtable<String, Card>();
+			for (int i = 1; i < cardCount + 1; i++) {
+				Card c = new Card();
+				String p = String.format("//owner_card_list/user_card[%d]", i);
 
-			c.serialId = xpath.evaluate(p + "/serial_id", doc);
-			c.cardId = xpath.evaluate(p + "/master_card_id", doc);
-			c.holo = !xpath.evaluate(p + "/holography", doc).equals("0");
-			c.lv = Integer.parseInt(xpath.evaluate(p + "/lv", doc));
-			c.lvMax = Integer.parseInt(xpath.evaluate(p + "/lv_max", doc));
-			c.hp = Integer.parseInt(xpath.evaluate(p + "/hp", doc));
-			c.atk = Integer.parseInt(xpath.evaluate(p + "/power", doc));
-			c.plusLimit = Integer.parseInt(xpath.evaluate(p
-					+ "/plus_limit_count", doc));
-			c.exist = true;
-			Process.info.cardList.add(c);
+				c.serialId = xpath.evaluate(p + "/serial_id", doc);
+				c.cardId = xpath.evaluate(p + "/master_card_id", doc);
+				c.holo = !xpath.evaluate(p + "/holography", doc).equals("0");
+				c.lv = Integer.parseInt(xpath.evaluate(p + "/lv", doc));
+				c.lvMax = Integer.parseInt(xpath.evaluate(p + "/lv_max", doc));
+				c.hp = Integer.parseInt(xpath.evaluate(p + "/hp", doc));
+				c.atk = Integer.parseInt(xpath.evaluate(p + "/power", doc));
+				c.plusLimit = Integer.parseInt(xpath.evaluate(p
+						+ "/plus_limit_count", doc));
+				c.exist = true;
+				Card tmpCard = Process.CardData.getCardData(c.cardId);
+				c.star = tmpCard.star;
+				c.cost = tmpCard.cost;
+				c.cardNameCn = tmpCard.cardNameCn;
+				c.cardNameJp = tmpCard.cardNameJp;
+				Process.info.cardList.add(c);
+				Process.info.myCardList.put(c.serialId, c);
+			}
+			walker.Go.saveCardData();
+			if (cardCount > Info.cardFull)
+				Process.AddUrgentTask(Info.EventType.cardFull);
 		}
-
-	}
-
+	}	
 }

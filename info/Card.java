@@ -9,5 +9,9 @@ public class Card {
 	public int lv = 0;
 	public int lvMax = 0;
 	public int plusLimit = 0;
+	public int star = 0;
+	public int cost = 0;
+	public String cardNameCn = "";
+	public String cardNameJp = "";
 	public boolean exist = true;
 }

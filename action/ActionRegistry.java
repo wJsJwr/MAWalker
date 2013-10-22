@@ -32,10 +32,6 @@ public class ActionRegistry {
 		 */
 		GUILD_TOP,
 		/**
-		 * 外敌迎击战
-		 */
-		GUILD_BATTLE,
-		/**
 		 * 卖卡
 		 */
 		SELL_CARD,
@@ -62,6 +58,14 @@ public class ActionRegistry {
 		/**
 		 * 获得当前卡组信息
 		 */
-		GET_CARD_DECK
+		GET_CARD_DECK,
+		/**
+		 * 盒子界面
+		 */
+		REWARD_BOX,
+		/**
+		 * 开盒子
+		 */
+		GET_REWARDS
 	}
 }

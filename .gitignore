@@ -9,4 +9,5 @@
 /bin
 /*.xml
 /*.txt
-CardDataBase
+macard.db
+*.xls
