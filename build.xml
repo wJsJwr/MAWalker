@@ -1,0 +1,29 @@
+<project default="compile">
+  <description><![CDATA[
+    type "ant" to build.
+    type "ant -Dconffile=path/to/your/config run" to run.
+  ]]></description>
+
+  <property name="project.cmd.extra" value=""/>
+
+  <path id="project.class.path">
+    <pathelement path="${basedir}"/>
+    <fileset dir="${basedir}/httpcomponents-client-4.2.3/lib">
+       <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="compile">
+    <javac srcdir="${basedir}" includes="**/*.java" includeAntRuntime="false">
+      <classpath refid="project.class.path"/>
+    </javac>
+  </target>
+
+  <target name="run" depends="compile">
+   <java classname="walker.Go">
+      <classpath refid="project.class.path"/>
+      <arg file="${conffile}"/>
+      <arg line="${project.cmd.extra}"/>
+   </java>
+  </target>
+</project>
