@@ -101,7 +101,7 @@ public class Explore {
 				break;
 			case 5:
 				// floor or area clear
-				if ((boolean)xpath.evaluate("count(//next_floor)>0", doc, XPathConstants.BOOLEAN)) {
+				if ((Boolean)xpath.evaluate("count(//next_floor)>0", doc, XPathConstants.BOOLEAN)) {
 					// floor clear
 					Floor f = new Floor();
 					f.areaId = xpath.evaluate("//next_floor/area_id", doc);

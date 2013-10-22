@@ -60,7 +60,7 @@ public class GuildTop {
 				return false;
 			}
 			
-			if ((boolean)xpath.evaluate("count(//guild_top_no_fairy)>0", doc, XPathConstants.BOOLEAN)) {
+			if ((Boolean)xpath.evaluate("count(//guild_top_no_fairy)>0", doc, XPathConstants.BOOLEAN)) {
 				// 深夜没有外敌战
 				Process.info.NoFairy = true;
 				return false;
