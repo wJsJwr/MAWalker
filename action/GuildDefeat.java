@@ -11,6 +11,6 @@ public class GuildDefeat {
 	public static boolean judge(Document doc) throws XPathExpressionException {
 		XPathFactory factory = XPathFactory.newInstance();
 		XPath xpath = factory.newXPath();
-		return (boolean)xpath.evaluate("count(//guild_defeat_event)>0", doc, XPathConstants.BOOLEAN);
+		return (Boolean)xpath.evaluate("count(//guild_defeat_event)>0", doc, XPathConstants.BOOLEAN);
 	}
 }

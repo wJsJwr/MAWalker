@@ -65,7 +65,7 @@ public class RecvPFBGood {
 			}
 
 			String add, msg;
-			if ((boolean)xpath.evaluate("count(/response/body/private_fairy_top/recover_by_like) > 0", doc, XPathConstants.BOOLEAN)) {
+			if ((Boolean)xpath.evaluate("count(/response/body/private_fairy_top/recover_by_like) > 0", doc, XPathConstants.BOOLEAN)) {
 				
 				msg = xpath.evaluate("/response/body/private_fairy_top/recover_by_like/message", doc);
 				add = xpath.evaluate("/response/body/private_fairy_top/recover_by_like/recover_point", doc);

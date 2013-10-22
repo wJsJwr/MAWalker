@@ -61,7 +61,7 @@ public class PrivateFairyBattle {
 			if (Process.info.LatestFairyList.size() > 1000) Process.info.LatestFairyList.poll();
 			Process.info.LatestFairyList.offer(Process.info.fairy);
 			
-			if ((boolean)xpath.evaluate("count(//private_fairy_top) > 0", doc, XPathConstants.BOOLEAN)) {
+			if ((Boolean)xpath.evaluate("count(//private_fairy_top) > 0", doc, XPathConstants.BOOLEAN)) {
 				Process.info.events.push(Info.EventType.fairyBattleEnd);
 				return true;
 			}
@@ -84,7 +84,7 @@ public class PrivateFairyBattle {
 			}
 			
 			// 检查觉醒
-			if ((boolean)xpath.evaluate("count(//ex_fairy/rare_fairy)>0", doc, XPathConstants.BOOLEAN)) {
+			if ((Boolean)xpath.evaluate("count(//ex_fairy/rare_fairy)>0", doc, XPathConstants.BOOLEAN)) {
 				// Yes
 				Process.info.fairy.Type = FairyBattleInfo.PRIVATE | FairyBattleInfo.SELF | FairyBattleInfo.RARE;
 				Process.info.fairy.FairyLevel = xpath.evaluate("//ex_fairy/rare_fairy/lv", doc);
