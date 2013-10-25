@@ -90,6 +90,8 @@ public class PrivateFairyBattle {
 				Process.info.fairy.FairyLevel = xpath.evaluate("//ex_fairy/rare_fairy/lv", doc);
 				Process.info.fairy.SerialId = xpath.evaluate("//ex_fairy/rare_fairy/serial_id", doc);
 				Process.info.fairy.UserId = xpath.evaluate("//ex_fairy/rare_fairy/discoverer_id", doc);
+				Process.info.fairy.fairyCurrHp = Integer.parseInt(xpath.evaluate("//ex_fairy/rare_fairy/hp", doc));
+				Process.info.fairy.fairyMaxHp = Integer.parseInt(xpath.evaluate("//ex_fairy/rare_fairy/hp_max", doc));
 				Process.info.events.push(Info.EventType.fairyTransform);
 			}
 			

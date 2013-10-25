@@ -119,6 +119,10 @@ public class GetFairyList {
 						} else {
 							fbi.Type = FairyBattleInfo.PRIVATE;
 						}
+					} else if (f.getNodeName().equals("hp")){
+						fbi.fairyCurrHp = Integer.parseInt(f.getFirstChild().getNodeValue());
+					} else if (f.getNodeName().equals("hp_max")){
+						fbi.fairyMaxHp = Integer.parseInt(f.getFirstChild().getNodeValue());
 					}
 					f = f.getNextSibling();
 				} while (f != null);

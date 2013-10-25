@@ -188,9 +188,9 @@ public class Process {
 		case LOGIN:
 			try {
 				if (Login.run()) {
-					Go.log(String.format("User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d",
+					Go.log(String.format("User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, money: %d",
 							info.username, info.ap, info.apMax, info.bc, info.bcMax,
-							info.cardList.size(), info.cardMax, info.ticket));	
+							info.cardList.size(), info.cardMax, info.ticket, info.money));	
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
 				} else {
@@ -302,10 +302,12 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s(%s), Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+					String str = String.format("PFB name=%s(%s), Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
 							info.fairy.FairyName,
 							info.FairySelectUserList.containsKey(info.fairy.UserId) ? info.FairySelectUserList.get(info.fairy.UserId).userName : "NA", 
 							info.fairy.FairyLevel, 
+							info.fairy.fairyCurrHp,
+							info.fairy.fairyMaxHp,
 							info.bc, 
 							info.bcMax, 
 							info.ap, 
@@ -323,9 +325,9 @@ public class Process {
 		case EXPLORE:
 			try {
 				if (Explore.run()) {
-					Go.log(String.format("Explore[%s>%s]: AP: %d, Gold+%s, Exp+%s, Progress:%s, Result: %s.", 
+					Go.log(String.format("Explore[%s>%s]: AP: %d, Gold+%s=%d, Exp+%s, Progress:%s, Result: %s.", 
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName, info.front.floorId,info.ap,
-							info.ExploreGold, info.ExploreExp, info.ExploreProgress, info.ExploreResult));
+							info.ExploreGold, info.money, info.ExploreExp, info.ExploreProgress, info.ExploreResult));
 				} else {
 					
 				}
@@ -354,8 +356,8 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s, Lv: %s, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
-							info.gfairy.FairyName, info.gfairy.FairyLevel, info.bc, info.bcMax, info.ap, info.apMax, 
+					String str = String.format("PFB name=%s, Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
+							info.gfairy.FairyName, info.gfairy.FairyLevel, info.gfairy.fairyCurrHp, info.gfairy.fairyMaxHp, info.bc, info.bcMax, info.ap, info.apMax, 
 							info.ticket, info.week, result);
 					Thread.sleep(5000);
 					Go.log(str);

@@ -72,6 +72,8 @@ public class GuildTop {
 			Process.info.gfairy.SerialId = xpath.evaluate("//fairy/serial_id", doc);
 			Process.info.gfairy.GuildId = xpath.evaluate("//fairy/discoverer_id", doc);
 			Process.info.gfairy.FairyLevel = xpath.evaluate("//fairy/lv", doc);
+			Process.info.gfairy.fairyCurrHp = Integer.parseInt(xpath.evaluate("//fairy/hp", doc));
+			Process.info.gfairy.fairyMaxHp = Integer.parseInt(xpath.evaluate("//fairy/hp_max", doc));
 			
 			Process.info.events.push(Info.EventType.guildBattle);
 			
