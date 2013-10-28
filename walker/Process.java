@@ -206,7 +206,20 @@ public class Process {
 		case GET_FLOOR_INFO:
 			try {
 				if (GetFloorInfo.run()) {
-					if (Process.info.AllClear) Process.info.front = Process.info.floor.get(1);
+					if (Process.info.AllClear) {
+						if (Info.ThisAPOnly == -1) {
+							Process.info.front = Process.info.floor.get(Process.info.MinMapAP);
+						} else {
+							if (Process.info.floor.containsKey(Info.ThisAPOnly)) {
+								Process.info.front = Process.info.floor.get(Info.ThisAPOnly);
+							} else {
+								ErrorData.currentErrorType = ErrorData.ErrorType.ConfigureParameterError;
+								ErrorData.currentDataType = ErrorData.DataType.text;
+								ErrorData.text = "Configure Parameter Error: Value of `this_ap_only` is invalid or not reachable.";
+								throw new Exception();
+							}
+						}
+					}
 					Go.log(String.format("Area(%d) Front: %s>%s@c=%d", 
 							info.area.size(), 
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName, 
