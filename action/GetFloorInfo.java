@@ -4,7 +4,6 @@ import info.Area;
 import info.Floor;
 
 import java.util.ArrayList;
-//import java.util.Hashtable;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -16,6 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
+import walker.Info;
 import walker.Process;
 import action.ActionRegistry.Action;
 
@@ -80,9 +80,10 @@ public class GetFloorInfo {
 			for (int i : Process.info.area.keySet()) {
 				getFloor(Process.info.area.get(i));
 			} // end of area iterator
-			if (Process.info.front == null) Process.info.front = Process.info.floor.get(1);
-			Process.info.SetTimeoutByAction(Name);
 			
+			int floor = ((Info.MinAPOnly == true) ? Process.info.floor.firstKey() : Process.info.floor.lastKey());
+			if (Process.info.front == null) Process.info.front = Process.info.floor.get(floor);
+			Process.info.SetTimeoutByAction(Name);
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 				throw ex;

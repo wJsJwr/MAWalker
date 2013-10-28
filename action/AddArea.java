@@ -77,7 +77,6 @@ public class AddArea {
 			Process.info.AllClear = true;
 			
 			if (newArea.areaId != -1) GetFloorInfo.getFloor(newArea);
-			
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 				throw ex;

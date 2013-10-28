@@ -55,7 +55,7 @@ public class Process {
 				execute(Think.doIt(getPossibleAction()));
 				long delta = System.currentTimeMillis() - start;
 				if (delta < 5000) Thread.sleep(5000 - delta);
-				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy) Thread.sleep(600000); // 半夜速度慢点
+				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy) Thread.sleep(60000); // 半夜速度慢点
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -133,7 +133,7 @@ public class Process {
 				break;
 			case levelUp:
 				if (Info.AutoAddp == false) {
-					//Go.log("自动加点已关闭");
+					Go.log("自动加点已关闭");
 				} else {
 					result.add(Action.LV_UP);				
 				}
@@ -188,7 +188,7 @@ public class Process {
 		case LOGIN:
 			try {
 				if (Login.run()) {
-					Go.log(String.format("User: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, money: %d",
+					Go.log(String.format("玩家: %s, AP: %d/%d, BC: %d/%d, Card: %d/%d, ticket: %d, money: %d",
 							info.username, info.ap, info.apMax, info.bc, info.bcMax,
 							info.cardList.size(), info.cardMax, info.ticket, info.money));	
 					info.events.push(Info.EventType.fairyAppear);
@@ -206,8 +206,8 @@ public class Process {
 		case GET_FLOOR_INFO:
 			try {
 				if (GetFloorInfo.run()) {
-					if (Process.info.AllClear) Process.info.front = Process.info.floor.get(1);
-					Go.log(String.format("Area(%d) Front: %s>%s@c=%d", 
+					if (Process.info.AllClear | Info.MinAPOnly) Process.info.front = Process.info.floor.firstEntry().getValue();
+					Go.log(String.format("Area(%d层) Front: %s > %s层 消耗=%d", 
 							info.area.size(), 
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName, 
 							info.front.floorId, 
@@ -226,7 +226,7 @@ public class Process {
 		case ADD_AREA:
 			try {
 				if (AddArea.run()) {
-					Go.log(String.format("Area(%d) Front: %s>%s@c=%d", 
+					Go.log(String.format("Area(%d层) Front: %s > %s层 消耗=%d", 
 							info.area.size(), 
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName, 
 							info.front.floorId, 
@@ -267,7 +267,7 @@ public class Process {
 		case GOTO_FLOOR:
 			try {
 				if (GotoFloor.run()) {
-					Go.log(String.format("Goto: AP: %d/%d, BC: %d/%d, Front:%s>%s",
+					Go.log(String.format("Goto: AP: %d/%d, BC: %d/%d, Front:%s > %s层",
 							info.ap, info.apMax, info.bc, info.bcMax,
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName, 
 							info.front.floorId));	
@@ -302,7 +302,7 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s(%s), Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+					String str = String.format("PrivateFairyBattle name=%s(%s), Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
 							info.fairy.FairyName,
 							info.FairySelectUserList.containsKey(info.fairy.UserId) ? info.FairySelectUserList.get(info.fairy.UserId).userName : "NA", 
 							info.fairy.FairyLevel, 
@@ -356,7 +356,7 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s, Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
+					String str = String.format("守卫战 name=%s, Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
 							info.gfairy.FairyName, info.gfairy.FairyLevel, info.gfairy.fairyCurrHp, info.gfairy.fairyMaxHp, info.bc, info.bcMax, info.ap, info.apMax, 
 							info.ticket, info.week, result);
 					Thread.sleep(5000);
