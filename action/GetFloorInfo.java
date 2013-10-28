@@ -6,6 +6,7 @@ import info.Floor;
 import java.util.ArrayList;
 //import java.util.Hashtable;
 
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -63,9 +64,9 @@ public class GetFloorInfo {
 			
 			int areaCount = ((NodeList)xpath.evaluate("//area_info_list/area_info", doc, XPathConstants.NODESET)).getLength();
 			if (areaCount > 0) {
-				//Process.info.area = new Hashtable<Integer,Area>();
 				Process.info.area.clear();
 				Process.info.floor.clear();
+				Process.info.MinMapAP = Integer.MAX_VALUE;
 			}
 			for (int i = 1; i <= areaCount; i++){
 				Area a = new Area();
@@ -80,7 +81,7 @@ public class GetFloorInfo {
 			for (int i : Process.info.area.keySet()) {
 				getFloor(Process.info.area.get(i));
 			} // end of area iterator
-			if (Process.info.front == null) Process.info.front = Process.info.floor.get(1);
+			if (Process.info.front == null) Process.info.front = Process.info.floor.get(Process.info.MinMapAP);
 			Process.info.SetTimeoutByAction(Name);
 			
 		} catch (Exception ex) {
@@ -129,15 +130,20 @@ public class GetFloorInfo {
 			f.cost = Integer.parseInt(xpath.evaluate(p+"cost", doc));
 			f.progress = Integer.parseInt(xpath.evaluate(p+"progress", doc));
 			f.type = xpath.evaluate(p+"type", doc);
-			if (Integer.parseInt(f.areaId) < 100000 && f.cost < 1) continue; //跳过秘境守护者
+			if (f.cost < 1) continue;
 			if (Process.info.floor.containsKey(f.cost)) {
 				if(Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer.parseInt(f.areaId)) {
 					continue;
 				}
 			}
 			Process.info.floor.put(f.cost, f);
-			if (f.progress != 100 && a.exploreProgress != 100 && Process.info.AllClear) {
-				Process.info.front = f;
+			if (f.cost < Process.info.MinMapAP && f.cost > 0) { //跳过秘境守护者 (0AP可以通过制定`this_ap_only`来实现）
+				Process.info.MinMapAP = f.cost;
+			}
+			if (f.progress != 100 && a.exploreProgress != 100) {
+				if (Process.info.front == null || Integer.parseInt(Process.info.front.areaId) < Integer.parseInt(f.areaId)) {
+					Process.info.front = f;
+				}
 				Process.info.AllClear = false;
 			}
 		}

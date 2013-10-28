@@ -7,7 +7,7 @@
 	<option> <!-- 以下四个选项如果选是则填1，否则填0 -->
 		<fairy_battle_first>0</fairy_battle_first><!-- 优先考虑妖精战 -->
 		<allow_bc_insuffient>1</allow_bc_insuffient><!-- BC不足FairyDeck的BC时，依旧跑图 -->
-		<one_ap_only>0</one_ap_only><!-- 只跑1AP的图 -->
+		<this_ap_only>-1</this_ap_only><!-- 固定跑此AP的图，-1表示让程序决定(即不固定) -->
 		<auto_add_point>0</auto_add_point><!-- 自动加点 -->
 		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
 		<night_mode>1</night_mode><!-- 夜间模式 -->

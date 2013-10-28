@@ -139,6 +139,9 @@ public class Explore {
 			case 3:
 				Process.info.ExploreResult = "Get Card";
 				break;
+			case 0:
+				Process.info.ExploreResult = "Nothing";
+				break;
 			default:
 				Process.info.ExploreResult = String.format("Code: %d", evt);
 				break;

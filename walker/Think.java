@@ -20,7 +20,7 @@ public class Think {
 	private static final int GFL_HI_PRI = 70;
 	private static final int GF_PRI = 25;
 	private static final int USE_PRI = 99;
-	public static ActionRegistry.Action doIt (List<ActionRegistry.Action> possible) {
+	public static ActionRegistry.Action doIt (List<ActionRegistry.Action> possible) throws Exception {
 		Action best = Action.NOTHING;
 		int score = Integer.MIN_VALUE + 20;
 		for (int i = 0; i < possible.size(); i++) {
@@ -225,31 +225,51 @@ public class Think {
 		}
 	}
 	
-	private static int explorePoint() {
+	private static int explorePoint() throws Exception {
 		try {
+			if (Process.info.MinMapAP == Integer.MAX_VALUE) {
+				ErrorData.currentDataType = ErrorData.DataType.text;
+				ErrorData.currentErrorType = ErrorData.ErrorType.InternalError;
+				ErrorData.text = "Internal Error: Invalid MinMapAP";
+				throw new Exception();
+			}
 			if (Info.Profile == 2) {
 				if (Process.info.ap < 1) return Integer.MIN_VALUE;
-				Process.info.front = Process.info.floor.get(1);
+				Process.info.front = Process.info.floor.get(Process.info.MinMapAP);
 				return EXPLORE_URGENT;
 			}
 			if (Process.info.bc == 0) return Integer.MIN_VALUE;
 			// 首先确定楼层
 			if (Process.info.AllClear) {
 				int ap = Process.info.ap / Process.info.bc * Info.PrivateFairyBattleNormal.BC;
-				if (ap > 1) {
+				if (ap > Process.info.MinMapAP) {
 					Process.info.front = Process.info.floor.get(ap);
 				} else {
-					Process.info.front = Process.info.floor.get(1);
+					Process.info.front = Process.info.floor.get(Process.info.MinMapAP);
 				}
 			}
-			if (Info.OneAPOnly) Process.info.front = Process.info.floor.get(1);
+			if (Info.ThisAPOnly != -1) {
+				if (Process.info.floor.containsKey(Info.ThisAPOnly)) {
+					Process.info.front = Process.info.floor.get(Info.ThisAPOnly);
+				} else {
+					ErrorData.currentErrorType = ErrorData.ErrorType.ConfigureParameterError;
+					ErrorData.currentDataType = ErrorData.DataType.text;
+					ErrorData.text = "Configure Parameter Error: Value of `this_ap_only` is invalid or not reachable.";
+					throw new Exception();
+				}
+				
+			}
 			// 判断是否可以行动
-			if (Process.info.front == null) Process.info.front = Process.info.floor.get(1);
+			if (Process.info.front == null) Process.info.front = Process.info.floor.get(Process.info.MinMapAP);
 			if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleNormal.BC) return Integer.MIN_VALUE;
 			if (Process.info.ap < Process.info.front.cost) return Integer.MIN_VALUE;
 			if (Process.info.ap == Process.info.apMax) return EXPLORE_URGENT;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
+				ex.printStackTrace();
+			} else {
+				throw ex;
+			}
 			return Integer.MIN_VALUE;
 		}
 		return EXPLORE_NORMAL;

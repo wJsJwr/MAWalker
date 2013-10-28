@@ -302,7 +302,7 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s(%s), Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+					String str = String.format("Fairy-Battle name=%s(%s), Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
 							info.fairy.FairyName,
 							info.FairySelectUserList.containsKey(info.fairy.UserId) ? info.FairySelectUserList.get(info.fairy.UserId).userName : "NA", 
 							info.fairy.FairyLevel, 
@@ -356,7 +356,7 @@ public class Process {
 							break;
 						}
 					}
-					String str = String.format("PFB name=%s, Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
+					String str = String.format("Guild-Battle name=%s, Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
 							info.gfairy.FairyName, info.gfairy.FairyLevel, info.gfairy.fairyCurrHp, info.gfairy.fairyMaxHp, info.bc, info.bcMax, info.ap, info.apMax, 
 							info.ticket, info.week, result);
 					Thread.sleep(5000);

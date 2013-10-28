@@ -38,7 +38,7 @@ public class GetConfig {
 				}
 				Info.FairyBattleFirst = xpath.evaluate("/config/option/fairy_battle_first", doc).equals("1");
 				Info.AllowBCInsuffient = xpath.evaluate("/config/option/allow_bc_insuffient", doc).equals("1");
-				Info.OneAPOnly = xpath.evaluate("/config/option/one_ap_only", doc).equals("1");
+				Info.ThisAPOnly = Integer.parseInt(xpath.evaluate("/config/option/this_ap_only", doc));
 				Info.AutoAddp = xpath.evaluate("/config/option/auto_add_point", doc).equals("1");
 				Info.AllowAttackSameFairy = xpath.evaluate("/config/option/allow_attack_same_fairy", doc).equals("1");
 				Info.debug = xpath.evaluate("/config/option/debug", doc).equals("1");
@@ -96,7 +96,7 @@ public class GetConfig {
 				break;
 			case 2:
 				
-				Info.OneAPOnly = true;
+				Info.ThisAPOnly = Integer.parseInt(xpath.evaluate("/config/option/this_ap_only", doc));
 				Info.AllowBCInsuffient = true;
 				Info.FairyBattleFirst = false;
 				

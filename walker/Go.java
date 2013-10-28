@@ -19,7 +19,7 @@ public class Go {
 		try {
 			GetConfig.parse(Process.ParseXMLBytes1(ReadFileAll(args[0])));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Go.log("[User] Configure paraments reading error, please check your xml file.");
 			return;
 		}
 		if (args.length < 3) {
@@ -44,18 +44,18 @@ public class Go {
 						}
 					} catch (Exception ex) {
 						boolean printed = false;
-						if (ex.getMessage() != null) {
-							Go.log("[System] " + ex.getMessage());
-							printed = true;
-						}
 						if (ErrorData.text != null) {
 							Go.log("[User] " + ErrorData.text);
 							ErrorData.clear();
 							printed = true;
 						}
-						if (ErrorData.bytes != null) {
+						if (ErrorData.bytes != null && printed == false) {
 							Go.log("[User] " + new String(ErrorData.bytes));
 							ErrorData.clear();
+							printed = true;
+						}
+						if (ex.getMessage() != null && printed == false) {
+							Go.log("[System] " + ex.getMessage());
 							printed = true;
 						}
 						if (printed == false) {

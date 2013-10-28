@@ -76,7 +76,11 @@ public class ErrorData {
 		RecvPFBGoodResponse,
 		// 吃药
 		UseDataError,
-		UseResponse
+		UseResponse,
+		// 参数错误
+		ConfigureParameterError,
+		//内部错误
+		InternalError
 	}
 	
 	
