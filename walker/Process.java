@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -206,7 +207,11 @@ public class Process {
 		case GET_FLOOR_INFO:
 			try {
 				if (GetFloorInfo.run()) {
-					if (Process.info.AllClear) Process.info.front = Process.info.floor.get(1);
+					if (Process.info.AllClear){
+                        ArrayList<Comparable> list = new ArrayList<Comparable>(Process.info.floor.keySet());
+                        Collections.sort(list);
+                        Process.info.front = Process.info.floor.get(list.get(0));
+                    }
 					Go.log(String.format("Area(%d) Front: %s>%s@c=%d", 
 							info.area.size(), 
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName, 
