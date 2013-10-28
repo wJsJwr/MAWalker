@@ -133,7 +133,8 @@ public class Process {
 				break;
 			case levelUp:
 				if (Info.AutoAddp == false) {
-					Go.log("自动加点已关闭");
+					//输出次数太多，屏蔽掉
+					//Go.log("自动加点已关闭");
 				} else {
 					result.add(Action.LV_UP);				
 				}
