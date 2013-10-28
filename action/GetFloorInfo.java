@@ -129,7 +129,7 @@ public class GetFloorInfo {
 			f.cost = Integer.parseInt(xpath.evaluate(p+"cost", doc));
 			f.progress = Integer.parseInt(xpath.evaluate(p+"progress", doc));
 			f.type = xpath.evaluate(p+"type", doc);
-			if (f.cost < 1) continue; //跳过秘境守护者
+			if (Integer.parseInt(f.areaId) < 100000 && f.cost < 1) continue; //跳过秘境守护者
 			if (Process.info.floor.containsKey(f.cost)) {
 				if(Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer.parseInt(f.areaId)) {
 					continue;

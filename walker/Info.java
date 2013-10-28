@@ -48,6 +48,7 @@ public class Info {
 	public int pointToAdd = 0;
 	public int apUp = 0;
 	public int bcUp = 0;
+	public long money = 0;
 	
 	/**
 	 * 优先进行妖精战

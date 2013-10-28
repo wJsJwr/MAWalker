@@ -74,6 +74,7 @@ public class Explore {
 			Process.info.bc = Integer.parseInt(xpath.evaluate("//bc/current", doc));
 			Process.info.bcMax = Integer.parseInt(xpath.evaluate("//bc/max", doc));
 			Process.info.guildId = xpath.evaluate("//your_data/party_id", doc);
+			Process.info.money = Long.parseLong(xpath.evaluate("//your_data/gold", doc));
 			
 			Process.info.SetTimeoutByAction(Name);
 			
@@ -94,6 +95,8 @@ public class Explore {
 				Process.info.fairy.FairyLevel = xpath.evaluate("//ex_fairy/fairy/lv", doc);
 				Process.info.fairy.SerialId = xpath.evaluate("//ex_fairy/fairy/serial_id", doc);
 				Process.info.fairy.UserId = xpath.evaluate("//ex_fairy/fairy/discoverer_id", doc);
+				Process.info.fairy.fairyCurrHp = Integer.parseInt(xpath.evaluate("//ex_fairy/fairy/hp",doc));
+				Process.info.fairy.fairyMaxHp = Integer.parseInt(xpath.evaluate("//ex_fairy/fairy/hp_max",doc));
 				
 				Process.info.events.push(Info.EventType.privateFairyAppear);
 				Process.info.events.push(Info.EventType.recvPFBGood);

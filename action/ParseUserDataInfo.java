@@ -22,6 +22,7 @@ public class ParseUserDataInfo {
 		Process.info.bc = Integer.parseInt(xpath.evaluate("//your_data/bc/current", doc));
 		Process.info.bcMax = Integer.parseInt(xpath.evaluate("//your_data/bc/max", doc));
 		Process.info.guildId = xpath.evaluate("//your_data/party_id", doc);
+		Process.info.money = Long.parseLong(xpath.evaluate("//your_data/gold", doc));
 		if ((boolean)xpath.evaluate("count(//your_data/free_ap_bc_point)>0", doc, XPathConstants.BOOLEAN)) {
 			Process.info.pointToAdd = Integer.parseInt(xpath.evaluate("//your_data/free_ap_bc_point", doc));
 			if (Process.info.pointToAdd > 0) Process.info.events.push(Info.EventType.levelUp);

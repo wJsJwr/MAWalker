@@ -22,6 +22,9 @@ public class FairyBattleInfo {
 	public String FairyName = "";
 	public String FairyLevel = "";
 	public String Finder = "";
+	
+	public int fairyCurrHp = 0;
+	public int fairyMaxHp = 0;
 
 	public boolean equals(FairyBattleInfo b) {
 		return this.UserId.equals(b.UserId) && this.SerialId.equals(b.SerialId);
@@ -36,6 +39,8 @@ public class FairyBattleInfo {
 		this.FairyName = fbi.FairyName;
 		this.FairyLevel = fbi.FairyLevel;
 		this.Finder = fbi.Finder;
+		this.fairyCurrHp = fbi.fairyCurrHp;
+		this.fairyMaxHp = fbi.fairyMaxHp;
 	}
 
 	public FairyBattleInfo() {
