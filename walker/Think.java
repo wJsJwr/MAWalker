@@ -242,7 +242,11 @@ public class Think {
 					Process.info.front = Process.info.floor.get(1);
 				}
 			}
-			if (Info.OneAPOnly) Process.info.front = Process.info.floor.get(1);
+			if (Info.OneAPOnly){
+                ArrayList<Comparable> list = new ArrayList<Comparable>(Process.info.floor.keySet());
+                Collections.sort(list);
+                Process.info.front = Process.info.floor.get(list.get(0));
+            }
 			// 判断是否可以行动
 			if (Process.info.front == null) Process.info.front = Process.info.floor.get(1);
 			if (!Info.AllowBCInsuffient && Process.info.bc < Info.PrivateFairyBattleNormal.BC) return Integer.MIN_VALUE;
