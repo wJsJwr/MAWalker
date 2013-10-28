@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import action.ActionRegistry;
 
@@ -61,7 +62,7 @@ public class Info {
 	/**
 	 * 只走cost1的图
 	 */
-	public static boolean OneAPOnly = false;
+	public static boolean MinAPOnly = false;
 	/**
 	 * 自动加点
 	 */
@@ -119,7 +120,7 @@ public class Info {
 	
 	
 	// floor
-	public Hashtable<Integer,Floor> floor;
+	public TreeMap<Integer,Floor> floor;
 	public Floor front;
 	public boolean AllClear = false;
 	
@@ -234,7 +235,7 @@ public class Info {
 	public Info() {
 		cardList = new ArrayList<Card>();
 		area = new Hashtable<Integer,Area>();
-		floor = new Hashtable<Integer,Floor>();
+		floor = new TreeMap<Integer,Floor>();
 		front = new Floor();
 		PFBGoodList = new Stack<PFBGood>();
 		events = new Stack<EventType>();
