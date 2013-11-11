@@ -4,13 +4,15 @@
 	<password></password>
 	<user_agent>Million/241 (t03gchn; t03gzc; 4.1.2) samsung/t03gzc/t03gchn:4.1.2/JZO54K/N7100ZCDMD3:user/release-keys GooglePlay</user_agent>
 	<profile>1</profile><!-- 不要改 -->
-	<option> <!-- 以下四个选项如果选是则填1，否则填0 -->
+	
+	<!-- 以下选项未特别说明，选是则填1，否则填0 -->
+	<option> 
 		<fairy_battle_first>0</fairy_battle_first><!-- 优先考虑妖精战 -->
 		<allow_bc_insuffient>1</allow_bc_insuffient><!-- BC不足FairyDeck的BC时，依旧跑图 -->
 		<min_ap_only>0</min_ap_only><!-- 只跑最低AP的图 -->
 		<go_stop>1</go_stop><!--遇敌停步-->
-		<auto_add_point>1</auto_add_point><!-- 自动加点 -->
-		<specil_instance>1</specil_instance><!--每日限定副本-->
+		<auto_add_point>1</auto_add_point><!-- 自动加点，0不加，1全加BC，2全加AP -->
+		<specil_instance>1</specil_instance><!--每日限定副本（送红绿试管的那两个）-->
 		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
 		<night_mode>1</night_mode><!-- 夜间模式 -->
 		<receive_battle_present>1</receive_battle_present><!-- 自动收集妖精战礼物 -->
