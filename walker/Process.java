@@ -40,7 +40,6 @@ import action.Use;
 public class Process {
 	public static Info info;
 	public static Network network;
-	
 	public Process() {
 		info = new Info();
 		network = new Network();
@@ -89,6 +88,8 @@ public class Process {
 			case cookieOutOfDate:
 				result.add(Action.LOGIN);
 				break;
+			case GetReawdbox:
+				result.add(Action.GET_REWARD_BOX);
 			case fairyTransform:
 				Go.log("Rare Fairy Appear");
 			case privateFairyAppear:
@@ -96,7 +97,7 @@ public class Process {
 				result.add(Action.PRIVATE_FAIRY_BATTLE);
 				break;
 			case fairyReward:
-				if (info.ticket > 0) {
+				if (info.ticket > 10) {
 					result.add(Action.GUILD_TOP);
 				} else if (info.ticket < 0) {
 					Go.log("Keep reward");
@@ -121,7 +122,15 @@ public class Process {
 			case getFairyReward:
 				break;
 			case guildBattle:
-				result.add(Action.GUILD_BATTLE);
+				if(info.gfairy.Spp.equals("使用BC3％回復")) {
+					result.add(Action.GUILD_BATTLE);
+					info.GuildBattleFlag = true;
+				}else if (info.ticket >= 15) {
+					result.add(Action.GUILD_BATTLE);
+				}else if(info.GuildBattleFlag){
+					result.add(Action.GUILD_BATTLE);
+					info.GuildBattleFlag = false;
+				}
 				break;
 			case guildTopRetry:
 			case guildTop:
@@ -132,7 +141,7 @@ public class Process {
 				result.add(Action.GOTO_FLOOR);
 				break;
 			case levelUp:
-				if (Info.AutoAddp == false) {
+				if (Info.AutoAddp == 0) {
 					//输出次数太多，屏蔽掉
 					//Go.log("自动加点已关闭");
 				} else {
@@ -177,7 +186,17 @@ public class Process {
 				break;
 			}				
 		}
-		result.add(Action.EXPLORE);
+		if (!Process.info.OwnFairyKilled && Info.GoStop && (info.ap < info.apMax || info.lv < 30)){
+			result.add(Action.GET_FAIRY_LIST);
+			Go.log("sleeping......");
+			try {
+				Thread.sleep(15000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}else result.add(Action.EXPLORE);
+		result.add(Action.SELL_CARD);
 		result.add(Action.USE);
 		// result.add(Action.GOTO_FLOOR);
 		if (Info.FairyBattleFirst) result.add(Action.GET_FAIRY_LIST);
@@ -197,6 +216,8 @@ public class Process {
 				} else {
 					info.events.push(Info.EventType.notLoggedIn);
 				}
+				Login.listRewardbox();
+				//OtherRequest.run();
 			} catch (Exception ex) {
 				info.events.push(Info.EventType.notLoggedIn);
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
@@ -393,7 +414,7 @@ public class Process {
 		case LV_UP:
 			try {
 				if (LvUp.run()) {
-					Go.log(String.format("Level UP! AP:%d BC:%d", Process.info.apMax, Process.info.bcMax));
+					//Go.log(String.format("Level UP! AP:%d BC:%d", Process.info.apMax, Process.info.bcMax));
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) throw ex;

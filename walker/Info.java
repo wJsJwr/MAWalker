@@ -2,6 +2,7 @@
 package walker;
 
 import info.Area;
+import info.Box;
 import info.Card;
 import info.Deck;
 import info.FairyBattleInfo;
@@ -55,6 +56,18 @@ public class Info {
 	 * 优先进行妖精战
 	 */
 	public static boolean FairyBattleFirst = true;
+	public boolean OwnFairyKilled = true;
+	
+	/**
+	 * 遇敌停步
+	 */
+	public static boolean GoStop = true;
+	
+	/**
+	 * 每日限定副本
+	 */
+	public static boolean SpecilInstance = true;
+	
 	/**
 	 * 允许deck不满足的情况下依旧走图和攻击
 	 */
@@ -66,7 +79,7 @@ public class Info {
 	/**
 	 * 自动加点
 	 */
-	public static boolean AutoAddp = true;
+	public static int AutoAddp = 0;
 	/**
 	 * 允许舔同一个怪
 	 */
@@ -84,6 +97,10 @@ public class Info {
 	 * 自动收集妖精战礼物
 	 */
 	public static boolean receiveBattlePresent = true;
+	/**
+	 * 骑士团战斗标记
+	 */
+	public boolean GuildBattleFlag = false;
 	
 	// 吃药相关的开关
 	public static boolean autoUseAp = true;
@@ -105,6 +122,10 @@ public class Info {
 	public static ArrayList<String> CanBeSold = new ArrayList<String>();
 	public static ArrayList<String> KeepCard;
 	public String toSell = "";
+	
+	//box list
+	public ArrayList<Box> boxList;
+	public String toGet = "";
 	
 	// deck
 	public static Deck FriendFairyBattleRare = new Deck();
@@ -227,7 +248,7 @@ public class Info {
 		needAPBCInfo,
 		levelUp,
 		PFBGood,
-		recvPFBGood, gotoFloor
+		recvPFBGood, gotoFloor, GetReawdbox
 	}
 	public Stack<EventType> events;
 	

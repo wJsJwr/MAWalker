@@ -172,40 +172,23 @@ public class Think {
 			Process.info.gfairy.No = Info.PublicFairyBattle.No;
 			break;
 		case 4:
-			if (Info.AllowBCInsuffient == false && Process.info.bc < Info.FriendFairyBattleNormal.BC) return false;
 			if (Process.info.bc < 2) return false;
 			Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
 			break;
 		case 5:
-			if(Info.AllowBCInsuffient == false) {
-				if(Process.info.bc < Info.FriendFairyBattleRare.BC) {
-					return false;
-				} else {
+			if(Process.info.bc < 2) return false;
+			if(Process.info.bc >= Info.FriendFairyBattleRare.BC) {
 					Process.info.fairy.No = Info.FriendFairyBattleRare.No;
-				}
-			} else if(Process.info.bc >= 2) {
-				Process.info.fairy.No = Info.FriendFairyBattleRare.No;
-			} else {
-				return false;
-			}
+				}else Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
 			break;
 		case 6:
-			if (Info.AllowBCInsuffient == false && Process.info.bc < Info.PrivateFairyBattleNormal.BC) return false;
 			if (Process.info.bc < 2) return false;
 			Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
 			break;
 		case 7:
-			if(Info.AllowBCInsuffient == false) {
-				if(Process.info.bc < Info.PrivateFairyBattleRare.BC) {
-					return false;
-				} else {
-					Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-				}
-			} else if(Process.info.bc >= 2) {
+			if(Process.info.bc >= Info.PrivateFairyBattleRare.BC) {
 				Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-			} else {
-				return false;
-			}
+			}else return false;
 			break;
 		default:
 			return false;
@@ -214,11 +197,11 @@ public class Think {
 	}
 	
 	private static void decideUpPoint() {
-		if (Info.Profile == 1) {
+		if (Info.AutoAddp == 1) {
 			//主号全加BC
 			Process.info.apUp = 0;
 			Process.info.bcUp = Process.info.pointToAdd;
-		} else if (Info.Profile == 2) {
+		} else if (Info.AutoAddp == 2) {
 			//小号全加AP
 			Process.info.apUp = Process.info.pointToAdd;
 			Process.info.bcUp = 0;
@@ -237,7 +220,7 @@ public class Think {
 			if (Process.info.bc == 0) return Integer.MIN_VALUE;
 			
 			// 首先确定楼层
-			if (Info.MinAPOnly | Process.info.AllClear) {
+			if ((Info.MinAPOnly | Process.info.AllClear) && Process.info.InnerMap) {
 				Process.info.front = Process.info.floor.firstEntry().getValue();
 			}
 			
@@ -275,9 +258,11 @@ public class Think {
 			String toSell = "";
 			for (Card c : Process.info.cardList) {
 				if (!c.exist) continue;
-				if (c.holo && c.hp >= 3500) continue; //闪卡不卖，但是低等级的闪卡照样要卖
+				if (c.holo && c.price >= 3300) continue; //闪卡不卖，但是低等级的闪卡照样要卖
 				if (c.hp > 6000) continue; //防止不小心把贵重卡片卖了 
-				if (Info.CanBeSold.contains(c.cardId)) {
+				if (c.hp <= 2 && c.atk <= 2) continue;
+				if (c.cardId.equals(124) || c.cardId.equals(142)) continue;
+				if (c.price <= 3300) {
 					if (toSell.isEmpty()) {
 						toSell = c.serialId;
 					} else {

@@ -69,8 +69,10 @@ public class PrivateFairyBattle {
 			ParseCardList.parse(doc);
 			if (xpath.evaluate("//battle_result/winner", doc).equals("1")) {
 				Process.info.events.push(Info.EventType.fairyBattleWin);
+				Process.info.OwnFairyKilled = true;
 			} else {
 				Process.info.events.push(Info.EventType.fairyBattleLose);
+				Process.info.OwnFairyKilled = false;
 			}
 			
 			//Process.info.fairy.FairyName = xpath.evaluate("//battle_vs_info/player[last()]/name", doc);

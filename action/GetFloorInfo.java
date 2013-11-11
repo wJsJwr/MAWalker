@@ -74,13 +74,19 @@ public class GetFloorInfo {
 				a.areaName = xpath.evaluate(p+"name", doc);
 				a.exploreProgress = Integer.parseInt(xpath.evaluate(p+"prog_area", doc));
 				if (a.areaId > 100000) Process.info.area.put(a.areaId, a);
+				if (Info.SpecilInstance && (a.areaId == 50003 || a.areaId == 50004)) Process.info.area.put(a.areaId, a);				
 			}
 			Process.info.AllClear = true;
 			Process.info.front = null;
-			for (int i : Process.info.area.keySet()) {
+			if (Process.info.area.containsKey(50003) && Process.info.area.get(50003).exploreProgress != 100){
+				getFloor(Process.info.area.get(50003));				
+			}else if(Process.info.area.containsKey(50004) && Process.info.area.get(50004).exploreProgress != 100){
+				getFloor(Process.info.area.get(50004));
+			 }else {
+			    for (int i : Process.info.area.keySet()) {
 				getFloor(Process.info.area.get(i));
-			} // end of area iterator
-			
+			    } // end of area iterator
+			 }
 			int floor = ((Info.MinAPOnly == true) ? Process.info.floor.firstKey() : Process.info.floor.lastKey());
 			if (Process.info.front == null) Process.info.front = Process.info.floor.get(floor);
 			Process.info.SetTimeoutByAction(Name);
@@ -130,7 +136,7 @@ public class GetFloorInfo {
 			f.cost = Integer.parseInt(xpath.evaluate(p+"cost", doc));
 			f.progress = Integer.parseInt(xpath.evaluate(p+"progress", doc));
 			f.type = xpath.evaluate(p+"type", doc);
-			if (Integer.parseInt(f.areaId) < 100000 && f.cost < 1) continue; //跳过秘境守护者
+			if (Integer.parseInt(f.areaId) < 100000 && f.cost < 1 && Integer.parseInt(f.areaId) != 50003) continue; //跳过秘境守护者
 			if (Process.info.floor.containsKey(f.cost)) {
 				if(Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer.parseInt(f.areaId)) {
 					continue;

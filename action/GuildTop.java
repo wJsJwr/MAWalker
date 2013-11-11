@@ -74,6 +74,7 @@ public class GuildTop {
 			Process.info.gfairy.FairyLevel = xpath.evaluate("//fairy/lv", doc);
 			Process.info.gfairy.fairyCurrHp = Integer.parseInt(xpath.evaluate("//fairy/hp", doc));
 			Process.info.gfairy.fairyMaxHp = Integer.parseInt(xpath.evaluate("//fairy/hp_max", doc));
+			Process.info.gfairy.Spp = xpath.evaluate("//spp_skill_effect", doc);//使用BC3％回復
 			
 			Process.info.events.push(Info.EventType.guildBattle);
 			

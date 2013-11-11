@@ -98,7 +98,7 @@ public class GetFairyList {
 			// TODO: 这两周先是只寻找0BC的，之后再扩展
 			//NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=4]/fairy", doc, XPathConstants.NODESET);
 			NodeList fairy = (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=1]/fairy", doc, XPathConstants.NODESET);
-			
+			Process.info.OwnFairyKilled = true;
 			ArrayList<FairyBattleInfo> fbis = new ArrayList<FairyBattleInfo>();
 			for (int i = 0; i < fairy.getLength(); i++) {
 				Node f = fairy.item(i).getFirstChild();
@@ -138,7 +138,9 @@ public class GetFairyList {
 					}
 					if (!attack_flag) fbis.add(fbi);
 				}
-				
+				if(Process.info.userId.equals(fbi.UserId)){
+					Process.info.OwnFairyKilled = false;
+				}
 			}
 			
 			

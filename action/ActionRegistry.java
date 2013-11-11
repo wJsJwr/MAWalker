@@ -17,6 +17,7 @@ public class ActionRegistry {
 		LV_UP,
 		PFB_GOOD,
 		RECV_PFB_GOOD,
-		USE
+		USE, 
+		GET_REWARD_BOX
 	}
 }

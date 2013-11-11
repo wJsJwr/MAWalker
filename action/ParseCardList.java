@@ -31,6 +31,7 @@ public class ParseCardList {
 			c.hp = Integer.parseInt(xpath.evaluate(p+"/hp", doc));
 			c.atk = Integer.parseInt(xpath.evaluate(p+"/power", doc));
 			c.plusLimit = Integer.parseInt(xpath.evaluate(p+"/plus_limit_count", doc));
+			c.price = Integer.parseInt(xpath.evaluate(p+"/sale_price", doc));
 			c.exist = true;
 			Process.info.cardList.add(c);
 		}
