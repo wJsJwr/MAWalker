@@ -5,7 +5,7 @@ public class FairyBattleInfo {
 	public String UserId = "";
 	public String SerialId = "";
 	public String No = "2";
-	public final String Spp = "dummy";
+	public String Spp = "dummy";
 
 	public static final int RARE = 0x1;
 	public static final int SELF = 0x2;

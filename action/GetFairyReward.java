@@ -13,6 +13,8 @@ public class GetFairyReward {
 	public static final Action Name = Action.GET_FAIRY_REWARD;
 	
 	private static final String URL_GET_FAIRY_REWARD = "http://web.million-arthurs.com/connect/app/private_fairy/private_fairy_rewards?cyt=1";
+	//private static final String URL_GET_FAIRY_REWARD = "http://web.million-arthurs.com/connect/app/menu/rewardbox?cyt=1";
+	//private static final String URL_GET_FAIRY_REWARD = "http://web.million-arthurs.com/connect/app/menu/get_rewards?cyt=1";
 	private static byte[] response;
 	
 	public static boolean run() throws Exception {
@@ -54,6 +56,8 @@ public class GetFairyReward {
 			}
 		}
 		
+		GetRewardBox.list();
+		if (Process.info.boxList.size() >= 650) GetRewardBox.get();
 		return false;
 	}
 	

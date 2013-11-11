@@ -10,4 +10,5 @@ public class Card {
 	public int lvMax = 0;
 	public int plusLimit = 0;
 	public boolean exist = true;
+	public int price;
 }

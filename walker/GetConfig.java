@@ -39,11 +39,13 @@ public class GetConfig {
 				Info.FairyBattleFirst = xpath.evaluate("/config/option/fairy_battle_first", doc).equals("1");
 				Info.AllowBCInsuffient = xpath.evaluate("/config/option/allow_bc_insuffient", doc).equals("1");
 				Info.MinAPOnly = xpath.evaluate("/config/option/min_ap_only", doc).equals("1");
-				Info.AutoAddp = xpath.evaluate("/config/option/auto_add_point", doc).equals("1");
+				Info.AutoAddp = Integer.parseInt(xpath.evaluate("/config/option/auto_add_point", doc));
 				Info.AllowAttackSameFairy = xpath.evaluate("/config/option/allow_attack_same_fairy", doc).equals("1");
 				Info.debug = xpath.evaluate("/config/option/debug", doc).equals("1");
 				Info.nightModeSwitch = xpath.evaluate("/config/option/night_mode", doc).equals("1");
 				Info.receiveBattlePresent = xpath.evaluate("/config/option/receive_battle_present", doc).equals("1");
+				Info.GoStop = xpath.evaluate("/config/option/go_stop", doc).equals("1");
+				Info.SpecilInstance = xpath.evaluate("/config/option/specil_instance", doc).equals("1");
 				
 				Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc).equals("1");
 				if (Info.autoUseAp) {

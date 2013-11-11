@@ -57,6 +57,9 @@ public class ErrorData {
 		// 获取妖精站礼物
 		GetFairyRewardDataError,
 		GetFairyRewardResponse,
+		// 取箱
+		GetRewardBoxDataError,
+		GetRewardBoxReponse,
 		// 卖卡
 		SellCardDataError,
 		SellCardResponse,
@@ -76,7 +79,9 @@ public class ErrorData {
 		RecvPFBGoodResponse,
 		// 吃药
 		UseDataError,
-		UseResponse
+		UseResponse, 
+		//
+		GetQuestError
 	}
 	
 	
