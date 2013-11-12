@@ -47,7 +47,6 @@ public class GetRewardBox {
 			throw ex;
 		}
 		parse(doc);
-		Go.log(String.format("你的报酬箱里有[%d]个物品。", Process.info.boxList.size()));
 	}
 
 	public static void parse(Document doc) throws NumberFormatException,
@@ -166,6 +165,7 @@ public class GetRewardBox {
 		if (!toSell.isEmpty()) {
 			SellCard.run();
 			Go.log(ErrorData.text);
+			ErrorData.text = null;
 		}
 	}
 }

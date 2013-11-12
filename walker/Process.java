@@ -127,6 +127,8 @@ public class Process {
 			case getFairyReward:
 				break;
 			case guildBattle:
+				if (info.bc == info.bcMax && info.ticket <15)
+					break;
 				if (info.gfairy.Spp.equals("使用BC3％回復")) {
 					result.add(Action.GUILD_BATTLE);
 				} else if (info.ticket >= 15) {
@@ -406,21 +408,24 @@ public class Process {
 							break;
 						}
 					}
-					String str = String
-							.format("守卫战 name=%s, Lv: %s, HP:%d/%d, bc: %d/%d, ap: %d/%d, Buff: %s, 贡献：(%s+%s)=%s(%s)week:%s, ticket: %d, exp:%d, %s",
+					String str1 = String
+							.format("守卫战 name=%s, Lv: %s, HP:%d/%d, bc: %d/%d, ap: %d/%d, Buff: %s",
 									info.gfairy.FairyName,
 									info.gfairy.FairyLevel,
 									info.gfairy.fairyCurrHp,
 									info.gfairy.fairyMaxHp, info.bc,
 									info.bcMax, info.ap, info.apMax,
-									info.gfairy.Spp,
-									info.gfairy.battle_contribution,
-									info.gfairy.hp_contribution,
-									info.gfairy.contribution,
-									info.gfairy.attack_compensation, info.week,
-									info.ticket, info.exp, result);
+									info.gfairy.Spp);
+					String str2 = String.format(
+							"贡献：(%s+%s)=%s(%s)week:%s, ticket: %d, exp:%d, %s",
+							info.gfairy.battle_contribution,
+							info.gfairy.hp_contribution,
+							info.gfairy.contribution,
+							info.gfairy.attack_compensation, info.week,
+							info.ticket, info.exp, result);
 					Thread.sleep(5000);
-					Go.log(str);
+					Go.log(str1);
+					Go.log(str2);
 				} else {
 
 				}
