@@ -46,6 +46,7 @@ public class GetConfig {
 				Info.receiveBattlePresent = xpath.evaluate("/config/option/receive_battle_present", doc).equals("1");
 				Info.GoStop = xpath.evaluate("/config/option/go_stop", doc).equals("1");
 				Info.SpecilInstance = xpath.evaluate("/config/option/specil_instance", doc).equals("1");
+				Info.InnerInstance = xpath.evaluate("/config/option/inner_instance", doc).equals("1");
 				
 				Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc).equals("1");
 				if (Info.autoUseAp) {

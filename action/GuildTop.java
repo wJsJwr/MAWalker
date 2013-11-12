@@ -8,6 +8,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.http.NameValuePair;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
 import walker.Info;
@@ -75,6 +76,11 @@ public class GuildTop {
 			Process.info.gfairy.fairyCurrHp = Integer.parseInt(xpath.evaluate("//fairy/hp", doc));
 			Process.info.gfairy.fairyMaxHp = Integer.parseInt(xpath.evaluate("//fairy/hp_max", doc));
 			Process.info.gfairy.Spp = xpath.evaluate("//spp_skill_effect", doc);//使用BC3％回復
+			int i = ((NodeList)xpath.evaluate("//guild_log", doc, XPathConstants.NODESET)).getLength();
+			String p = String.format("//guild_log[%d]", i);
+			Process.info.gfairy.UserId = xpath.evaluate(p+"/user_name", doc);
+			Process.info.gfairy.attack_compensation = xpath.evaluate("//attack_compensation", doc);
+			//Go.log(String.format("最后攻击的是%s",Process.info.gfairy.UserId));
 			
 			Process.info.events.push(Info.EventType.guildBattle);
 			

@@ -6,6 +6,10 @@ public class FairyBattleInfo {
 	public String SerialId = "";
 	public String No = "2";
 	public String Spp = "dummy";
+	public String battle_contribution = "";
+	public String hp_contribution = "";
+	public String attack_compensation = "";
+	public String contribution = "";
 
 	public static final int RARE = 0x1;
 	public static final int SELF = 0x2;
