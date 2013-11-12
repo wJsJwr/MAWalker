@@ -120,7 +120,8 @@ public class Login {
         		//GetRewardBox.list();
                 if(Process.info.boxList.size() == 0) break;
         		GetRewardBox.get();
-        		if(Process.info.cardList.size()== 300) break;
+        		GetRewardBox.sell();
+        		if(Process.info.cardList.size() == 300) break;
             }while (true);        	
         }
                		

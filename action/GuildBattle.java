@@ -72,6 +72,10 @@ public class GuildBattle {
 			}
 
 			Process.info.week = xpath.evaluate("//week_total_contribution", doc);
+			Process.info.exp = Integer.parseInt(xpath.evaluate("//own_fairy_battle_result/user_state_new/exp_next", doc));
+			Process.info.gfairy.battle_contribution = xpath.evaluate("//battle_contribution", doc);
+			Process.info.gfairy.hp_contribution = xpath.evaluate("//hp_contribution", doc);
+			Process.info.gfairy.contribution = xpath.evaluate("//contribution", doc);
 			
 			Process.info.SetTimeoutByAction(Name);
 			

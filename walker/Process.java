@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +21,7 @@ import org.w3c.dom.Document;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
+import walker.Process;
 import walker.Info.TimeoutEntry;
 import action.ActionRegistry.Action;
 import action.AddArea;
@@ -26,6 +29,7 @@ import action.Explore;
 import action.GetFairyList;
 import action.GetFairyReward;
 import action.GetFloorInfo;
+import action.GetRewardBox;
 import action.GotoFloor;
 import action.GuildBattle;
 import action.GuildTop;
@@ -91,9 +95,6 @@ public class Process {
 			case cookieOutOfDate:
 				result.add(Action.LOGIN);
 				break;
-			case GetReawdbox:
-				result.add(Action.GET_REWARD_BOX);
-				break;
 			case fairyTransform:
 				Go.log("Rare Fairy Appear");
 			case privateFairyAppear:
@@ -126,14 +127,12 @@ public class Process {
 			case getFairyReward:
 				break;
 			case guildBattle:
-				if (info.gfairy.Spp.equals("使用BC3％回復")) {
+				if(info.gfairy.Spp.equals("使用BC3％回復")) {
 					result.add(Action.GUILD_BATTLE);
-					info.GuildBattleFlag = true;
-				} else if (info.ticket >= 15) {
+				}else if (info.ticket >= 15) {
 					result.add(Action.GUILD_BATTLE);
-				} else if (info.GuildBattleFlag) {
+				}else if(!Process.info.gfairy.UserId.equals(Process.info.username)){
 					result.add(Action.GUILD_BATTLE);
-					info.GuildBattleFlag = false;
 				}
 				break;
 			case guildTopRetry:
@@ -224,11 +223,10 @@ public class Process {
 									info.cardMax, info.ticket, info.money));
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
+					Login.listRewardbox();
 				} else {
 					info.events.push(Info.EventType.notLoggedIn);
 				}
-				Login.listRewardbox();
-				// OtherRequest.run();
 			} catch (Exception ex) {
 				info.events.push(Info.EventType.notLoggedIn);
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
@@ -239,9 +237,9 @@ public class Process {
 		case GET_FLOOR_INFO:
 			try {
 				if (GetFloorInfo.run()) {
-					if (Process.info.AllClear | Info.MinAPOnly)
-						Process.info.front = Process.info.floor.firstEntry()
-								.getValue();
+					// if (Process.info.AllClear | Info.MinAPOnly)
+					//	Process.info.front = Process.info.floor.firstEntry()
+					//			.getValue();
 					Go.log(String.format(
 							"Area(%d层) Front: %s > %s层 消耗=%d",
 							info.area.size(),
@@ -407,14 +405,16 @@ public class Process {
 							break;
 						}
 					}
-					String str = String
-							.format("守卫战 name=%s, Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, week:%s, %s",
-									info.gfairy.FairyName,
-									info.gfairy.FairyLevel,
-									info.gfairy.fairyCurrHp,
-									info.gfairy.fairyMaxHp, info.bc,
-									info.bcMax, info.ap, info.apMax,
-									info.ticket, info.week, result);
+					String str = 
+							String.format("守卫战 name=%s, Lv: %s, HP:%d/%d, bc: %d/%d, ap: %d/%d, Buff: %s, 贡献：(%s+%s)=%s(%s)week:%s, ticket: %d, exp:%d, %s",
+							info.gfairy.FairyName, info.gfairy.FairyLevel, 
+							info.gfairy.fairyCurrHp, info.gfairy.fairyMaxHp, 
+							info.bc, info.bcMax, 
+							info.ap, info.apMax, 
+							info.gfairy.Spp, 
+							info.gfairy.battle_contribution, info.gfairy.hp_contribution, 
+							info.gfairy.contribution, info.gfairy.attack_compensation, 
+							info.week, info.ticket, info.exp, result);
 					Thread.sleep(5000);
 					Go.log(str);
 				} else {
@@ -443,6 +443,9 @@ public class Process {
 				if (GetFairyReward.run()) {
 					Go.log(ErrorData.text);
 					ErrorData.clear();
+					GetRewardBox.list();
+					if (Process.info.boxList.size() >= 650) 
+						GetRewardBox.get();
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
@@ -591,8 +594,8 @@ public class Process {
 		}
 
 		// System.out.println(docString);
-		File fp = new File(String.format("xml/%d.xml",
-				System.currentTimeMillis()));
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		File fp=new File(String.format("xml/%s.xml", df.format(new Date())));
 		PrintWriter pfp;
 		try {
 			pfp = new PrintWriter(fp);

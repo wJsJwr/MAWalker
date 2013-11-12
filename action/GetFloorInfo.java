@@ -73,8 +73,11 @@ public class GetFloorInfo {
 				a.areaId = Integer.parseInt(xpath.evaluate(p+"id", doc));
 				a.areaName = xpath.evaluate(p+"name", doc);
 				a.exploreProgress = Integer.parseInt(xpath.evaluate(p+"prog_area", doc));
-				if (a.areaId > 100000) Process.info.area.put(a.areaId, a);
-				if (Info.SpecilInstance && (a.areaId == 50003 || a.areaId == 50004)) Process.info.area.put(a.areaId, a);				
+				a.areaType = (a.areaId >= 105901)? 1 : 0;
+				if (a.areaType == 1) {
+					if (Info.InnerInstance) Process.info.area.put(a.areaId, a); 
+				}else if (a.areaId > 100000) Process.info.area.put(a.areaId, a);
+				if (Info.SpecilInstance && (a.areaId == 50003 || a.areaId == 50004)) Process.info.area.put(a.areaId, a);
 			}
 			Process.info.AllClear = true;
 			Process.info.front = null;
@@ -87,7 +90,15 @@ public class GetFloorInfo {
 				getFloor(Process.info.area.get(i));
 			    } // end of area iterator
 			 }
-			int floor = ((Info.MinAPOnly == true) ? Process.info.floor.firstKey() : Process.info.floor.lastKey());
+			
+			int floor;
+			boolean inner_flag = Process.info.floor.firstEntry().getValue().innerFlag;
+
+			if (Info.MinAPOnly == true || Process.info.AllClear) {
+				if (Info.InnerInstance) {
+					floor = (inner_flag) ? Process.info.floor.firstKey() : Process.info.floor.lastKey();
+				}else floor = Process.info.floor.firstKey();
+			}else floor = Process.info.floor.lastKey();
 			if (Process.info.front == null) Process.info.front = Process.info.floor.get(floor);
 			Process.info.SetTimeoutByAction(Name);
 		} catch (Exception ex) {
@@ -136,6 +147,7 @@ public class GetFloorInfo {
 			f.cost = Integer.parseInt(xpath.evaluate(p+"cost", doc));
 			f.progress = Integer.parseInt(xpath.evaluate(p+"progress", doc));
 			f.type = xpath.evaluate(p+"type", doc);
+			f.innerFlag = (a.areaType == 1) ? true : false;
 			if (Integer.parseInt(f.areaId) < 100000 && f.cost < 1 && Integer.parseInt(f.areaId) != 50003) continue; //跳过秘境守护者
 			if (Process.info.floor.containsKey(f.cost)) {
 				if(Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer.parseInt(f.areaId)) {

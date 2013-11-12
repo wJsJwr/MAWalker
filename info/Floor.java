@@ -6,5 +6,6 @@ public class Floor {
 	public String type = "";
 	public int progress = 0;
 	public int cost = 0;
+	public boolean innerFlag = false;
 	//public String bossId = "";估计和秘境守护者有关，暂时先放着
 }

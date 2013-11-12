@@ -76,6 +76,7 @@ public class Info {
 	 * 只走cost1的图
 	 */
 	public static boolean MinAPOnly = false;
+	public static boolean InnerInstance = true;
 	/**
 	 * 自动加点
 	 */
@@ -248,7 +249,7 @@ public class Info {
 		needAPBCInfo,
 		levelUp,
 		PFBGood,
-		recvPFBGood, gotoFloor, GetReawdbox
+		recvPFBGood, gotoFloor
 	}
 	public Stack<EventType> events;
 	

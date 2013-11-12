@@ -56,8 +56,6 @@ public class GetFairyReward {
 			}
 		}
 		
-		GetRewardBox.list();
-		if (Process.info.boxList.size() >= 650) GetRewardBox.get();
 		return false;
 	}
 	

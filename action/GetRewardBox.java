@@ -122,8 +122,6 @@ public class GetRewardBox {
 			}
 		
 		ParseCardList.parse(doc);
-		
-		sell();
 			}
 	}
 	
@@ -152,6 +150,7 @@ public class GetRewardBox {
 		
 		if (!toSell.isEmpty()) {
 			SellCard.run();
+			Go.log(ErrorData.text);
 		}
 	}
 }

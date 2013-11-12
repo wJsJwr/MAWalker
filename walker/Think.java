@@ -220,9 +220,9 @@ public class Think {
 			if (Process.info.bc == 0) return Integer.MIN_VALUE;
 			
 			// 首先确定楼层
-			if ((Info.MinAPOnly | Process.info.AllClear) && Process.info.InnerMap) {
-				Process.info.front = Process.info.floor.firstEntry().getValue();
-			}
+			//if (Info.MinAPOnly | Process.info.AllClear) {
+			//	Process.info.front = Process.info.floor.firstEntry().getValue();
+			//}
 			
 			// 判断是否可以行动
 			if (Process.info.front == null) Process.info.front = Process.info.floor.firstEntry().getValue();
