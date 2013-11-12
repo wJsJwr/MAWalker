@@ -127,11 +127,12 @@ public class Process {
 			case getFairyReward:
 				break;
 			case guildBattle:
-				if(info.gfairy.Spp.equals("使用BC3％回復")) {
+				if (info.gfairy.Spp.equals("使用BC3％回復")) {
 					result.add(Action.GUILD_BATTLE);
-				}else if (info.ticket >= 15) {
+				} else if (info.ticket >= 15) {
 					result.add(Action.GUILD_BATTLE);
-				}else if(!Process.info.gfairy.UserId.equals(Process.info.username)){
+				} else if (!Process.info.gfairy.UserId
+						.equals(Process.info.username)) {
 					result.add(Action.GUILD_BATTLE);
 				}
 				break;
@@ -238,8 +239,8 @@ public class Process {
 			try {
 				if (GetFloorInfo.run()) {
 					// if (Process.info.AllClear | Info.MinAPOnly)
-					//	Process.info.front = Process.info.floor.firstEntry()
-					//			.getValue();
+					// Process.info.front = Process.info.floor.firstEntry()
+					// .getValue();
 					Go.log(String.format(
 							"Area(%d层) Front: %s > %s层 消耗=%d",
 							info.area.size(),
@@ -405,16 +406,19 @@ public class Process {
 							break;
 						}
 					}
-					String str = 
-							String.format("守卫战 name=%s, Lv: %s, HP:%d/%d, bc: %d/%d, ap: %d/%d, Buff: %s, 贡献：(%s+%s)=%s(%s)week:%s, ticket: %d, exp:%d, %s",
-							info.gfairy.FairyName, info.gfairy.FairyLevel, 
-							info.gfairy.fairyCurrHp, info.gfairy.fairyMaxHp, 
-							info.bc, info.bcMax, 
-							info.ap, info.apMax, 
-							info.gfairy.Spp, 
-							info.gfairy.battle_contribution, info.gfairy.hp_contribution, 
-							info.gfairy.contribution, info.gfairy.attack_compensation, 
-							info.week, info.ticket, info.exp, result);
+					String str = String
+							.format("守卫战 name=%s, Lv: %s, HP:%d/%d, bc: %d/%d, ap: %d/%d, Buff: %s, 贡献：(%s+%s)=%s(%s)week:%s, ticket: %d, exp:%d, %s",
+									info.gfairy.FairyName,
+									info.gfairy.FairyLevel,
+									info.gfairy.fairyCurrHp,
+									info.gfairy.fairyMaxHp, info.bc,
+									info.bcMax, info.ap, info.apMax,
+									info.gfairy.Spp,
+									info.gfairy.battle_contribution,
+									info.gfairy.hp_contribution,
+									info.gfairy.contribution,
+									info.gfairy.attack_compensation, info.week,
+									info.ticket, info.exp, result);
 					Thread.sleep(5000);
 					Go.log(str);
 				} else {
@@ -444,7 +448,7 @@ public class Process {
 					Go.log(ErrorData.text);
 					ErrorData.clear();
 					GetRewardBox.list();
-					if (Process.info.boxList.size() >= 650) 
+					if (Process.info.boxList.size() >= 650)
 						GetRewardBox.get();
 				}
 			} catch (Exception ex) {
@@ -595,7 +599,7 @@ public class Process {
 
 		// System.out.println(docString);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-		File fp=new File(String.format("xml/%s.xml", df.format(new Date())));
+		File fp = new File(String.format("xml/%s.xml", df.format(new Date())));
 		PrintWriter pfp;
 		try {
 			pfp = new PrintWriter(fp);
