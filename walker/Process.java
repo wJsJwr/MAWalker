@@ -112,6 +112,8 @@ public class Process {
 				break;
 			case innerMapJump:
 				Go.log("Map Status Changed!");
+				result.add(Action.GET_FLOOR_INFO);
+				break;
 			case needFloorInfo:
 				result.add(Action.GET_FLOOR_INFO);
 				break;
@@ -169,6 +171,7 @@ public class Process {
 			}
 			if (!result.isEmpty())
 				return result;
+
 		}
 		ArrayList<TimeoutEntry> te = info.CheckTimeout();
 		for (TimeoutEntry e : te) {
@@ -196,8 +199,13 @@ public class Process {
 		}
 		if (!Process.info.OwnFairyKilled && Info.GoStop
 				&& (info.ap < info.apMax || info.lv < 30)) {
-			result.add(Action.GET_FAIRY_LIST);
-			Go.log("sleeping......");
+			Process.info.count1++;
+			if (Process.info.count1 < 5) {
+				result.add(Action.GET_FAIRY_LIST);
+				Go.log("sleeping......");
+			} else {
+				Process.info.count1 = 0;
+			}
 			try {
 				Thread.sleep(15000);
 			} catch (InterruptedException e1) {
@@ -247,8 +255,7 @@ public class Process {
 					// Process.info.front = Process.info.floor.firstEntry()
 					// .getValue();
 					Go.log(String.format(
-							"Area(%d层) Front: %s > %s层 消耗=%d",
-							info.area.size(),
+							"Area:%s Floor:%s层 消耗=%d",
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName,
 							info.front.floorId, info.front.cost));
 				}
@@ -267,8 +274,7 @@ public class Process {
 			try {
 				if (AddArea.run()) {
 					Go.log(String.format(
-							"Area(%d层) Front: %s > %s层 消耗=%d",
-							info.area.size(),
+							"Area:%s Floor:%s层 消耗=%d",
 							info.area.get(Integer.parseInt(info.front.areaId)).areaName,
 							info.front.floorId, info.front.cost));
 				}
@@ -335,14 +341,16 @@ public class Process {
 					if (!info.events.empty()) {
 						switch (info.events.peek()) {
 						case fairyBattleEnd:
-							result = "Too Late";
+							result = "Late";
 							info.events.pop();
 							break;
 						case fairyBattleLose:
+							info.count2++;
 							result = "Lose";
 							info.events.pop();
 							break;
 						case fairyBattleWin:
+							info.count3++;
 							result = "Win";
 							info.events.pop();
 							break;
@@ -350,19 +358,26 @@ public class Process {
 							break;
 						}
 					}
-					String str = String
-							.format("PrivateFairyBattle name=%s(%s), Lv: %s, HP: %d, MaxHP: %d, bc: %d/%d, ap: %d/%d, ticket: %d, %s",
+					String str1 = String
+							.format("妖精:%s(%s), Lv:%3s, HP:%6d/%6d",
 									info.fairy.FairyName,
 									info.FairySelectUserList
 											.containsKey(info.fairy.UserId) ? info.FairySelectUserList
 											.get(info.fairy.UserId).userName
 											: "NA", info.fairy.FairyLevel,
 									info.fairy.fairyCurrHp,
-									info.fairy.fairyMaxHp, info.bc, info.bcMax,
-									info.ap, info.apMax, info.ticket, result);
-					if (info.gather != -1)
-						str += String.format(", gather=%d", info.gather);
-					Go.log(str);
+									info.fairy.fairyMaxHp);
+					String str2 = String.format(
+							"状态:bc:%3d/%3d, ap:%3d/%3d, T:%2d, %s", info.bc,
+							info.bcMax, info.ap, info.apMax, info.ticket,
+							result);
+					Go.log(str1);
+					Go.log(str2);
+					if (info.gather != -1) {
+						String str3 = String.format("收集:%6d, 舔:%3d, 尾:%3d",
+								info.gather, info.count2, info.count3);
+						Go.log(str3);
+					}
 				} else {
 
 				}
@@ -375,11 +390,11 @@ public class Process {
 			try {
 				if (Explore.run()) {
 					Go.log(String
-							.format("Explore[%s>%s]: AP: %d, Gold+%s=%d, Exp+%s, Progress:%s, Result: %s.",
+							.format("Explore[%s%s层>%s]: AP: %d, Gold+%s=%d, Exp+%s, Progress:%s, Result: %s.",
 									info.area.get(Integer
 											.parseInt(info.front.areaId)).areaName,
-									info.front.floorId, info.ap,
-									info.ExploreGold, info.money,
+									info.front.floorId, info.front.cost,
+									info.ap, info.ExploreGold, info.money,
 									info.ExploreExp, info.ExploreProgress,
 									info.ExploreResult));
 				} else {
@@ -397,7 +412,7 @@ public class Process {
 					if (!info.events.empty()) {
 						switch (info.events.peek()) {
 						case guildTopRetry:
-							result = "Too Late";
+							result = "Late";
 							break;
 						case fairyBattleLose:
 							result = "Lose";
@@ -411,24 +426,24 @@ public class Process {
 							break;
 						}
 					}
-					String str1 = String
-							.format("守卫战 name=%s, Lv: %s, HP:%d/%d, bc: %d/%d, ap: %d/%d, Buff: %s",
-									info.gfairy.FairyName,
-									info.gfairy.FairyLevel,
-									info.gfairy.fairyCurrHp,
-									info.gfairy.fairyMaxHp, info.bc,
-									info.bcMax, info.ap, info.apMax,
-									info.gfairy.Spp);
+					String str1 = String.format("外敌:%s, Lv:%3s, HP:%8d/%8d",
+							info.gfairy.FairyName, info.gfairy.FairyLevel,
+							info.gfairy.fairyCurrHp, info.gfairy.fairyMaxHp);
 					String str2 = String.format(
-							"贡献：(%s+%s)=%s(%s)week:%s, ticket: %d, exp:%d, %s",
+							"状态:bc:%3d/%3d, ap:%3d/%3d, Buff:%10s, %4s",
+							info.bc, info.bcMax, info.ap, info.apMax,
+							info.gfairy.Spp, result);
+					String str3 = String.format(
+							"贡献:%5s+%5s=%5s(%s)week:%9s, T:%2d, exp:%5d",
 							info.gfairy.battle_contribution,
 							info.gfairy.hp_contribution,
 							info.gfairy.contribution,
 							info.gfairy.attack_compensation, info.week,
-							info.ticket, info.exp, result);
+							info.ticket, info.exp);
 					Thread.sleep(5000);
 					Go.log(str1);
 					Go.log(str2);
+					Go.log(str3);
 				} else {
 
 				}

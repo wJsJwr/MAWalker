@@ -21,27 +21,27 @@ import action.ActionRegistry.Action;
 
 public class GetFloorInfo {
 	public static final Action Name = Action.GET_FLOOR_INFO;
-	
+
 	private static final String URL_AREA = "http://web.million-arthurs.com/connect/app/exploration/area?cyt=1";
 	private static final String URL_FLOOR = "http://web.million-arthurs.com/connect/app/exploration/floor?cyt=1";
-	
-	
+
 	private static byte[] response;
-	
+
 	public static boolean run() throws Exception {
 		response = null;
 		Document doc;
 		try {
-			response = Process.network.ConnectToServer(URL_AREA, new ArrayList<NameValuePair>(), false);
+			response = Process.network.ConnectToServer(URL_AREA,
+					new ArrayList<NameValuePair>(), false);
 		} catch (Exception ex) {
-			//if (ex.getMessage().equals("302")) 
+			// if (ex.getMessage().equals("302"))
 			// 上面的是为了截获里图跳转
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
 			ErrorData.text = ex.getMessage();
 			throw ex;
 		}
-		
+
 		try {
 			doc = Process.ParseXMLBytes(response);
 		} catch (Exception ex) {
@@ -50,73 +50,104 @@ public class GetFloorInfo {
 			ErrorData.bytes = response;
 			throw ex;
 		}
-		
+
 		try {
 			XPathFactory factory = XPathFactory.newInstance();
 			XPath xpath = factory.newXPath();
 			if (!xpath.evaluate("/response/header/error/code", doc).equals("0")) {
 				ErrorData.currentErrorType = ErrorData.ErrorType.AreaResponse;
 				ErrorData.currentDataType = ErrorData.DataType.text;
-				ErrorData.text = xpath.evaluate("/response/header/error/message", doc);
+				ErrorData.text = xpath.evaluate(
+						"/response/header/error/message", doc);
 				return false;
 			}
-			
-			int areaCount = ((NodeList)xpath.evaluate("//area_info_list/area_info", doc, XPathConstants.NODESET)).getLength();
+
+			int areaCount = ((NodeList) xpath.evaluate(
+					"//area_info_list/area_info", doc, XPathConstants.NODESET))
+					.getLength();
 			if (areaCount > 0) {
-				//Process.info.area = new Hashtable<Integer,Area>();
+				// Process.info.area = new Hashtable<Integer,Area>();
 				Process.info.area.clear();
 				Process.info.floor.clear();
 			}
-			for (int i = 1; i <= areaCount; i++){
+			for (int i = 1; i <= areaCount; i++) {
 				Area a = new Area();
-				String p = String.format("//area_info_list/area_info[%d]/",i);
-				a.areaId = Integer.parseInt(xpath.evaluate(p+"id", doc));
-				a.areaName = xpath.evaluate(p+"name", doc);
-				a.exploreProgress = Integer.parseInt(xpath.evaluate(p+"prog_area", doc));
-				a.areaType = (a.areaId >= 105901)? 1 : 0;
+				String p = String.format("//area_info_list/area_info[%d]/", i);
+				a.areaId = Integer.parseInt(xpath.evaluate(p + "id", doc));
+				a.areaName = xpath.evaluate(p + "name", doc);
+				a.exploreProgress = Integer.parseInt(xpath.evaluate(p
+						+ "prog_area", doc));
+				a.areaType = (a.areaId >= 105901) ? 1 : 0;
 				if (a.areaType == 1) {
-					if (Info.InnerInstance) Process.info.area.put(a.areaId, a); 
-				}else if (a.areaId > 100000) Process.info.area.put(a.areaId, a);
-				if (Info.SpecilInstance && (a.areaId == 50003 || a.areaId == 50004)) Process.info.area.put(a.areaId, a);
+					if (Info.InnerInstance)
+						Process.info.area.put(a.areaId, a);
+				} else if (a.areaId > 100000)
+					Process.info.area.put(a.areaId, a);
+				if (Info.SpecilInstance
+						&& (a.areaId == 50003 || a.areaId == 50004))
+					Process.info.area.put(a.areaId, a);
 			}
 			Process.info.AllClear = true;
 			Process.info.front = null;
-			if (Process.info.area.containsKey(50003) && Process.info.area.get(50003).exploreProgress != 100){
-				getFloor(Process.info.area.get(50003));				
-			}else if(Process.info.area.containsKey(50004) && Process.info.area.get(50004).exploreProgress != 100){
+			if (Process.info.area.containsKey(50003)
+					&& Process.info.area.get(50003).exploreProgress != 100) {
+				getFloor(Process.info.area.get(50003));
+			} else if (Process.info.area.containsKey(50004)
+					&& Process.info.area.get(50004).exploreProgress != 100) {
 				getFloor(Process.info.area.get(50004));
-			 }else {
-			    for (int i : Process.info.area.keySet()) {
-				getFloor(Process.info.area.get(i));
-			    } // end of area iterator
-			 }
-			
-			int floor;
-			boolean inner_flag = Process.info.floor.firstEntry().getValue().innerFlag;
+			} else {
+				for (int i : Process.info.area.keySet()) {
+					getFloor(Process.info.area.get(i));
+				} // end of area iterator
+			}
 
-			if (Info.MinAPOnly == true || Process.info.AllClear) {
+			int floor = Process.info.floor.lastKey();
+			if (Info.MinAPOnly || Process.info.AllClear) {
 				if (Info.InnerInstance) {
-					floor = (inner_flag) ? Process.info.floor.firstKey() : Process.info.floor.lastKey();
-				}else floor = Process.info.floor.firstKey();
-			}else floor = Process.info.floor.lastKey();
-			if (Process.info.front == null) Process.info.front = Process.info.floor.get(floor);
+					for (int i : Process.info.floor.keySet()) {
+						if (Process.info.floor.get(i).innerFlag) {
+							Process.info.front = Process.info.floor.get(i);
+							break;
+						}
+					}
+				} else {
+					for (int i : Process.info.floor.keySet()) {
+						if (!Process.info.floor.get(i).innerFlag) {
+							Process.info.front = Process.info.floor.get(i);
+							break;
+						}
+					}
+				}
+			} else {
+				for (int i : Process.info.floor.keySet()) {
+					if (!Info.InnerInstance) {
+						if (Process.info.floor.get(i).innerFlag) {
+							Process.info.floor.remove(i);
+						}
+					}
+				}
+				floor = Process.info.floor.lastKey();
+			}
+
+			if (Process.info.front == null)
+				Process.info.front = Process.info.floor.get(floor);
 			Process.info.SetTimeoutByAction(Name);
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
 				throw ex;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public static void getFloor(Area a) throws Exception {
 		ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
 		post.add(new BasicNameValuePair("area_id", String.valueOf(a.areaId)));
 		try {
 			response = Process.network.ConnectToServer(URL_FLOOR, post, false);
 		} catch (Exception ex) {
-			//if (ex.getMessage().equals("302")) 
+			// if (ex.getMessage().equals("302"))
 			// 上面的是为了截获里图跳转
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
@@ -132,36 +163,42 @@ public class GetFloorInfo {
 			ErrorData.bytes = response;
 			throw ex;
 		}
-		
+
 		XPathFactory factory = XPathFactory.newInstance();
 		XPath xpath = factory.newXPath();
-		
-		int floorCount = ((NodeList)xpath.evaluate("//floor_info_list/floor_info", doc, XPathConstants.NODESET)).getLength();
+
+		int floorCount = ((NodeList) xpath.evaluate(
+				"//floor_info_list/floor_info", doc, XPathConstants.NODESET))
+				.getLength();
 		String aid = xpath.evaluate("//exploration_floor/area_id", doc);
-		
+
 		for (int j = floorCount; j > 0; j--) {
 			Floor f = new Floor();
 			String p = String.format("//floor_info_list/floor_info[%d]/", j);
 			f.areaId = aid;
-			f.floorId = xpath.evaluate(p+"id", doc);
-			f.cost = Integer.parseInt(xpath.evaluate(p+"cost", doc));
-			f.progress = Integer.parseInt(xpath.evaluate(p+"progress", doc));
-			f.type = xpath.evaluate(p+"type", doc);
+			f.floorId = xpath.evaluate(p + "id", doc);
+			f.cost = Integer.parseInt(xpath.evaluate(p + "cost", doc));
+			f.progress = Integer.parseInt(xpath.evaluate(p + "progress", doc));
+			f.type = xpath.evaluate(p + "type", doc);
 			f.innerFlag = (a.areaType == 1) ? true : false;
-			if (Integer.parseInt(f.areaId) < 100000 && f.cost < 1 && Integer.parseInt(f.areaId) != 50003) continue; //跳过秘境守护者
+			if (Integer.parseInt(f.areaId) < 100000
+					&& f.cost < 1
+					&& (Integer.parseInt(f.areaId) != 50003 && Integer
+							.parseInt(f.areaId) != 50004))
+				continue; // 跳过秘境守护者
 			if (Process.info.floor.containsKey(f.cost)) {
-				if(Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer.parseInt(f.areaId)) {
+				if (Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer
+						.parseInt(f.areaId)) {
 					continue;
 				}
 			}
 			Process.info.floor.put(f.cost, f);
-			if (f.progress != 100 && a.exploreProgress != 100 && Process.info.AllClear) {
+			if (f.progress != 100 && a.exploreProgress != 100
+					&& Process.info.AllClear) {
 				Process.info.front = f;
 				Process.info.AllClear = false;
 			}
 		}
 	}
-	
-	
-	
+
 }
