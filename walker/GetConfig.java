@@ -47,6 +47,7 @@ public class GetConfig {
 				Info.GoStop = xpath.evaluate("/config/option/go_stop", doc).equals("1");
 				Info.SpecilInstance = xpath.evaluate("/config/option/specil_instance", doc).equals("1");
 				Info.InnerInstance = xpath.evaluate("/config/option/inner_instance", doc).equals("1");
+				Info.receiveBox = xpath.evaluate("/config/option/receive_box", doc).equals("1");
 				
 				Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc).equals("1");
 				if (Info.autoUseAp) {

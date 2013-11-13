@@ -127,7 +127,7 @@ public class Process {
 			case getFairyReward:
 				break;
 			case guildBattle:
-				if (info.bc == info.bcMax && info.ticket <15)
+				if (info.bc == info.bcMax && info.ticket < 15)
 					break;
 				if (info.gfairy.Spp.equals("使用BC3％回復")) {
 					result.add(Action.GUILD_BATTLE);
@@ -226,7 +226,10 @@ public class Process {
 									info.cardMax, info.ticket, info.money));
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
-					Login.listRewardbox();
+
+					if (Info.receiveBox == true) {
+						Login.listRewardbox();
+					}
 				} else {
 					info.events.push(Info.EventType.notLoggedIn);
 				}
@@ -452,9 +455,13 @@ public class Process {
 				if (GetFairyReward.run()) {
 					Go.log(ErrorData.text);
 					ErrorData.clear();
-					GetRewardBox.list();
-					if (Process.info.boxList.size() >= 650)
-						GetRewardBox.get();
+
+					if (Info.receiveBox == true) {
+						GetRewardBox.list();
+						if (Process.info.boxList.size() >= 650) {
+							GetRewardBox.get();
+						}
+					}
 				}
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)

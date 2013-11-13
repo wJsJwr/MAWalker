@@ -103,6 +103,11 @@ public class Info {
 	 */
 	public boolean GuildBattleFlag = false;
 	
+	/**
+	 * 自动收箱子
+	 */
+	public static boolean receiveBox = true;
+	
 	// 吃药相关的开关
 	public static boolean autoUseAp = true;
 	public static boolean autoUseBc = true;
