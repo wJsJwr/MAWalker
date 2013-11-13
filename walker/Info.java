@@ -102,6 +102,11 @@ public class Info {
 	public int count2 = 0;
 	public int count3 = 0;
 	/**
+	 * 自动收箱子
+	 */
+	public static boolean receiveBox = true;
+
+	/**
 	 * 吃药相关的开关
 	 */
 	public static boolean autoUseAp = true;

@@ -9,7 +9,7 @@
 	<option> 
 		<fairy_battle_first>0</fairy_battle_first><!-- 优先考虑妖精战 -->
 		<allow_bc_insuffient>1</allow_bc_insuffient><!-- BC不足FairyDeck的BC时，依旧跑图 -->
-		<min_ap_only>0</min_ap_only><!-- 只跑最低AP的图 -->
+		<min_ap_only>1</min_ap_only><!-- 只跑最低AP的图 -->
 		<go_stop>1</go_stop><!--遇敌停步-->
 		<auto_add_point>1</auto_add_point><!-- 自动加点，0不加，1全加BC，2全加AP -->
 		<inner_instance>1</inner_instance><!-- 里图开关，0不走里图，1走里图；在走里图时，走最小AP图的话，表图会走最大，里图走最小 -->
@@ -17,6 +17,7 @@
 		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
 		<night_mode>0</night_mode><!-- 夜间模式 -->
 		<receive_battle_present>1</receive_battle_present><!-- 自动收集妖精战礼物 -->
+		<receive_box>1</receive_box><!-- 自动收箱子 -->
 		<debug>0</debug><!-- debug输出xml(开发者使用) -->
 	</option>
 	<use>
