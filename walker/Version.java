@@ -2,14 +2,12 @@ package walker;
 
 public class Version {
 	private static String major = "1";
-	private static String minor = "0";
-	private static String release = "37";
-	private static String copyright = "2013©wjsjwr.org";
-	private static String code = "Waive";
-	private static String thanks = "@innocentius, @AsakuraFuuko, @tsubasa617";
+	private static String minor = "1";
+	private static String release = "0";
+	private static String thanks = "@wjsjwr, @tsubasa617, @AsakuraFuuko, @lucky83, @innocentius";
 	
 	public static String strVersion() {
-		return String.format("MAWalker(java) v%s.%s.%s %s, %s", major, minor, release, code, copyright); 
+		return String.format("MAWalker(java) v%s.%s.%s", major, minor, release); 
 	}
 	
 	public static String strThanks(){
