@@ -12,11 +12,10 @@
 		<min_ap_only>0</min_ap_only><!-- 只跑最低AP的图 -->
 		<go_stop>1</go_stop><!--遇敌停步-->
 		<auto_add_point>1</auto_add_point><!-- 自动加点，0不加，1全加BC，2全加AP -->
-		<inner_instance>1</inner_instance>
-		<!-- 里图开关，0不走里图，1走里图；在走里图时，走最小AP图的话，表图会走最大，里图走最小 -->
+		<inner_instance>1</inner_instance><!-- 里图开关，0不走里图，1走里图；在走里图时，走最小AP图的话，表图会走最大，里图走最小 -->
 		<specil_instance>1</specil_instance><!--每日限定副本（送红绿试管的那两个）-->
 		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
-		<night_mode>1</night_mode><!-- 夜间模式 -->
+		<night_mode>0</night_mode><!-- 夜间模式 -->
 		<receive_battle_present>1</receive_battle_present><!-- 自动收集妖精战礼物 -->
 		<debug>0</debug><!-- debug输出xml(开发者使用) -->
 	</option>

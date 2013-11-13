@@ -277,8 +277,7 @@ public class Think {
 			for (Card c : Process.info.cardList) {
 				if (!c.exist)
 					continue;
-				if (c.holo && c.price >= 3300
-						&& !Info.CanBeSold.contains(c.cardId))
+				if (c.holo && c.price >= 3300)
 					continue; // 闪卡不卖，但是低等级的闪卡照样要卖
 				if (c.hp > 6000)
 					continue; // 防止不小心把贵重卡片卖了

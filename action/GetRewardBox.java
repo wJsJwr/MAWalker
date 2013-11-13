@@ -165,7 +165,7 @@ public class GetRewardBox {
 		if (!toSell.isEmpty()) {
 			SellCard.run();
 			Go.log(ErrorData.text);
-			ErrorData.text = null;
+			ErrorData.clear();
 		}
 	}
 }
