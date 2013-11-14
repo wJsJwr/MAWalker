@@ -16,12 +16,12 @@ public class GetRank {
 	private static final String URL_RANKING_NEXT = "http://web.million-arthurs.com/connect/app/ranking/ranking_next?cyt=1";
 	private static byte[] response;
 
-	public static int gatherrank(int iUser) throws Exception {
+	public static int gatherrank(int iUser, int rId) throws Exception {
 		Document doc;
 		try {
 			ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
 			al.add(new BasicNameValuePair("from", String.valueOf(iUser)));
-			al.add(new BasicNameValuePair("ranktype_id", "5"));
+			al.add(new BasicNameValuePair("ranktype_id", String.format("%d", rId)));
 
 			response = Process.network.ConnectToServer(URL_RANKING_NEXT, al,
 					false);

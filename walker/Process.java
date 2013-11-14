@@ -237,10 +237,13 @@ public class Process {
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
 
-					int gRank = GetRank.gatherrank(Integer
-							.parseInt(info.userId));
+					int gatherRank = GetRank.gatherrank(Integer
+							.parseInt(info.userId),5);
+					int guildRank = GetRank.gatherrank(Integer
+							.parseInt(info.userId),4);
 
-					Go.log(String.format("收集排名: %d", gRank));
+					Go.log(String.format("收集排名: %d, 骑士团个人排名: %d", gatherRank,guildRank));
+					
 					if (Info.partyrank)
 						PartyRank.run();
 
