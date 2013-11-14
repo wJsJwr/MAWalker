@@ -29,6 +29,7 @@ import action.Explore;
 import action.GetFairyList;
 import action.GetFairyReward;
 import action.GetFloorInfo;
+import action.GetRank;
 import action.GetRewardBox;
 import action.GotoFloor;
 import action.GuildBattle;
@@ -235,7 +236,11 @@ public class Process {
 									info.cardMax, info.ticket, info.money));
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
-					
+
+					int gRank = GetRank.gatherrank(Integer
+							.parseInt(info.userId));
+
+					Go.log(String.format("收集排名: %d", gRank));
 					if (Info.partyrank)
 						PartyRank.run();
 
@@ -394,7 +399,7 @@ public class Process {
 			try {
 				if (Explore.run()) {
 					Go.log(String
-							.format("Explore[%s%s层>%s]: AP: %d, Gold+%s=%d, Exp+%s, Progress:%s, Result: %s.",
+							.format("Explore[%s>%s层>%s]: AP: %d, Gold+%s=%d, Exp+%s, Progress:%s, Result: %s.",
 									info.area.get(Integer
 											.parseInt(info.front.areaId)).areaName,
 									info.front.floorId, info.front.cost,
@@ -438,7 +443,7 @@ public class Process {
 							info.bc, info.bcMax, info.ap, info.apMax,
 							info.gfairy.Spp, result);
 					String str3 = String.format(
-							"贡献:%5s+%5s=%5s(%s)week:%9s, T:%2d, exp:%5d",
+							"贡献:%5s+%5s=%5s(%3s)week:%9s, T:%2d, exp:%5d",
 							info.gfairy.battle_contribution,
 							info.gfairy.hp_contribution,
 							info.gfairy.contribution,
