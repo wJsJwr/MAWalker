@@ -65,6 +65,8 @@ public class GetConfig {
 						"/config/option/inner_instance", doc).equals("1");
 				Info.receiveBox = xpath.evaluate("/config/option/receive_box",
 						doc).equals("1");
+				Info.partyrank = xpath
+						.evaluate("/config/option/partyrank", doc).equals("1");
 
 				Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc)
 						.equals("1");

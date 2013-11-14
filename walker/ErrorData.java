@@ -49,7 +49,9 @@ public class ErrorData {
 		// 收赞
 		RecvPFBGoodDataError, RecvPFBGoodDataParseError, RecvPFBGoodResponse,
 		// 吃药
-		UseDataError, UseResponse
+		UseDataError, UseResponse,
+		//团贡
+		PartyRankDataError, PartyRankDataParseError, PartyRankResponse
 	}
 
 	public static void clear() {

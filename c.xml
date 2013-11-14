@@ -17,7 +17,8 @@
 		<allow_attack_same_fairy>0</allow_attack_same_fairy><!-- 允许舔同一个怪 -->
 		<night_mode>0</night_mode><!-- 夜间模式 -->
 		<receive_battle_present>1</receive_battle_present><!-- 自动收集妖精战礼物 -->
-		<receive_box>1</receive_box><!-- 自动收箱子 -->
+		<receive_box>0</receive_box><!-- 自动收箱子 -->
+		<partyrank>1</partyrank><!--login的时候是否查询贡献-->
 		<debug>0</debug><!-- debug输出xml(开发者使用) -->
 	</option>
 	<use>

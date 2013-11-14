@@ -6,7 +6,7 @@ public class ActionRegistry {
 		LOGIN,
 		GET_FLOOR_INFO, // 将会刷新area和floor
 		ADD_AREA,
-		GOTO_FLOOR,	// 快速取得AP，BC以及经验值和物品等信息
+		GOTO_FLOOR,	// 快�1�7�取得AP，BC以及经验值和物品等信恄1�7
 		GET_FAIRY_LIST,
 		PRIVATE_FAIRY_BATTLE,
 		EXPLORE,
@@ -18,6 +18,7 @@ public class ActionRegistry {
 		PFB_GOOD,
 		RECV_PFB_GOOD,
 		USE, 
-		GET_REWARD_BOX
+		GET_REWARD_BOX,
+		PARTY_RANK
 	}
 }
