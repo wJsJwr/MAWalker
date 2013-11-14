@@ -234,15 +234,12 @@ public class Process {
 									info.cardMax, info.ticket, info.money));
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
-<<<<<<< HEAD
+
 					if (Info.receiveBox == true)
 						Login.listRewardbox();
-=======
 
-					if (Info.receiveBox == true) {
-						Login.listRewardbox();
-					}
->>>>>>> 4e9f9c0b61e3dc2368d98cfc8185512cb1be843a
+
+
 				} else {
 					info.events.push(Info.EventType.notLoggedIn);
 				}
@@ -475,19 +472,12 @@ public class Process {
 				if (GetFairyReward.run()) {
 					Go.log(ErrorData.text);
 					ErrorData.clear();
-<<<<<<< HEAD
+
 					if (Info.receiveBox == true) {
 						GetRewardBox.list();
 						if (Process.info.boxList.size() >= 650)
 							GetRewardBox.get();
-=======
 
-					if (Info.receiveBox == true) {
-						GetRewardBox.list();
-						if (Process.info.boxList.size() >= 650) {
-							GetRewardBox.get();
-						}
->>>>>>> 4e9f9c0b61e3dc2368d98cfc8185512cb1be843a
 					}
 				}
 			} catch (Exception ex) {
