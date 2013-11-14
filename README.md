@@ -4,12 +4,15 @@ MAWalker
 ![MAWalker](http://wjsjwr.org/ma-walker/ma.jpg "MAWalker")
 
 ### 解放双手 解放手机 尽早弃坑 保住智商
+
+原作者
+--------
 [wjsjwr.org/ma-walker](http://wjsjwr.org/ma-walker)<br />
 
 
 如果你只是使用者
 --------
-请进入[wjsjwr.org/ma-walker](http://wjsjwr.org/ma-walker)下载二进制文件，并按说明使用
+只需从这里下载go.jar和c.xml，并按说明使用
 
 
 如果你想写代码
