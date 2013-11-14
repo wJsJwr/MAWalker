@@ -18,6 +18,7 @@ public class ActionRegistry {
 		PFB_GOOD,
 		RECV_PFB_GOOD,
 		USE, 
-		GET_REWARD_BOX
+		GET_REWARD_BOX,
+		PARTY_RANK
 	}
 }
