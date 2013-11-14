@@ -36,6 +36,7 @@ import action.GuildTop;
 import action.Login;
 import action.LvUp;
 import action.PFBGood;
+import action.PartyRank;
 import action.PrivateFairyBattle;
 import action.RecvPFBGood;
 import action.SellCard;
@@ -234,10 +235,13 @@ public class Process {
 									info.cardMax, info.ticket, info.money));
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
+					
+					if (Info.partyrank)
+						PartyRank.run();
 
-					if (Info.receiveBox == true) {
+					if (Info.receiveBox == true)
 						Login.listRewardbox();
-					}
+
 				} else {
 					info.events.push(Info.EventType.notLoggedIn);
 				}
@@ -473,9 +477,9 @@ public class Process {
 
 					if (Info.receiveBox == true) {
 						GetRewardBox.list();
-						if (Process.info.boxList.size() >= 650) {
+						if (Process.info.boxList.size() >= 650)
 							GetRewardBox.get();
-						}
+
 					}
 				}
 			} catch (Exception ex) {

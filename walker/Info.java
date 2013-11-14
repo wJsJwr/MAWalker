@@ -96,6 +96,9 @@ public class Info {
 	 */
 	public boolean GuildBattleFlag = false;
 
+	// 查询团贡
+	public static boolean partyrank = false;
+
 	/**
 	 * 计数器
 	 */

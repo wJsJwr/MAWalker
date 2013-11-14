@@ -5,13 +5,15 @@ public class Version {
 	private static String minor = "1";
 	private static String release = "0";
 	private static String thanks = "@wjsjwr, @tsubasa617, @AsakuraFuuko, @lucky83, @innocentius";
-	
+
+
 	public static String strVersion() {
-		return String.format("MAWalker(java) v%s.%s.%s", major, minor, release); 
+		return String.format("MAWalker(java) v%s.%s.%s", major, minor, release);
+
 	}
-	
-	public static String strThanks(){
+
+	public static String strThanks() {
 		return String.format("对下列网友表示感谢（排名不分先后）: %s", thanks);
 	}
-	
+
 }
