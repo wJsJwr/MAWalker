@@ -38,10 +38,7 @@ public class GetConfig {
 						ex.printStackTrace();
 					}
 				}
-<<<<<<< HEAD
-=======
 
->>>>>>> 4e9f9c0b61e3dc2368d98cfc8185512cb1be843a
 				Info.FairyBattleFirst = xpath.evaluate(
 						"/config/option/fairy_battle_first", doc).equals("1");
 				Info.AllowBCInsuffient = xpath.evaluate(
@@ -71,10 +68,7 @@ public class GetConfig {
 
 				Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc)
 						.equals("1");
-<<<<<<< HEAD
-=======
 
->>>>>>> 4e9f9c0b61e3dc2368d98cfc8185512cb1be843a
 				if (Info.autoUseAp) {
 					String half = xpath.evaluate(
 							"/config/use/strategy/ap/half", doc);
