@@ -6,7 +6,7 @@ public class ActionRegistry {
 		LOGIN,
 		GET_FLOOR_INFO, // 将会刷新area和floor
 		ADD_AREA,
-		GOTO_FLOOR,	// 快�1�7�取得AP，BC以及经验值和物品等信恄1�7
+		GOTO_FLOOR,	// 快速取得AP，BC以及经验值和物品等信息
 		GET_FAIRY_LIST,
 		PRIVATE_FAIRY_BATTLE,
 		EXPLORE,
