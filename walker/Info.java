@@ -95,12 +95,20 @@ public class Info {
 	 * 骑士团战斗标记
 	 */
 	public boolean GuildBattleFlag = false;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4e9f9c0b61e3dc2368d98cfc8185512cb1be843a
 	/**
 	 * 计数器
 	 */
 	public int count1 = 0;
 	public int count2 = 0;
 	public int count3 = 0;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4e9f9c0b61e3dc2368d98cfc8185512cb1be843a
 	/**
 	 * 自动收箱子
 	 */
