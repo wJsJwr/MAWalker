@@ -109,7 +109,19 @@ public class Process {
 				} else if (info.ticket < 0) {
 					Go.log("Keep reward");
 				} else {
-					result.add(Action.GET_FAIRY_REWARD);
+					try {
+						if (GetFairyReward.run()) {
+							Go.log(ErrorData.text);
+							ErrorData.clear();
+
+							if (Info.receiveBox == true) {
+								GetRewardBox.list();
+								if (Process.info.boxList.size() >= 650)
+									GetRewardBox.get();
+							}
+						}
+					} catch (Exception ex) {
+					}
 				}
 				break;
 			case innerMapJump:
@@ -237,13 +249,14 @@ public class Process {
 					info.events.push(Info.EventType.fairyAppear);
 					info.events.push(Info.EventType.needFloorInfo);
 
-					int gatherRank = GetRank.gatherrank(Integer
-							.parseInt(info.userId),5);
-					int guildRank = GetRank.gatherrank(Integer
-							.parseInt(info.userId),4);
+					int gatherRank = GetRank.gatherrank(
+							Integer.parseInt(info.userId), 5);
+					int guildRank = GetRank.gatherrank(
+							Integer.parseInt(info.userId), 4);
 
-					Go.log(String.format("收集排名: %d, 骑士团个人排名: %d", gatherRank,guildRank));
-					
+					Go.log(String.format("收集排名: %d, 骑士团个人排名: %d", gatherRank,
+							guildRank));
+
 					if (Info.partyrank)
 						PartyRank.run();
 

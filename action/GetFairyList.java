@@ -71,10 +71,8 @@ public class GetFairyList {
 			}
 
 			if (!xpath.evaluate("//remaining_rewards", doc).equals("0")) {
-				if (Info.receiveBattlePresent) {
-					if (!Process.info.events.contains("fairyReward"))
-						Process.info.events.push(Info.EventType.fairyReward);
-				}
+				if (Info.receiveBattlePresent)
+					Process.info.events.push(Info.EventType.fairyReward);
 			}
 
 			// 获取放妖的用户
@@ -120,8 +118,14 @@ public class GetFairyList {
 						fbi.FairyName = f.getFirstChild().getNodeValue();
 					} else if (f.getNodeName().equals("rare_flg")) {
 						if (f.getFirstChild().getNodeValue().equals("1")) {
-							fbi.Type = FairyBattleInfo.PRIVATE
-									| FairyBattleInfo.RARE;
+							if (fbi.UserId == Process.info.userId) {
+								fbi.Type = FairyBattleInfo.PRIVATE
+										| FairyBattleInfo.RARE
+										| FairyBattleInfo.SELF;
+							} else {
+								fbi.Type = FairyBattleInfo.PRIVATE
+										| FairyBattleInfo.RARE;
+							}
 						} else {
 							fbi.Type = FairyBattleInfo.PRIVATE;
 						}
