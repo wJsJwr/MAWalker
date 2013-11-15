@@ -101,7 +101,7 @@ public class GetFloorInfo {
 				} // end of area iterator
 			}
 
-			int floor = Process.info.floor.lastKey();
+			int floor = Process.info.floor.firstKey();
 			if (Info.MinAPOnly || Process.info.AllClear) {
 				if (Info.InnerInstance) {
 					for (int i : Process.info.floor.keySet()) {
