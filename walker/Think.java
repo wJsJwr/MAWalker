@@ -239,9 +239,6 @@ public class Think {
 				return EXPLORE_URGENT;
 			}
 
-			if (Process.info.bc == 0)
-				return Integer.MIN_VALUE;
-
 			// 首先确定楼层
 			// if (Info.MinAPOnly | Process.info.AllClear) {
 			// Process.info.front = Process.info.floor.firstEntry().getValue();
