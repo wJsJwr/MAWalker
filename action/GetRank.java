@@ -21,7 +21,8 @@ public class GetRank {
 		try {
 			ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
 			al.add(new BasicNameValuePair("from", String.valueOf(iUser)));
-			al.add(new BasicNameValuePair("ranktype_id", String.format("%d", rId)));
+			al.add(new BasicNameValuePair("ranktype_id", String.format("%d",
+					rId)));
 
 			response = Process.network.ConnectToServer(URL_RANKING_NEXT, al,
 					false);
@@ -52,8 +53,13 @@ public class GetRank {
 				return 0;
 			}
 
-			return Integer.parseInt(xpath.evaluate("//user_list/user[1]/rank",
-					doc)) - 1;
+			String rank = xpath.evaluate("//user_list/user[1]/rank", doc);
+			if ("".equals(rank) == false) {
+				return Integer.parseInt(rank) - 1;
+			} else {
+				// no rank info found
+				return 0;
+			}
 
 		} catch (Exception ex) {
 			if (ErrorData.currentErrorType == ErrorData.ErrorType.none) {
