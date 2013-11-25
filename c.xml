@@ -2,7 +2,7 @@
 <config><!-- 所有的字符都应该是半角的，请注意 -->
 	<username></username>
 	<password></password>
-	<user_agent>Million/241 (t03gchn; t03gzc; 4.1.2) samsung/t03gzc/t03gchn:4.1.2/JZO54K/N7100ZCDMD3:user/release-keys GooglePlay</user_agent>
+	<user_agent>Million/250 (t03gchn; t03gzc; 4.1.2) samsung/t03gzc/t03gchn:4.1.2/JZO54K/N7100ZCDMD3:user/release-keys GooglePlay</user_agent>
 	<profile>1</profile><!-- 不要改 -->
 	
 	<!-- 以下选项未特别说明，选是则填1，否则填0 -->
