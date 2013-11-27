@@ -4,7 +4,7 @@ public class FairyBattleInfo {
 	public String GuildId = "";
 	public String UserId = "";
 	public String SerialId = "";
-	public String No = "2";
+	public String No = "";
 	public String Spp = "dummy";
 	public String battle_contribution = "";
 	public String hp_contribution = "";
@@ -26,7 +26,7 @@ public class FairyBattleInfo {
 	public String FairyName = "";
 	public String FairyLevel = "";
 	public String Finder = "";
-	
+
 	public int fairyCurrHp = 0;
 	public int fairyMaxHp = 0;
 

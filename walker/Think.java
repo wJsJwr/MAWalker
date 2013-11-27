@@ -1,7 +1,6 @@
 package walker;
 
 import info.Card;
-
 import java.util.List;
 
 import action.ActionRegistry;
@@ -171,6 +170,12 @@ public class Think {
 	}
 
 	private static boolean canBattle() {
+		// already set card, just skip
+		if (Process.info.fairy.Type != 0
+				&& "".equals(Process.info.fairy.No) == false) {
+			return true;
+		}
+
 		switch (Process.info.fairy.Type) {
 		case 0:
 			Process.info.gfairy.No = Info.PublicFairyBattle.No;
@@ -214,6 +219,7 @@ public class Think {
 		default:
 			return false;
 		}
+
 		return true;
 	}
 

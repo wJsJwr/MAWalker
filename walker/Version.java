@@ -2,9 +2,9 @@ package walker;
 
 public class Version {
 	private static String major = "1";
-	private static String minor = "3";
+	private static String minor = "5";
 	private static String release = "0";
-	private static String thanks = "@wjsjwr, @tsubasa617, @AsakuraFuuko, @lucky83, @innocentius, @kimbaol";
+	private static String thanks = "@wjsjwr, @tsubasa617, @AsakuraFuuko, @lucky83, @innocentius, @kimbaol, @djj200504001";
 
 	public static String strVersion() {
 		return String.format("MAWalker(java) v%s.%s.%s", major, minor, release);

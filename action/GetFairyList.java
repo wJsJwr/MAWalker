@@ -94,10 +94,6 @@ public class GetFairyList {
 				}
 			}
 
-			// TODO: 这两周先是只寻找0BC的，之后再扩展
-			// NodeList fairy =
-			// (NodeList)xpath.evaluate("//fairy_select/fairy_event[put_down=4]/fairy",
-			// doc, XPathConstants.NODESET);
 			NodeList fairy = (NodeList) xpath.evaluate(
 					"//fairy_select/fairy_event[put_down=1]/fairy", doc,
 					XPathConstants.NODESET);
@@ -138,6 +134,7 @@ public class GetFairyList {
 					}
 					f = f.getNextSibling();
 				} while (f != null);
+
 				if (Info.AllowAttackSameFairy) {
 					fbis.add(fbi);
 				} else {
@@ -153,6 +150,75 @@ public class GetFairyList {
 				}
 				if (Process.info.userId.equals(fbi.UserId)) {
 					Process.info.OwnFairyKilled = false;
+				}
+			}// end for
+
+			if (fbis.size() == 0) {
+				// 活动妖，第一次0BC
+				NodeList fairyEvent = (NodeList) xpath.evaluate(
+						"//fairy_select/fairy_event[put_down=4]/fairy", doc,
+						XPathConstants.NODESET);
+
+				for (int i = 0; i < fairyEvent.getLength(); i++) {
+					Node f = fairyEvent.item(i).getFirstChild();
+					FairyBattleInfo fbi = new FairyBattleInfo();
+					boolean attack_flag = false;
+					do {
+						if (f.getNodeName().equals("serial_id")) {
+							fbi.SerialId = f.getFirstChild().getNodeValue();
+						} else if (f.getNodeName().equals("discoverer_id")) {
+							fbi.UserId = f.getFirstChild().getNodeValue();
+						} else if (f.getNodeName().equals("lv")) {
+							fbi.FairyLevel = f.getFirstChild().getNodeValue();
+						} else if (f.getNodeName().equals("name")) {
+							fbi.FairyName = f.getFirstChild().getNodeValue();
+						} else if (f.getNodeName().equals("rare_flg")) {
+							if (f.getFirstChild().getNodeValue().equals("1")) {
+								if (fbi.UserId == Process.info.userId) {
+									fbi.Type = FairyBattleInfo.PRIVATE
+											| FairyBattleInfo.RARE
+											| FairyBattleInfo.SELF;
+								} else {
+									fbi.Type = FairyBattleInfo.PRIVATE
+											| FairyBattleInfo.RARE;
+								}
+							} else {
+								fbi.Type = FairyBattleInfo.PRIVATE;
+							}
+						} else if (f.getNodeName().equals("hp")) {
+							fbi.fairyCurrHp = Integer.parseInt(f
+									.getFirstChild().getNodeValue());
+						} else if (f.getNodeName().equals("hp_max")) {
+							fbi.fairyMaxHp = Integer.parseInt(f.getFirstChild()
+									.getNodeValue());
+						}
+						f = f.getNextSibling();
+					} while (f != null);
+
+					if (Info.AllowAttackSameFairy) {
+						fbis.add(fbi);
+					} else {
+						for (FairyBattleInfo bi : Process.info.LatestFairyList) {
+							if (bi.equals(fbi)) {
+								// 已经舔过
+								attack_flag = true;
+								break;
+							}
+						}
+
+						if (!attack_flag) {
+							fbis.add(fbi);
+						}
+					}
+
+					if (Process.info.userId.equals(fbi.UserId)) {
+						Process.info.OwnFairyKilled = false;
+					}
+				}// end for
+
+				if (fbis.size() > 0) {
+					// 使用外敌卡组
+					Process.info.fairy.No = Info.PublicFairyBattle.No;
 				}
 			}
 

@@ -409,7 +409,11 @@ public class Process {
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
 					throw ex;
+			} finally {
+				// reset
+				Process.info.fairy.No = "";
 			}
+
 			break;
 		case EXPLORE:
 			try {
