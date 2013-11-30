@@ -15,6 +15,7 @@ import org.w3c.dom.Document;
 import walker.ErrorData;
 import walker.Info;
 import walker.Process;
+import walker.Info.EventType;
 import action.ActionRegistry.Action;
 
 public class Explore {
@@ -61,6 +62,13 @@ public class Explore {
 				if (code.equals("8000")) {
 					Process.info.events.push(Info.EventType.cardFull);
 				}
+
+				// 限时秘境消失
+				if (xpath.evaluate("/response/header/error/code", doc)
+						.endsWith("10000")) {
+					Process.info.events.push(EventType.innerMapJump);
+				}
+
 				ErrorData.currentErrorType = ErrorData.ErrorType.ExploreResponse;
 				ErrorData.currentDataType = ErrorData.DataType.text;
 				ErrorData.text = xpath.evaluate(
