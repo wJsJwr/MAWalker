@@ -34,8 +34,6 @@ public class GetFloorInfo {
 			response = Process.network.ConnectToServer(URL_AREA,
 					new ArrayList<NameValuePair>(), false);
 		} catch (Exception ex) {
-			// if (ex.getMessage().equals("302"))
-			// 上面的是为了截获里图跳转
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
 			ErrorData.text = ex.getMessage();
@@ -66,10 +64,10 @@ public class GetFloorInfo {
 					"//area_info_list/area_info", doc, XPathConstants.NODESET))
 					.getLength();
 			if (areaCount > 0) {
-				// Process.info.area = new Hashtable<Integer,Area>();
 				Process.info.area.clear();
 				Process.info.floor.clear();
 			}
+
 			for (int i = 1; i <= areaCount; i++) {
 				Area a = new Area();
 				String p = String.format("//area_info_list/area_info[%d]/", i);
@@ -77,7 +75,7 @@ public class GetFloorInfo {
 				a.areaName = xpath.evaluate(p + "name", doc);
 				a.exploreProgress = Integer.parseInt(xpath.evaluate(p
 						+ "prog_area", doc));
-				a.areaType = (a.areaId >= 106101) ? 1 : 0;
+				a.areaType = (a.areaId >= 106500) ? 1 : 0;
 				if (a.areaType == 1) {
 					if (Info.InnerInstance)
 						Process.info.area.put(a.areaId, a);
@@ -87,6 +85,7 @@ public class GetFloorInfo {
 						&& (a.areaId == 50003 || a.areaId == 50004))
 					Process.info.area.put(a.areaId, a);
 			}
+
 			Process.info.AllClear = true;
 			Process.info.front = null;
 			if (Process.info.area.containsKey(50003)
@@ -147,14 +146,13 @@ public class GetFloorInfo {
 		try {
 			response = Process.network.ConnectToServer(URL_FLOOR, post, false);
 		} catch (Exception ex) {
-			// if (ex.getMessage().equals("302"))
-			// 上面的是为了截获里图跳转
 			ErrorData.currentDataType = ErrorData.DataType.text;
 			ErrorData.currentErrorType = ErrorData.ErrorType.ConnectionError;
 			ErrorData.text = ex.getLocalizedMessage();
 			throw ex;
 		}
 		Document doc;
+
 		try {
 			doc = Process.ParseXMLBytes(response);
 		} catch (Exception ex) {
@@ -181,17 +179,21 @@ public class GetFloorInfo {
 			f.progress = Integer.parseInt(xpath.evaluate(p + "progress", doc));
 			f.type = xpath.evaluate(p + "type", doc);
 			f.innerFlag = (a.areaType == 1) ? true : false;
+
 			if (Integer.parseInt(f.areaId) < 100000
 					&& f.cost < 1
 					&& (Integer.parseInt(f.areaId) != 50003 && Integer
-							.parseInt(f.areaId) != 50004))
+							.parseInt(f.areaId) != 50004)) {
 				continue; // 跳过秘境守护者
+			}
+
 			if (Process.info.floor.containsKey(f.cost)) {
 				if (Integer.parseInt(Process.info.floor.get(f.cost).areaId) > Integer
 						.parseInt(f.areaId)) {
 					continue;
 				}
 			}
+
 			Process.info.floor.put(f.cost, f);
 			if (f.progress != 100 && a.exploreProgress != 100
 					&& Process.info.AllClear) {
