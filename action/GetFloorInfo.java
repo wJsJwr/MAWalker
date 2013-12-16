@@ -75,26 +75,32 @@ public class GetFloorInfo {
 				a.areaName = xpath.evaluate(p + "name", doc);
 				a.exploreProgress = Integer.parseInt(xpath.evaluate(p
 						+ "prog_area", doc));
-				a.areaType = (a.areaId >= 106500) ? 1 : 0;
+				a.areaType = (a.areaId >= 106700) ? 1 : 0;
 				if (a.areaType == 1) {
 					if (Info.InnerInstance)
 						Process.info.area.put(a.areaId, a);
 				} else if (a.areaId > 100000)
 					Process.info.area.put(a.areaId, a);
-				if (Info.SpecilInstance
-						&& (a.areaId == 50003 || a.areaId == 50004))
+				if (Info.SpecilInstance && a.areaId >= 50000
+						&& a.areaId <= 50010)
 					Process.info.area.put(a.areaId, a);
 			}
 
 			Process.info.AllClear = true;
 			Process.info.front = null;
-			if (Process.info.area.containsKey(50003)
-					&& Process.info.area.get(50003).exploreProgress != 100) {
-				getFloor(Process.info.area.get(50003));
-			} else if (Process.info.area.containsKey(50004)
-					&& Process.info.area.get(50004).exploreProgress != 100) {
-				getFloor(Process.info.area.get(50004));
-			} else {
+
+			// 日常图逻辑
+			boolean flag = false;
+			for (int i = 50000; i <= 50010; i++) {
+				if (Process.info.area.containsKey(i)
+						&& Process.info.area.get(i).exploreProgress < 100) {
+					getFloor(Process.info.area.get(i));
+					flag = true;
+					break;
+				}
+			}
+
+			if (flag == false) {
 				for (int i : Process.info.area.keySet()) {
 					getFloor(Process.info.area.get(i));
 				} // end of area iterator
@@ -180,10 +186,9 @@ public class GetFloorInfo {
 			f.type = xpath.evaluate(p + "type", doc);
 			f.innerFlag = (a.areaType == 1) ? true : false;
 
-			if (Integer.parseInt(f.areaId) < 100000
-					&& f.cost < 1
-					&& (Integer.parseInt(f.areaId) != 50003 && Integer
-							.parseInt(f.areaId) != 50004)) {
+			int areaId = Integer.parseInt(f.areaId);
+			if (areaId < 100000 && f.cost < 1
+					&& (areaId < 50000 || areaId > 50010)) {
 				continue; // 跳过秘境守护者
 			}
 
