@@ -15,6 +15,7 @@ import walker.ErrorData;
 import walker.Go;
 import walker.Info;
 import walker.Process;
+import walker.Think;
 
 public class Login {
 	public static final ActionRegistry.Action Name = ActionRegistry.Action.LOGIN;
@@ -125,13 +126,23 @@ public class Login {
 				if (!b.exist)
 					Process.info.boxList.remove(i);
 			}
-			// GetRewardBox.list();
-			if (Process.info.boxList.size() == 0)
+
+			if (Process.info.boxList.size() == 0) {
 				break;
+			}
+
 			GetRewardBox.get();
-			GetRewardBox.sell();
-			if (Process.info.cardList.size() == 300)
+
+			// sell card
+			if (Think.cardsToSell() == true) {
+				SellCard.run();
+				Go.log(ErrorData.text);
+				ErrorData.clear();
+			}
+
+			if (Process.info.cardList.size() == 300) {
 				break;
+			}
 		} while (true);
 	}
 

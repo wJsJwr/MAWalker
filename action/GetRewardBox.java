@@ -1,8 +1,6 @@
 package action;
 
 import info.Box;
-import info.Card;
-
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPath;
@@ -17,7 +15,6 @@ import org.w3c.dom.NodeList;
 
 import walker.ErrorData;
 import walker.Go;
-import walker.Info;
 import walker.Process;
 
 public class GetRewardBox {
@@ -132,40 +129,4 @@ public class GetRewardBox {
 		}
 	}
 
-	public static void sell() throws Exception {
-		int count = 0;
-		String toSell = "";
-		for (Card c : Process.info.cardList) {
-			if (!c.exist)
-				continue;
-			if (c.holo && c.price >= 3300)
-				continue; // 闪卡不卖，但是低等级的闪卡照样要卖
-			if (c.hp > 6000)
-				continue; // 防止不小心把贵重卡片卖了
-			if (c.hp <= 2 && c.atk <= 2)
-				continue;
-			if ((c.cardId.equals(124) || c.cardId.equals(142) || c.cardId
-					.equals(9)) && !Info.CanBeSold.contains(c.cardId))
-				continue;
-			if (c.price <= 3300 || Info.CanBeSold.contains(c.cardId)) {
-				if (toSell.isEmpty()) {
-					toSell = c.serialId;
-				} else {
-					toSell += "," + c.serialId;
-				}
-				count++;
-				c.exist = false;
-			}
-			if (count >= 30)
-				break;
-		}
-
-		Process.info.toSell = toSell;
-
-		if (!toSell.isEmpty()) {
-			SellCard.run();
-			Go.log(ErrorData.text);
-			ErrorData.clear();
-		}
-	}
 }

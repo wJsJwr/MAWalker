@@ -33,17 +33,10 @@ public class Go {
 			// auto mode
 			while (true) {
 				Process proc = new Process();
-				Profile2 prof = new Profile2();
 				while (true) {
 					try {
-						switch (Info.Profile) {
-						case 1:
-							proc.auto();
-							break;
-						case 2:
-							prof.auto();
-							break;
-						}
+						proc.auto();
+						break;
 					} catch (Exception ex) {
 						boolean printed = false;
 						if (ex.getMessage() != null) {

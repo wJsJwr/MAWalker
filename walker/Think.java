@@ -52,10 +52,6 @@ public class Think {
 				}
 				break;
 			case PRIVATE_FAIRY_BATTLE:
-				if (Info.Profile == 2) {
-					Process.info.fairy.No = "2";
-					return Action.PRIVATE_FAIRY_BATTLE;
-				}
 				if (Think.canBattle())
 					return Action.PRIVATE_FAIRY_BATTLE;
 				break;
@@ -237,19 +233,6 @@ public class Think {
 
 	private static int explorePoint() {
 		try {
-			if (Info.Profile == 2) {
-				if (Process.info.ap < 1)
-					return Integer.MIN_VALUE;
-				// TODO logic maybe wrong here
-				Process.info.front = Process.info.floor.get(1);
-				return EXPLORE_URGENT;
-			}
-
-			// 首先确定楼层
-			// if (Info.MinAPOnly | Process.info.AllClear) {
-			// Process.info.front = Process.info.floor.firstEntry().getValue();
-			// }
-
 			// 判断是否可以行动
 			if (Process.info.front == null)
 				Process.info.front = Process.info.floor.firstEntry().getValue();
@@ -267,58 +250,53 @@ public class Think {
 		return EXPLORE_NORMAL;
 	}
 
-	private static boolean cardsToSell() {
-		if (Info.Profile == 2) {
-			int count = 0;
-			String toSell = "";
-			for (Card c : Process.info.cardList) {
-				if (!Info.KeepCard.contains(c.serialId)) {
-					if (toSell.isEmpty()) {
-						toSell = c.serialId;
-					} else {
-						toSell += "," + c.serialId;
-					}
-					count++;
-				}
-				if (count >= 30)
-					break;
-			}
-			Process.info.toSell = toSell;
-			return false; // 测试状态
-			// return !toSell.isEmpty();
-		} else if (Info.Profile == 1) {
-			int count = 0;
-			String toSell = "";
-			for (Card c : Process.info.cardList) {
-				if (!c.exist)
-					continue;
-				if (c.holo && c.price >= 3300)
-					continue; // 闪卡不卖，但是低等级的闪卡照样要卖
-				if (c.hp > 6000)
-					continue; // 防止不小心把贵重卡片卖了
-				if (c.hp <= 2 && c.atk <= 2)
-					continue;
-				if ((c.cardId.equals(124) || c.cardId.equals(142) || c.cardId
-						.equals(9)) && !Info.CanBeSold.contains(c.cardId))
-					continue;
-				if (c.price <= 3300 || Info.CanBeSold.contains(c.cardId)) {
-					if (toSell.isEmpty()) {
-						toSell = c.serialId;
-					} else {
-						toSell += "," + c.serialId;
-					}
-					count++;
-					c.exist = false;
-				}
-				if (count >= 30)
-					break;
+	public static boolean cardsToSell() {
+		int count = 0;
+		String toSell = "";
+
+		for (Card c : Process.info.cardList) {
+			if (!c.exist) {
+				continue;
 			}
 
-			Process.info.toSell = toSell;
-			return !toSell.isEmpty();
+			// 闪卡不卖，但是低等级的闪卡照样要卖
+			if (c.holo && c.price >= 3300) {
+				continue;
+			}
+
+			// 防止不小心把贵重卡片卖了
+			if (c.hp > 6000) {
+				continue;
+			}
+
+			// 各种切利
+			if (c.hp <= 2 && c.atk <= 2 && !Info.CanBeSold.contains(c.cardId)) {
+				continue;
+			}
+
+			// 狼娘 牛仔 女仆 不卖（若用户不特别指定）
+			if ((c.cardId.equals(124) || c.cardId.equals(142) || c.cardId
+					.equals(9)) && !Info.CanBeSold.contains(c.cardId)) {
+				continue;
+			}
+
+			if (c.price <= 3300 || Info.CanBeSold.contains(c.cardId)) {
+				if (toSell.isEmpty()) {
+					toSell = c.serialId;
+				} else {
+					toSell += "," + c.serialId;
+				}
+				count++;
+				c.exist = false;
+			}
+
+			if (count >= 30) {
+				break;
+			}
 		}
-		return false;
 
+		Process.info.toSell = toSell;
+		return !toSell.isEmpty();
 	}
 
 }

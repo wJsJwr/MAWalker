@@ -60,10 +60,14 @@ public class Process {
 				long start = System.currentTimeMillis();
 				execute(Think.doIt(getPossibleAction()));
 				long delta = System.currentTimeMillis() - start;
-				if (delta < 5000)
+
+				if (delta < 5000) {
 					Thread.sleep(5000 - delta);
-				if (Info.nightModeSwitch && info.events.empty() && info.NoFairy)
-					Thread.sleep(60000); // 半夜速度慢点
+				}
+
+				if (info.events.empty() && info.NoFairy) {
+					Thread.sleep(30000);
+				}
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -223,7 +227,6 @@ public class Process {
 			try {
 				Thread.sleep(15000);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} else
@@ -483,12 +486,7 @@ public class Process {
 			break;
 		case GUILD_TOP:
 			try {
-				if (GuildTop.run()) {
-					// nothing to do
-				} else {
-					if (info.NoFairy && Info.nightModeSwitch)
-						Go.log("Night Mode");
-				}
+				GuildTop.run();
 			} catch (Exception ex) {
 				if (ErrorData.currentErrorType == ErrorData.ErrorType.none)
 					throw ex;

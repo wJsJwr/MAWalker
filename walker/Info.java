@@ -25,7 +25,6 @@ public class Info {
 	// login info
 	public static String LoginId = "";
 	public static String LoginPw = "";
-	public static int Profile = 1;
 
 	// user info
 	public String username = "";
@@ -82,10 +81,6 @@ public class Info {
 	 * debug输出xml
 	 */
 	public static boolean debug = false;
-	/**
-	 * night mode 开关
-	 */
-	public static boolean nightModeSwitch = true;
 
 	/**
 	 * 自动收集妖精战礼物
