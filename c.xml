@@ -28,7 +28,7 @@
 		<inner_instance>1</inner_instance>
 
 		<!--每日限定副本（送红绿试管的那两个） -->
-		<specil_instance>1</specil_instance>
+		<specil_instance>0</specil_instance>
 
 		<!-- 允许舔同一个怪 -->
 		<allow_attack_same_fairy>0</allow_attack_same_fairy>

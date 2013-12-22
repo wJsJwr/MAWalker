@@ -187,10 +187,12 @@ public class Process {
 				result.add(Action.GOTO_FLOOR);
 				break;
 			}
-			if (!result.isEmpty())
-				return result;
 
+			if (!result.isEmpty()) {
+				return result;
+			}
 		}
+
 		ArrayList<TimeoutEntry> te = info.CheckTimeout();
 		for (TimeoutEntry e : te) {
 			switch (e) {
@@ -215,6 +217,7 @@ public class Process {
 				break;
 			}
 		}
+
 		if (!Process.info.OwnFairyKilled && Info.GoStop
 				&& (info.ap < info.apMax || info.lv < 30)) {
 			Process.info.count1++;
@@ -229,13 +232,17 @@ public class Process {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-		} else
+		} else {
 			result.add(Action.EXPLORE);
+		}
+
 		result.add(Action.SELL_CARD);
 		result.add(Action.USE);
-		// result.add(Action.GOTO_FLOOR);
-		if (Info.FairyBattleFirst)
+
+		if (Info.FairyBattleFirst) {
 			result.add(Action.GET_FAIRY_LIST);
+		}
+
 		return result;
 	}
 

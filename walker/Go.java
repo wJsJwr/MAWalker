@@ -33,10 +33,10 @@ public class Go {
 			// auto mode
 			while (true) {
 				Process proc = new Process();
+
 				while (true) {
 					try {
 						proc.auto();
-						break;
 					} catch (Exception ex) {
 						boolean printed = false;
 						if (ex.getMessage() != null) {
@@ -59,6 +59,8 @@ public class Go {
 						}
 						Process.info.events.add(EventType.cookieOutOfDate);
 						Go.log("[Global] Restart");
+
+						break;
 					}
 				}
 			}
