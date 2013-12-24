@@ -123,7 +123,12 @@ public class GetFairyList {
 										| FairyBattleInfo.RARE;
 							}
 						} else {
-							fbi.Type = FairyBattleInfo.PRIVATE;
+							if (fbi.UserId == Process.info.userId) {
+								fbi.Type = FairyBattleInfo.PRIVATE
+										| FairyBattleInfo.SELF;
+							} else {
+								fbi.Type = FairyBattleInfo.PRIVATE;
+							}
 						}
 					} else if (f.getNodeName().equals("hp")) {
 						fbi.fairyCurrHp = Integer.parseInt(f.getFirstChild()
