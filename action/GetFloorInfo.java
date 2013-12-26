@@ -75,7 +75,7 @@ public class GetFloorInfo {
 				a.areaName = xpath.evaluate(p + "name", doc);
 				a.exploreProgress = Integer.parseInt(xpath.evaluate(p
 						+ "prog_area", doc));
-				a.areaType = (a.areaId >= 106700) ? 1 : 0;
+				a.areaType = (a.areaId >= Info.InnerMapNo) ? 1 : 0;
 				if (a.areaType == 1) {
 					if (Info.InnerInstance)
 						Process.info.area.put(a.areaId, a);

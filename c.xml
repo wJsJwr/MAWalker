@@ -26,6 +26,9 @@
 
 		<!-- 里图开关，0不走里图，1走里图；在走里图时，走最小AP图的话，表图会走最大，里图走最小 -->
 		<inner_instance>1</inner_instance>
+		
+		<!-- 第一张里图编号 -->
+		<first_inner_map>108000</first_inner_map>
 
 		<!--每日限定副本（送红绿试管的那两个） -->
 		<specil_instance>0</specil_instance>

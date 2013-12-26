@@ -69,6 +69,12 @@ public class Info {
 	public static boolean MinAPOnly = false;
 	public static boolean InnerInstance = true;
 	public static boolean SpecilInstance = true;
+
+	/**
+	 * 第一张里图编号
+	 */
+	public static int InnerMapNo = 100000;
+
 	/**
 	 * 自动加点
 	 */
@@ -91,7 +97,9 @@ public class Info {
 	 */
 	public boolean GuildBattleFlag = false;
 
-	// 查询团贡
+	/**
+	 * 查询团贡
+	 */
 	public static boolean partyrank = false;
 
 	/**

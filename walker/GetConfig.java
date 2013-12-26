@@ -58,6 +58,7 @@ public class GetConfig {
 					.equals("1");
 			Info.partyrank = xpath.evaluate("/config/option/partyrank", doc)
 					.equals("1");
+			Info.InnerMapNo = Integer.valueOf(xpath.evaluate("/config/option/first_inner_map", doc));
 
 			Info.autoUseAp = xpath.evaluate("/config/use/auto_use_ap", doc)
 					.equals("1");

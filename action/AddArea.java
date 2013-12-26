@@ -76,7 +76,7 @@ public class AddArea {
 				} else {
 					newArea = a;
 				}
-				a.areaType = (a.areaId >= 105901) ? 1 : 0;
+				a.areaType = (a.areaId >= Info.InnerMapNo) ? 1 : 0;
 				a.areaName = xpath.evaluate(p + "name", doc);
 				a.exploreProgress = Integer.parseInt(xpath.evaluate(p
 						+ "prog_area", doc));
@@ -87,7 +87,7 @@ public class AddArea {
 
 			if (newArea.areaId != -1)
 				GetFloorInfo.getFloor(newArea);
-			
+
 			if (Info.MinAPOnly || Process.info.AllClear) {
 				if (Info.InnerInstance) {
 					for (int i : Process.info.floor.keySet()) {
