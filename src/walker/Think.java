@@ -174,40 +174,19 @@ public class Think {
 
 		switch (Process.info.fairy.Type) {
 		case 0:
-			Process.info.gfairy.No = Info.PublicFairyBattle.No;
 			break;
 		case 4:
-			if (Process.info.bc < Info.FriendFairyBattleNormal.BC
-					|| Process.info.bc < 2) {
-				return false;
-			}
-
-			Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
-			break;
 		case 5:
 			if (Process.info.bc < Info.FriendFairyBattleNormal.BC
 					|| Process.info.bc < 2) {
 				return false;
 			}
 
-			if (Process.info.bc >= Info.FriendFairyBattleRare.BC) {
-				Process.info.fairy.No = Info.FriendFairyBattleRare.No;
-			} else {
-				Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
-			}
 			break;
 		case 6:
+		case 7:
 			if (Process.info.bc < Info.PrivateFairyBattleNormal.BC
 					|| Process.info.bc < 2) {
-				return false;
-			}
-
-			Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
-			break;
-		case 7:
-			if (Process.info.bc >= Info.PrivateFairyBattleRare.BC) {
-				Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
-			} else {
 				return false;
 			}
 

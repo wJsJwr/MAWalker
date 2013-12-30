@@ -153,8 +153,32 @@ public class GetFairyList {
 					if (!attack_flag)
 						fbis.add(fbi);
 				}
+
 				if (Process.info.userId.equals(fbi.UserId)) {
 					Process.info.OwnFairyKilled = false;
+				}
+
+				// 卡组
+				switch (fbi.Type) {
+				case FairyBattleInfo.PRIVATE | FairyBattleInfo.SELF
+						| FairyBattleInfo.RARE:
+					if (Process.info.bc > Info.PrivateFairyBattleRare.BC) {
+						Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
+						break;
+					}
+				case FairyBattleInfo.PRIVATE | FairyBattleInfo.SELF:
+					Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
+					break;
+				case FairyBattleInfo.PRIVATE | FairyBattleInfo.RARE:
+					if (Process.info.bc > Info.FriendFairyBattleRare.BC) {
+						Process.info.fairy.No = Info.FriendFairyBattleRare.No;
+						break;
+					}
+				case FairyBattleInfo.PRIVATE:
+					Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
+					break;
+				default:
+					break;
 				}
 			}// end for
 
@@ -202,6 +226,29 @@ public class GetFairyList {
 
 					if (Info.AllowAttackSameFairy) {
 						fbis.add(fbi);
+
+						// 卡组
+						switch (fbi.Type) {
+						case FairyBattleInfo.PRIVATE | FairyBattleInfo.SELF
+								| FairyBattleInfo.RARE:
+							if (Process.info.bc > Info.PrivateFairyBattleRare.BC) {
+								Process.info.fairy.No = Info.PrivateFairyBattleRare.No;
+								break;
+							}
+						case FairyBattleInfo.PRIVATE | FairyBattleInfo.SELF:
+							Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
+							break;
+						case FairyBattleInfo.PRIVATE | FairyBattleInfo.RARE:
+							if (Process.info.bc > Info.FriendFairyBattleRare.BC) {
+								Process.info.fairy.No = Info.FriendFairyBattleRare.No;
+								break;
+							}
+						case FairyBattleInfo.PRIVATE:
+							Process.info.fairy.No = Info.FriendFairyBattleNormal.No;
+							break;
+						default:
+							break;
+						}
 					} else {
 						for (FairyBattleInfo bi : Process.info.LatestFairyList) {
 							if (bi.equals(fbi)) {
@@ -213,6 +260,9 @@ public class GetFairyList {
 
 						if (!attack_flag) {
 							fbis.add(fbi);
+
+							// 使用外敌卡组
+							Process.info.fairy.No = Info.PublicFairyBattle.No;
 						}
 					}
 
@@ -220,11 +270,6 @@ public class GetFairyList {
 						Process.info.OwnFairyKilled = false;
 					}
 				}// end for
-
-				if (fbis.size() > 0) {
-					// 使用外敌卡组
-					Process.info.fairy.No = Info.PublicFairyBattle.No;
-				}
 			}
 
 			if (fbis.size() > 1)
