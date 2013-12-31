@@ -122,6 +122,7 @@ public class Explore {
 						.evaluate("//ex_fairy/fairy/hp", doc));
 				Process.info.fairy.fairyMaxHp = Integer.parseInt(xpath
 						.evaluate("//ex_fairy/fairy/hp_max", doc));
+				Process.info.fairy.No = Info.PrivateFairyBattleNormal.No;
 
 				Process.info.events.push(Info.EventType.privateFairyAppear);
 				Process.info.events.push(Info.EventType.recvPFBGood);
