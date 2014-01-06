@@ -10,7 +10,7 @@
 	<!-- 以下选项未特别说明，选是则填1，否则填0 -->
 	<option>
 		<!-- 优先考虑妖精战 -->
-		<fairy_battle_first>1</fairy_battle_first>
+		<fairy_battle_first>0</fairy_battle_first>
 
 		<!-- BC不足FairyDeck的BC时，依旧跑图 -->
 		<allow_bc_insuffient>1</allow_bc_insuffient>
@@ -28,7 +28,7 @@
 		<inner_instance>1</inner_instance>
 
 		<!-- 第一张里图编号 -->
-		<first_inner_map>107111</first_inner_map>
+		<first_inner_map>107410</first_inner_map>
 
 		<!--每日限定副本（送红绿试管的那两个） -->
 		<specil_instance>0</specil_instance>
