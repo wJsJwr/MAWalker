@@ -76,8 +76,9 @@ public class Think {
 			case NOTHING:
 				break;
 			case SELL_CARD:
-				if (cardsToSell())
+				if (Info.autoSellCard == true && cardsToSell() == true) {
 					return Action.SELL_CARD;
+				}
 				break;
 			case LV_UP:
 				decideUpPoint();

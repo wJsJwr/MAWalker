@@ -134,7 +134,7 @@ public class Login {
 			GetRewardBox.get();
 
 			// sell card
-			if (Think.cardsToSell() == true) {
+			if (Info.autoSellCard == true && Think.cardsToSell() == true) {
 				SellCard.run();
 				Go.log(ErrorData.text);
 				ErrorData.clear();

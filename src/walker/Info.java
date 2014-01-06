@@ -115,6 +115,11 @@ public class Info {
 	public static boolean receiveBox = true;
 
 	/**
+	 * 自动卖卡
+	 */
+	public static boolean autoSellCard = true;
+
+	/**
 	 * 吃药相关的开关
 	 */
 	public static boolean autoUseAp = true;

@@ -26,7 +26,7 @@
 
 		<!-- 里图开关，0不走里图，1走里图；在走里图时，走最小AP图的话，表图会走最大，里图走最小 -->
 		<inner_instance>1</inner_instance>
-		
+
 		<!-- 第一张里图编号 -->
 		<first_inner_map>107111</first_inner_map>
 
@@ -97,8 +97,9 @@
 	</deck>
 
 	<!-- 本项是用来卖卡的，以供长期挂机。 id是卡片的id，有意者可以自己填 -->
+	<!-- 如需禁止自动卖卡，请将enable项设为0 -->
 	<sell_card>
-		<policy>sell</policy>
+		<enable>1</enable>
 		<!-- <id></id> -->
 	</sell_card>
 </config>
