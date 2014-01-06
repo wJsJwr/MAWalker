@@ -10,7 +10,7 @@
 	<!-- 以下选项未特别说明，选是则填1，否则填0 -->
 	<option>
 		<!-- 优先考虑妖精战 -->
-		<fairy_battle_first>1</fairy_battle_first>
+		<fairy_battle_first>0</fairy_battle_first>
 
 		<!-- BC不足FairyDeck的BC时，依旧跑图 -->
 		<allow_bc_insuffient>1</allow_bc_insuffient>
