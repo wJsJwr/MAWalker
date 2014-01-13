@@ -237,7 +237,7 @@ public class Think {
 			}
 
 			// 闪卡不卖，但是低等级的闪卡照样要卖
-			if (c.holo && c.price >= 3300) {
+			if (c.holo && c.price >= 3000) {
 				continue;
 			}
 
@@ -257,7 +257,7 @@ public class Think {
 				continue;
 			}
 
-			if (c.price <= 3300 || Info.CanBeSold.contains(c.cardId)) {
+			if (c.price <= 3000 || Info.CanBeSold.contains(c.cardId)) {
 				if (toSell.isEmpty()) {
 					toSell = c.serialId;
 				} else {
