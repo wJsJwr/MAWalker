@@ -1,6 +1,10 @@
 MAWalker
 ========
 
+特别说明
+--------
+本人已弃坑，该版本不再维护，另贡献一个改进的版本，见隔壁[MAWalkerMod](https://github.com/tsubasa617/MAWalkerMod)，强烈推荐<br/>
+
 ![MAWalker](http://wjsjwr.org/ma-walker/ma.jpg "MAWalker")
 
 ### 解放双手 解放手机 尽早弃坑 保住智商
