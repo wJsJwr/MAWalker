@@ -151,7 +151,7 @@ public class Process {
 				result.add(Action.GOTO_FLOOR);
 				break;
 			}
-			if (!result.isEmpty())	return result;
+			if (!result.isEmpty())	return result; //GET_FAIRY_LIST之后必定会有result，是否是导致AP满后才只跑一次的原因？
 		}
 		ArrayList<TimeoutEntry> te = info.CheckTimeout();
 		for (TimeoutEntry e : te) {
